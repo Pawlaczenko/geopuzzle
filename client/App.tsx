@@ -1,25 +1,21 @@
-import { Image } from 'react-native';
-import styled from 'styled-components/native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from './src/screens/HomeScreen/HomeScreen';
+import { registerRootComponent } from 'expo';
+import { RootStackParamList } from './src/types/navigation.types';
+import CreateRouteScreen from './src/screens/CreateRoute/CreateRouteScreen';
 
-export default function App() {
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+function App() {
   return (
-    <Container>
-      <Image source={require('./assets/logo.png')} />
-      <StyledText>GeoPuzzle</StyledText>
-    </Container>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name='Home' component={HomeScreen} options={{headerShown: false}} />
+        <Stack.Screen name='CreateRoute' component={CreateRouteScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const Container = styled.View`
-  flex: 1;  
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
-`
-
-const StyledText = styled.Text`
-  font-size: 50px;
-  color: #4EAE4D;
-  font-weight: 500;
-  text-align: center;
-`;
+export default App; 
