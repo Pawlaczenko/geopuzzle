@@ -1,31 +1,31 @@
 import React from 'react'
 import styled from 'styled-components/native';
-import { Button, Image } from 'react-native';
+import { Button, Image, ImageBackground, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types/navigation.types';
 import { Text } from 'react-native';
-import { Container } from '../../styles/layout';
 import AppText from '../../components/AppText/AppText';
+import AppContainer from '../../components/AppContainer/AppContainer';
 
 type HomeProps = NativeStackScreenProps<RootStackParamList,'Home'>;
 
 const HomeScreen = ({navigation} : HomeProps) => {
   return (
     <HomeScreenWrapper>
-        <Image source={require('../../../assets/logo.png')} />
-        <WelcomeMessagePrefix>Witaj w</WelcomeMessagePrefix>
-        <WelcomeMessage>
-          <AppText weight='bold'>GeoPuzzle</AppText>
-        </WelcomeMessage>
-        <Button
-          title="Stwórz własną trasę"
-          onPress={() => navigation.navigate('CreateRoute')}
-        />
+      <Image source={require('../../../assets/logo.png')} />
+      <WelcomeMessagePrefix>Witaj w</WelcomeMessagePrefix>
+      <WelcomeMessage>
+        <AppText weight='bold'>GeoPuzzle</AppText>
+      </WelcomeMessage>
+      <Button
+        title="Stwórz własną trasę"
+        onPress={() => navigation.navigate('CreateRoute')}
+      />
     </HomeScreenWrapper>
   )
 }
 
-const HomeScreenWrapper = styled(Container)`
+const HomeScreenWrapper = styled(AppContainer)`
   justify-content: center;
 `
 
