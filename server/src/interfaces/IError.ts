@@ -3,5 +3,6 @@ export interface IError {
     statusCode: number,
     status: string,
     isOperational: boolean,
+    stack?: string
 
 }
