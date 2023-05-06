@@ -3,33 +3,42 @@ import styled from 'styled-components/native';
 import { Button, Image } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types/navigation.types';
+import { Text } from 'react-native';
+import { Container } from '../../styles/layout';
+import AppText from '../../components/AppText/AppText';
 
 type HomeProps = NativeStackScreenProps<RootStackParamList,'Home'>;
 
 const HomeScreen = ({navigation} : HomeProps) => {
   return (
-    <Container>
+    <HomeScreenWrapper>
         <Image source={require('../../../assets/logo.png')} />
-        <StyledText>GeoPuzzle</StyledText>
+        <WelcomeMessagePrefix>Witaj w</WelcomeMessagePrefix>
+        <WelcomeMessage>
+          <AppText weight='bold'>GeoPuzzle</AppText>
+        </WelcomeMessage>
         <Button
           title="Stwórz własną trasę"
           onPress={() => navigation.navigate('CreateRoute')}
         />
-    </Container>
+    </HomeScreenWrapper>
   )
 }
 
-const Container = styled.View`
-  flex: 1;  
-  align-items: center;
+const HomeScreenWrapper = styled(Container)`
   justify-content: center;
-  padding: 15px;
 `
 
-const StyledText = styled.Text`
-  font-size: 50px;
-  color: #4EAE4D;
-  font-weight: 500;
+const WelcomeMessagePrefix = styled(Text)`
+  font-size: 20px;
+  color: ${(props) => props.theme.text_accent};
+  text-align: center;
+  margin-top: 15px;
+`
+
+const WelcomeMessage = styled(Text)`
+  font-size: 36px;
+  color: ${(props) => props.theme.text};
   text-align: center;
 `;
 
