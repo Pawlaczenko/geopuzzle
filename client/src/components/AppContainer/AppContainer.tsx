@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { View, ImageBackground, Image } from 'react-native';
+import { View, Image } from 'react-native';
 import styled from 'styled-components/native';
 
 interface IAppContainer {
@@ -16,16 +16,18 @@ const AppContainer: FC<IAppContainer> = ({ children }) => {
   );
 };
 
-const StyledImageBackground = styled(Image)`
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-`;
-
 const ContentContainer = styled(View)`
   flex: 1;
-  justify-content: center;
-  align-items: center;
+  padding-top: 75px;
+  padding-left: 25px;
+`;
+
+const StyledImageBackground = styled(Image)`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  object-fit: contain;
 `;
 
 export default AppContainer;
