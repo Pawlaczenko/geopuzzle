@@ -18,8 +18,7 @@ const AppContainer: FC<IAppContainer> = ({ children }) => {
 
 const ContentContainer = styled(View)`
   flex: 1;
-  padding-top: 75px;
-  padding-left: 25px;
+  padding: 75px 25px;
 `;
 
 const StyledImageBackground = styled(Image)`
