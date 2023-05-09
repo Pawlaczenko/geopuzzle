@@ -7,6 +7,7 @@ import { Text } from 'react-native';
 import AppContainer from '../../components/AppContainer/AppContainer';
 import Heading from '../../components/Heading/Heading';
 import { setFontWeight } from '../../styles/typography';
+import ChoiceButton from '../../components/ChoiceButton/ChoiceButton';
 
 type HomeProps = NativeStackScreenProps<RootStackParamList,'Home'>;
 
@@ -17,6 +18,18 @@ const HomeScreen = ({navigation} : HomeProps) => {
         <WelcomeMessagePrefix>Cześć</WelcomeMessagePrefix>
         <Name>Adam</Name>
         <Heading>Co chcesz dzisiaj robić?</Heading>
+        <ButtonsWrapper>
+          <ChoiceButton 
+            title='Zagraj w podchody' 
+            message='miej załadowany telefon' 
+            picture={require('../../../assets/icons/icon-shoe.png')}
+            onClick={()=>{navigation.navigate('CreateRoute')}}/>
+          <ChoiceButton 
+            title='Stwórz własną trasę' 
+            message='gdzie poniesie cię wiatr' 
+            picture={require('../../../assets/icons/icon-pencil.png')} 
+            onClick={()=>{navigation.navigate('CreateRoute')}}/>
+        </ButtonsWrapper>
       </HomeScreenWrapper>
     </AppContainer>
   )
@@ -37,5 +50,10 @@ const Name = styled(Text)`
   color: ${(props) => props.theme.text_light};
   ${setFontWeight('bold')};
 `;
+
+const ButtonsWrapper = styled(View)`
+  margin-top: 35px;
+  gap: 15px;
+`
 
 export default HomeScreen
