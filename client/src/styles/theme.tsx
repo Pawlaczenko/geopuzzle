@@ -9,6 +9,7 @@ export interface ITheme {
     background: string,
     text: string,
     text_accent: string,
+    text_light: string,
     input: string
 }
 
@@ -18,5 +19,6 @@ export const lightTheme : ITheme = {
     background: '#FFFFFF',
     text: '#1E1E1E',
     text_accent: '#747683',
+    text_light:"#CBCBCB",
     input: '#F4F4F4'
 };
