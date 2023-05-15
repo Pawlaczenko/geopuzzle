@@ -4,7 +4,7 @@ import { css } from "styled-components";
 export const BREAKPOINTS = {
     remToggle: "max-width:93.75em",
     big: "max-width: 910px",
-    burger: "max-width: 750px",
+    phone: "max-width: 750px",
     small: "max-width: 500px"
 }
 

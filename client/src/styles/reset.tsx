@@ -33,6 +33,11 @@ export const reset = css`
     input, button, textarea, select {
         font: inherit;
     }
+    button {
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
     // 8. Avoid text overflows
     p, h1, h2, h3, h4, h5, h6 {
         overflow-wrap: break-word;

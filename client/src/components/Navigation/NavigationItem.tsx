@@ -1,9 +1,13 @@
 import { FC } from 'react'
 import { IconType } from 'react-icons'
+import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
+import { RootState } from 'src/app/store'
 import { NAV_ROUTES } from 'src/data/navigation.data'
+import useMediaQuery from 'src/hooks/useMediaQuery'
 import { flexContainer } from 'src/styles/mixins'
 import styled from 'styled-components'
+import { BREAKPOINTS } from '../../styles/variables';
 
 export interface INavigationItem {
     label: string,
@@ -12,25 +16,32 @@ export interface INavigationItem {
 }
 
 const NavigationItem : FC<INavigationItem> = (props) => {
+    const isOpen = useSelector((state: RootState) => state.header);
+    const isPhone = useMediaQuery(`(${BREAKPOINTS.phone})`);
+    const isCompact = 
+    (isPhone && !isOpen) ? false :
+    (isPhone && isOpen) ? false :
+    (!isPhone && isOpen) ? true :
+    false;
+
     return (
-        <StyledNavigationItem to={props.path}>
+        <StyledNavigationItem to={props.path} isCompact={isCompact}>
             <NavigationItemIcon>
                 {<props.icon />}
             </NavigationItemIcon>
-            {props.label}
+            {isCompact && props.label}
         </StyledNavigationItem>
     )
 }
 
-const StyledNavigationItem = styled(NavLink)`
+const StyledNavigationItem = styled(NavLink)<{isCompact: boolean}>`
     color: var(--color-dark);
     font-size: var(--fs-paragraph);
     border-radius: var(--radius);
 
-    ${flexContainer('flex-start','center')}
+    ${(props) => flexContainer(props.isCompact ? 'flex-start' : 'center','center')}
     gap: 1.8rem;
-    padding: 1rem 0;
-    padding-left: 1rem;
+    padding: 1rem;
 
     &.active {
         color: var(--color-secondary);
@@ -48,6 +59,10 @@ const NavigationItemIcon = styled.figure`
         width: var(--icon-size);
         height: var(--icon-size);
         fill: currentColor;
+
+        @media only screen and (${BREAKPOINTS.phone}){
+            --icon-size: 3rem;
+        }
     }
 `;
 

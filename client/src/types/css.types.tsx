@@ -7,4 +7,7 @@ export type flex_position =
 'flex-start'  |
 'flex-end'    |
 'normal'      |
+'space-between'      |
+'space-around'      |
+'space-evenly'      |
 'stretch';
