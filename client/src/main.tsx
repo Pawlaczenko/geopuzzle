@@ -4,6 +4,8 @@ import GlobalStyles from './styles/globalStyles.tsx'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import CreateRoute from './routes/CreateRoute/CreateRoute.tsx'
 import Root from './routes/root.tsx'
+import { Provider } from 'react-redux'
+import { store } from './app/store';
 
 const router = createBrowserRouter([
     {
@@ -19,8 +21,8 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <GlobalStyles />
-    <RouterProvider router={router} />
-  </React.StrictMode>
+    <Provider store={store}>
+        <GlobalStyles />
+        <RouterProvider router={router} />
+    </Provider>
 )

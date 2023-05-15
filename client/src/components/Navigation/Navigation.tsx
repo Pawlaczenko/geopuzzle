@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import NavigationItem, { INavigationItem } from './NavigationItem'
 import { NAV_ROUTES } from 'src/data/navigation.data'
 import { NAVIGATION_ICONS } from 'src/data/icons'
+import { BREAKPOINTS } from 'src/styles/variables'
+import { flexContainer } from 'src/styles/mixins'
 
 const Navigation : FC = () => {
     const navigationItems : INavigationItem[] = [
@@ -25,6 +27,10 @@ const StyledNavigation = styled.nav`
     font-family: var(--family-primary);
     margin-top: 2rem;
     width: 100%;
+
+    @media only screen and (${BREAKPOINTS.phone}){
+        ${flexContainer('space-between', 'center')};
+    }
 `;
 
 
