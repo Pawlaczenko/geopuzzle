@@ -26,7 +26,7 @@ export const variables = css`
         --fs-h3: 3.6rem;
         --fs-h4: 3rem;
         --fs-h5: 2.6rem;
-        --fs-h6: 2rem;
+        --fs-h6: 1.8rem;
         --fs-paragraph: 1.6rem;
 
         //FONT WEIGHT
@@ -39,7 +39,8 @@ export const variables = css`
         --family-secondary: 'Open Sans', sans-serif;
 
         //SIZE        
-        --input-radius: 1.5rem;
+        --radius: 1.5rem;
+        --navbar-size: 28rem;
 
         //BORDERS
 

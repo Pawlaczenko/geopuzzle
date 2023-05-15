@@ -17,6 +17,7 @@ const GlobalStyles = createGlobalStyle`
     body {
         font-family: var(--family-secondary);
         font-size: var(--fs-paragraph);
+        background: var(--color-white);
     }
 `;
 
