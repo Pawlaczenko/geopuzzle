@@ -1,3 +1,4 @@
+import { flex_position } from "src/types/css.types";
 import { css } from "styled-components";
 
 export const flexCenter = css`
@@ -17,6 +18,15 @@ export const flexStart = css`
     align-items: center;
     justify-content: flex-start;
 `;
+
+export const flexContainer = (justifyContent?: flex_position, alignItems?: flex_position, direction?: 'row' | 'column') => {
+    return css`
+        display: flex;
+        align-items: ${alignItems || 'flex-start'};
+        justify-content: ${justifyContent || 'flex-start'};
+        flex-direction: ${direction || 'row'};
+    `
+}
 
 export const createCircle = (size:string) => {
     return css`
