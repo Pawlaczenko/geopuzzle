@@ -43,7 +43,7 @@ export const variables = css`
         --navbar-size: 28rem;
 
         //BORDERS
-
+        --border-thin: 1px solid var(--color-grey);
         //ANIMATIONS
     }
 `;

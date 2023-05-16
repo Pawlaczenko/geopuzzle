@@ -1,15 +1,26 @@
 import { Outlet } from 'react-router-dom'
 import { StyledLogo } from 'src/components/Logo'
+import { ThemeContext } from 'src/context/ThemeContext'
+import { useCustomTheme } from 'src/hooks/useCustomTheme'
 import HeaderBar from 'src/layout/HeaderBar/HeaderBar'
+import GlobalStyles from 'src/styles/globalStyles'
+import { Themes } from 'src/styles/theme'
 import { BREAKPOINTS } from 'src/styles/variables'
-import { styled } from 'styled-components'
+import { ThemeProvider, styled } from 'styled-components'
 
 const Root = () => {
+    const [theme, themeName, toggleTheme] = useCustomTheme(Themes.light);
+
     return (
-        <AppContainer>
-            <HeaderBar />
-            <Outlet /> 
-        </AppContainer>
+        <ThemeProvider theme={theme}>
+            <ThemeContext.Provider value={{themeName,toggleTheme}}>
+                <AppContainer>
+                    <GlobalStyles />
+                    <HeaderBar />
+                    <Outlet /> 
+                </AppContainer>
+            </ThemeContext.Provider>
+        </ThemeProvider>
     )
 }
 
@@ -18,10 +29,6 @@ const AppContainer  = styled.div`
     display: grid;
     
     grid-template-columns: min-content 1fr;
-
-    ${StyledLogo} {
-        width: 50%;
-    }
 
     @media only screen and (${BREAKPOINTS.phone}){
         grid-template-columns: 1fr;

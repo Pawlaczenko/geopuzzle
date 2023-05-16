@@ -18,7 +18,7 @@ export interface INavigationItem {
 const NavigationItem : FC<INavigationItem> = (props) => {
     const isOpen = useSelector((state: RootState) => state.header);
     const isPhone = useMediaQuery(`(${BREAKPOINTS.phone})`);
-    const isCompact = 
+    const isCompact =
     (isPhone && !isOpen) ? false :
     (isPhone && isOpen) ? false :
     (!isPhone && isOpen) ? true :
@@ -35,7 +35,7 @@ const NavigationItem : FC<INavigationItem> = (props) => {
 }
 
 const StyledNavigationItem = styled(NavLink)<{isCompact: boolean}>`
-    color: var(--color-dark);
+    color: ${(props) => props.theme.textBlue};
     font-size: var(--fs-paragraph);
     border-radius: var(--radius);
 
@@ -44,12 +44,13 @@ const StyledNavigationItem = styled(NavLink)<{isCompact: boolean}>`
     padding: 1rem;
 
     &.active {
-        color: var(--color-secondary);
+        color: ${(props) => props.theme.primary};
         font-weight: bold;
     }
 
     &:hover {
         background-color: var(--color-grey);
+        color: var(--color-dark);
     }
 `;
 
