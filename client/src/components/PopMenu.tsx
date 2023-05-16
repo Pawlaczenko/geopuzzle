@@ -1,15 +1,21 @@
-import { FC } from 'react'
-import { useSelector } from 'react-redux';
+import { FC, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/app/store';
 import { flexContainer } from 'src/styles/mixins';
 import { BREAKPOINTS } from 'src/styles/variables';
 import styled from 'styled-components'
 import ToggleThemeButton from './ToggleThemeButton';
+import { setOpen } from 'src/features/popMenu/popMenuSlice';
+import { useDetectOutside } from 'src/hooks/useDetectOutside';
 
 const PopMenu : FC = () => {
     const isOpen = useSelector((state: RootState) => state.popMenu);
+    const dispatch = useDispatch();
+    const menuRef = useRef(null);
+    useDetectOutside(menuRef,()=>{dispatch(setOpen(false))});
+
     return (
-        <StyledPopMenu isOpen={isOpen}>
+        <StyledPopMenu isOpen={isOpen} ref={menuRef}>
             <StyledPopMenuItem>
                 Ciemny wygląd <ToggleThemeButton />
             </StyledPopMenuItem>
