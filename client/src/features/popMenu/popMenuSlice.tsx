@@ -11,7 +11,7 @@ export const popMenuSlice = createSlice({
     reducers: {
         toggleOpen: (state) => !state,
         setOpen: (state, action: PayloadAction<boolean>) => {
-            state = action.payload;
+            return action.payload
         }
     },
 });

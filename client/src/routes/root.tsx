@@ -1,6 +1,9 @@
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Outlet } from 'react-router-dom'
-import { StyledLogo } from 'src/components/Logo'
+import { RootState } from 'src/app/store'
 import { ThemeContext } from 'src/context/ThemeContext'
+import { setOpen } from 'src/features/popMenu/popMenuSlice'
 import { useCustomTheme } from 'src/hooks/useCustomTheme'
 import HeaderBar from 'src/layout/HeaderBar/HeaderBar'
 import GlobalStyles from 'src/styles/globalStyles'
@@ -10,7 +13,6 @@ import { ThemeProvider, styled } from 'styled-components'
 
 const Root = () => {
     const [theme, themeName, toggleTheme] = useCustomTheme(Themes.light);
-
     return (
         <ThemeProvider theme={theme}>
             <ThemeContext.Provider value={{themeName,toggleTheme}}>
