@@ -1,10 +1,10 @@
 import { FC } from 'react'
 import styled from 'styled-components'
 import { MdKeyboardDoubleArrowRight as HideIcon } from "react-icons/md";
-import { createCircle } from 'src/styles/mixins';
 import { RootState } from 'src/app/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleOpen } from 'src/features/header/headerSlice';
+import CircleButton from './CircleButton.styled';
 
 const HideHeaderButton : FC = () => {
     const isOpen = useSelector((state: RootState) => state.header);
@@ -21,23 +21,8 @@ const HideHeaderButton : FC = () => {
     )
 }
 
-export const StyledHideHeaderButton = styled.button<{isOpen: boolean}>`
-    ${createCircle('3.5rem')};
-    background: var(--color-grey);
-    cursor: pointer;
+export const StyledHideHeaderButton = styled(CircleButton)<{isOpen: boolean}>`
     ${(props) => props.isOpen && 'transform: rotate(180deg)'};
-
-    &:hover {
-        background-color: var(--color-secondary);
-        color: white;
-    }
-
-    & > svg {
-        fill: currentColor;
-        width: 100%;
-        height: 100%;
-        padding: .5rem;
-    }
 `;
 
 
