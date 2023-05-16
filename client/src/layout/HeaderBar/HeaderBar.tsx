@@ -4,6 +4,8 @@ import { RootState } from 'src/app/store';
 import HideHeaderButton, { StyledHideHeaderButton } from "src/components/HideHeaderButton"
 import Logo, { StyledLogo } from "src/components/Logo"
 import Navigation from "src/components/Navigation/Navigation"
+import PopMenu from 'src/components/PopMenu';
+import SettingsButton from 'src/components/SettingsButton';
 import { flexContainer } from "src/styles/mixins"
 import { BREAKPOINTS } from 'src/styles/variables';
 import { styled } from "styled-components"
@@ -14,7 +16,11 @@ const HeaderBar : FC = () => {
         <StyledHeaderBar isOpen={isOpen}>
             <Logo logoType={isOpen ? 'filled' : 'compact'} />
             <Navigation />
-            <HideHeaderButton />
+            <ButtonsContainer isOpen={isOpen}>
+                <SettingsButton />
+                <HideHeaderButton />
+                <PopMenu />
+            </ButtonsContainer>
         </StyledHeaderBar>
     )
 }
@@ -27,15 +33,6 @@ export const StyledHeaderBar = styled.header<{isOpen: boolean}>`
     border-right: 1px solid var(--color-grey);
 
     ${StyledHideHeaderButton} {
-        align-self: ${(props) => props.isOpen ? 'flex-end' : 'center'};
-        margin-top: auto;
-
-        @media only screen and (${BREAKPOINTS.phone}){
-            display: none;
-        }
-    }
-
-    ${StyledLogo} {
         @media only screen and (${BREAKPOINTS.phone}){
             display: none;
         }
@@ -46,6 +43,30 @@ export const StyledHeaderBar = styled.header<{isOpen: boolean}>`
         bottom: 0;
         left: 0;
         width: 100%;
+
+        ${StyledLogo} {
+            display: none;
+        }
+    }
+`
+
+const ButtonsContainer = styled.div<{isOpen: boolean}>`
+    margin-top: auto;
+    position: relative;
+    
+    width: 100%;
+    ${(props) => flexContainer(props.isOpen ? 'space-between' : 'center','center')};
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    @media only screen and (${BREAKPOINTS.phone}){
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        padding: 1rem 2rem; 
+        justify-content: flex-end;
+        background: var(--color-white);
     }
 `
 
