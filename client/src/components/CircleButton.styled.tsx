@@ -10,6 +10,7 @@ const CircleButton = styled.button<{isActive?: boolean}>`
     ${createCircle('3.5rem')};
     background: var(--color-grey);
     cursor: pointer;
+    color: var(--color-black);
 
     &:hover { 
         ${activeStyle} 

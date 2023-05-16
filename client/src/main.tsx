@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import GlobalStyles from './styles/globalStyles.tsx'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import CreateRoute from './routes/CreateRoute/CreateRoute.tsx'
 import Root from './routes/root.tsx'
@@ -22,7 +21,6 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <Provider store={store}>
-        <GlobalStyles />
         <RouterProvider router={router} />
     </Provider>
 )

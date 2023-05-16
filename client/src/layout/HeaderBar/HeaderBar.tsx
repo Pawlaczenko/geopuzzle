@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/app/store';
 import HideHeaderButton, { StyledHideHeaderButton } from "src/components/HideHeaderButton"
-import Logo, { StyledLogo } from "src/components/Logo"
+import Logo, { LogoType, StyledLogo } from "src/components/Logo"
 import Navigation from "src/components/Navigation/Navigation"
 import PopMenu from 'src/components/PopMenu';
 import SettingsButton from 'src/components/SettingsButton';
@@ -12,9 +12,10 @@ import { styled } from "styled-components"
 
 const HeaderBar : FC = () => {
     const isOpen = useSelector((state: RootState) => state.header);
+    const logoType : LogoType = isOpen ? 'filled' : 'compact';
      return ( 
         <StyledHeaderBar isOpen={isOpen}>
-            <Logo logoType={isOpen ? 'filled' : 'compact'} />
+            <Logo logoType={logoType} />
             <Navigation />
             <ButtonsContainer isOpen={isOpen}>
                 <SettingsButton />
@@ -31,6 +32,7 @@ export const StyledHeaderBar = styled.header<{isOpen: boolean}>`
 
     padding:${(props) => props.isOpen ? '2.3rem' : '2rem .8rem'};
     border-right: 1px solid var(--color-grey);
+    background-color: ${(props) => props.theme.header};
 
     ${StyledHideHeaderButton} {
         @media only screen and (${BREAKPOINTS.phone}){
@@ -38,11 +40,16 @@ export const StyledHeaderBar = styled.header<{isOpen: boolean}>`
         }
     }
 
+    & > ${StyledLogo} {
+        width: 60%;
+    }
+
     @media only screen and (${BREAKPOINTS.phone}){
         position: fixed;
         bottom: 0;
         left: 0;
         width: 100%;
+        padding: .8rem;
 
         ${StyledLogo} {
             display: none;
@@ -66,7 +73,7 @@ const ButtonsContainer = styled.div<{isOpen: boolean}>`
 
         padding: 1rem 2rem; 
         justify-content: flex-end;
-        background: var(--color-white);
+        background: ${(props) => props.theme.header}
     }
 `
 

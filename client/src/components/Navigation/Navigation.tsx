@@ -30,6 +30,7 @@ const StyledNavigation = styled.nav`
 
     @media only screen and (${BREAKPOINTS.phone}){
         ${flexContainer('space-between', 'center')};
+        margin-top: 0;
     }
 `;
 
