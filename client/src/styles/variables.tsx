@@ -29,6 +29,10 @@ export const variables = css`
         --fs-h6: 1.8rem;
         --fs-paragraph: 1.6rem;
 
+        @media only screen and (${BREAKPOINTS.phone}){
+            --fs-h1: 5rem;
+        }
+
         //FONT WEIGHT
         --fw-regular: 400;
         --fw-bold: 700;
@@ -41,6 +45,7 @@ export const variables = css`
         //SIZE        
         --radius: 1.5rem;
         --navbar-size: 28rem;
+        --mobile-topbar-size: 5.5rem;
 
         //BORDERS
         --border-thin: 1px solid var(--color-grey);
