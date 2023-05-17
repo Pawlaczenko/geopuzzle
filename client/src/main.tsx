@@ -1,10 +1,10 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import CreateRoute from './routes/CreateRoute/CreateRoute.tsx'
+import CreateTrack from './routes/CreateTrack/CreateTrack.tsx'
 import Root from './routes/root.tsx'
 import { Provider } from 'react-redux'
 import { store } from './app/store';
+import HomePage from './routes/HomePage/HomePage.tsx'
 
 const router = createBrowserRouter([
     {
@@ -13,7 +13,11 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <CreateRoute />
+                element: <HomePage />
+            },
+            {
+                path: '/createTrack',
+                element: <CreateTrack />
             }
         ]
     }

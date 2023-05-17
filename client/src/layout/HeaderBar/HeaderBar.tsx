@@ -73,7 +73,7 @@ const ButtonsContainer = styled.div<{isOpen: boolean}>`
 
         padding: 1rem 2rem; 
         justify-content: flex-end;
-        background: ${(props) => props.theme.header}
+        background: ${(props) => props.theme.body}
     }
 `
 

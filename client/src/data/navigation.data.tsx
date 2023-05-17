@@ -1,4 +1,5 @@
 export enum NAV_ROUTES {
     home = '/',
-    createRoute = '/createRoute'
+    createTrack = '/createTrack',
+    placeholder= '/plchldr'
 }
