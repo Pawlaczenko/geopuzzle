@@ -15,6 +15,7 @@ export const variables = css`
         --color-secondary: #79AEA3;
         --color-dark: #5A5766;
         --color-grey: #E6E2E8;
+        --color-grey-light: #F5F5F5;
         --color-white: #FFFBFF;
         --color-black: #3E3736;
 
