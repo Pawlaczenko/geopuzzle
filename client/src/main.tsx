@@ -1,10 +1,11 @@
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import CreateTrack from './routes/CreateTrack/CreateTrack.tsx'
-import Root from './routes/root.tsx'
+import CreateTrack from 'src/routes/CreateTrack/CreateTrack.tsx'
+import Root from 'src/routes/root.tsx'
 import { Provider } from 'react-redux'
-import { store } from './app/store';
-import HomePage from './routes/HomePage/HomePage.tsx'
+import { store } from 'src/app/store';
+import HomePage from 'src/routes/HomePage/HomePage.tsx'
+import { NAV_ROUTES } from 'src/data/navigation.data'
 
 const router = createBrowserRouter([
     {
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
                 element: <HomePage />
             },
             {
-                path: '/createTrack',
+                path: NAV_ROUTES.createTrack,
                 element: <CreateTrack />
             }
         ]

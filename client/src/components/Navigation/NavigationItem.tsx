@@ -12,10 +12,10 @@ import { BREAKPOINTS } from '../../styles/variables';
 export interface INavigationItem {
     label: string,
     path: NAV_ROUTES,
-    icon: IconType
+    Icon: IconType
 }
 
-const NavigationItem : FC<INavigationItem> = (props) => {
+const NavigationItem : FC<INavigationItem> = ({label, path, Icon}) => {
     const isOpen = useSelector((state: RootState) => state.header);
     const isPhone = useMediaQuery(`(${BREAKPOINTS.phone})`);
     const isCompact =
@@ -25,21 +25,21 @@ const NavigationItem : FC<INavigationItem> = (props) => {
     false;
 
     return (
-        <StyledNavigationItem to={props.path} isCompact={isCompact}>
+        <StyledNavigationItem to={path} $isCompact={isCompact}>
             <NavigationItemIcon>
-                {<props.icon />}
+                {<Icon />}
             </NavigationItemIcon>
-            {isCompact && props.label}
+            {isCompact && label}
         </StyledNavigationItem>
     )
 }
 
-const StyledNavigationItem = styled(NavLink)<{isCompact: boolean}>`
+const StyledNavigationItem = styled(NavLink)<{$isCompact: boolean}>`
     color: ${(props) => props.theme.textBlue};
     font-size: var(--fs-paragraph);
     border-radius: var(--radius);
 
-    ${(props) => flexContainer(props.isCompact ? 'flex-start' : 'center','center')}
+    ${(props) => flexContainer(props.$isCompact ? 'flex-start' : 'center','center')}
     gap: 1.8rem;
     padding: 1rem;
 

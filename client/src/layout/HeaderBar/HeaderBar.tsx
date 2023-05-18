@@ -14,10 +14,10 @@ const HeaderBar : FC = () => {
     const isOpen = useSelector((state: RootState) => state.header);
     const logoType : LogoType = isOpen ? 'filled' : 'compact';
      return ( 
-        <StyledHeaderBar isOpen={isOpen}>
+        <StyledHeaderBar $isOpen={isOpen}>
             <Logo logoType={logoType} />
             <Navigation />
-            <ButtonsContainer isOpen={isOpen}>
+            <ButtonsContainer $isOpen={isOpen}>
                 <SettingsButton />
                 <HideHeaderButton />
                 <PopMenu />
@@ -26,11 +26,11 @@ const HeaderBar : FC = () => {
     )
 }
 
-export const StyledHeaderBar = styled.header<{isOpen: boolean}>`
+export const StyledHeaderBar = styled.header<{$isOpen: boolean}>`
     ${flexContainer('flex-start','center','column')};
-    width: ${(props) => props.isOpen ? 'var(--navbar-size)' : '8rem'};
+    width: ${(props) => props.$isOpen ? 'var(--navbar-size)' : '8rem'};
 
-    padding:${(props) => props.isOpen ? '2.3rem' : '2rem .8rem'};
+    padding:${(props) => props.$isOpen ? '2.3rem' : '2rem .8rem'};
     border-right: 1px solid var(--color-grey);
     background-color: ${(props) => props.theme.header};
 
@@ -57,12 +57,12 @@ export const StyledHeaderBar = styled.header<{isOpen: boolean}>`
     }
 `
 
-const ButtonsContainer = styled.div<{isOpen: boolean}>`
+const ButtonsContainer = styled.div<{$isOpen: boolean}>`
     margin-top: auto;
     position: relative;
     
     width: 100%;
-    ${(props) => flexContainer(props.isOpen ? 'space-between' : 'center','center')};
+    ${(props) => flexContainer(props.$isOpen ? 'space-between' : 'center','center')};
     gap: 1rem;
     flex-wrap: wrap;
 

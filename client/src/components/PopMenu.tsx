@@ -15,7 +15,7 @@ const PopMenu : FC = () => {
     useDetectOutside(menuRef,()=>{dispatch(setOpen(false))});
 
     return (
-        <StyledPopMenu isOpen={isOpen} ref={menuRef}>
+        <StyledPopMenu $isOpen={isOpen} ref={menuRef}>
             <StyledPopMenuItem>
                 Ciemny wygląd <ToggleThemeButton />
             </StyledPopMenuItem>
@@ -23,8 +23,8 @@ const PopMenu : FC = () => {
     )
 }
 
-const StyledPopMenu = styled.ul<{isOpen: boolean}>`
-    display: ${(props) => props.isOpen ? 'block' : 'none'};
+const StyledPopMenu = styled.ul<{$isOpen: boolean}>`
+    display: ${(props) => props.$isOpen ? 'block' : 'none'};
     position: absolute;
     left: 0;
     bottom: 125%;

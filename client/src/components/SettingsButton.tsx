@@ -13,7 +13,7 @@ const SettingsButton : FC = () => {
     }
 
     return (
-        <CircleButton onClick={handleClick} isActive={isActive}>
+        <CircleButton onClick={handleClick} $isActive={isActive}>
             <MdSettings />
         </CircleButton>
     )

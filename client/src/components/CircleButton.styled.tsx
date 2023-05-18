@@ -6,7 +6,7 @@ const activeStyle = css`
     color: white;
 `
 
-const CircleButton = styled.button<{isActive?: boolean}>`
+const CircleButton = styled.button<{$isActive?: boolean}>`
     ${createCircle('3.5rem')};
     background: var(--color-grey);
     cursor: pointer;
@@ -16,7 +16,7 @@ const CircleButton = styled.button<{isActive?: boolean}>`
         ${activeStyle} 
     }
 
-    ${(props) => props.isActive && activeStyle};
+    ${({$isActive}) => $isActive && activeStyle};
 
     & > svg {
         fill: currentColor;
