@@ -13,3 +13,4 @@ export const NAVIGATION_ICONS = {
     puzzle: MdLightbulbOutline,
     login: MdLogin
 }
+ 
