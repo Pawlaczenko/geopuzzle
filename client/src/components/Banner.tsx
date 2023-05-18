@@ -12,7 +12,7 @@ const Banner : FC<IBannerProps> = ({text}) => {
     return (
         <StyledBanner>
             <BannerText>
-                <Heading level='h1' alignCenter>{text}</Heading>
+                <Heading level='h1' $alignCenter={true}>{text}</Heading>
             </BannerText>
         </StyledBanner>
     )

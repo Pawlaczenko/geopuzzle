@@ -9,20 +9,20 @@ const ToggleThemeButton : FC = () => {
     const isDarkTheme = themeName === Themes.dark;
 
     return (
-        <StyledToggleThemeButton isChecked={isDarkTheme} onClick={toggleTheme}>
+        <StyledToggleThemeButton $isChecked={isDarkTheme} onClick={toggleTheme}>
             <Toggler />
         </StyledToggleThemeButton>
     )
 }
 
-const StyledToggleThemeButton = styled.button<{isChecked: boolean}>`
+const StyledToggleThemeButton = styled.button<{$isChecked: boolean}>`
     background-color: var(--color-grey);
     border-radius: var(--radius);
     padding: .2rem .5rem;
     cursor: pointer;
     width: 6rem;
     
-    ${(props) => flexContainer(props.isChecked ? 'flex-end' : 'flex-start')}
+    ${(props) => flexContainer(props.$isChecked ? 'flex-end' : 'flex-start')}
 `;
 
 const Toggler = styled.div`

@@ -15,14 +15,14 @@ const HideHeaderButton : FC = () => {
     }
 
     return (
-        <StyledHideHeaderButton isOpen={isOpen} onClick={handlePanelClose}>
+        <StyledHideHeaderButton $isOpen={isOpen} onClick={handlePanelClose}>
             <HideIcon />
         </StyledHideHeaderButton>
     )
 }
 
-export const StyledHideHeaderButton = styled(CircleButton)<{isOpen: boolean}>`
-    ${(props) => props.isOpen && 'transform: rotate(180deg)'};
+export const StyledHideHeaderButton = styled(CircleButton)<{$isOpen: boolean}>`
+    ${(props) => props.$isOpen && 'transform: rotate(180deg)'};
 `;
 
 

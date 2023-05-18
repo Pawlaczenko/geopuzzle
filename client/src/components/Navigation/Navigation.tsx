@@ -8,11 +8,11 @@ import { flexContainer } from 'src/styles/mixins'
 
 const Navigation : FC = () => {
     const navigationItems : INavigationItem[] = [
-        {label: "Strona Główna", path: NAV_ROUTES.home, icon: NAVIGATION_ICONS.home},
-        {label: "Eksploruj", path: NAV_ROUTES.placeholder, icon: NAVIGATION_ICONS.explore},
-        {label: "Utwórz Trasę", path: NAV_ROUTES.createTrack, icon: NAVIGATION_ICONS.create},
-        {label: "Zagadki", path: NAV_ROUTES.placeholder, icon: NAVIGATION_ICONS.puzzle},
-        {label: "Zaloguj", path: NAV_ROUTES.placeholder, icon: NAVIGATION_ICONS.login},
+        {label: "Strona Główna", path: NAV_ROUTES.home, Icon: NAVIGATION_ICONS.home},
+        {label: "Eksploruj", path: NAV_ROUTES.placeholder, Icon: NAVIGATION_ICONS.explore},
+        {label: "Utwórz Trasę", path: NAV_ROUTES.createTrack, Icon: NAVIGATION_ICONS.create},
+        {label: "Zagadki", path: NAV_ROUTES.placeholder, Icon: NAVIGATION_ICONS.puzzle},
+        {label: "Zaloguj", path: NAV_ROUTES.placeholder, Icon: NAVIGATION_ICONS.login},
     ]
     return (
         <StyledNavigation>
