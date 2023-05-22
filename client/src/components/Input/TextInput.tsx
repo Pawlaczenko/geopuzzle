@@ -19,7 +19,6 @@ const TextInput : FC<ITextInputProps> = (props) => {
 }
 
 const StyledTextInput = styled(StyledInput)`
-    --input-height: 5.2rem;
     height: var(--input-height);
 `;
 

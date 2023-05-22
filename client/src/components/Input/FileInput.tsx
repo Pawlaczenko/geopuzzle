@@ -1,10 +1,10 @@
 import { ChangeEvent, FC, useState, useRef } from 'react';
 import styled from 'styled-components'
-import { IInputProps } from './TextInput';
 import InputImage from 'src/assets/back-waves.svg';
 import { flexContainer } from 'src/styles/mixins';
 import Button from '../Button/Button.styled';
 import { StyledInput } from './Input.styled';
+import { IInputProps } from './IInputProps.interface';
 
 const FileInput : FC<IInputProps> = (props) => {
     const [selectedFile, setSelectedFile] = useState<string | null>(null);
@@ -48,6 +48,7 @@ const StyledFileInput = styled(StyledInput)<{selectedImg?: string}>`
     position: relative;
     ${flexContainer('center','center')};
     cursor: pointer;
+    color: var(--color-dark);
 
     & > input[type="file"] {
         display: none;
