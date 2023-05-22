@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-type ButtonType = 'white' | 'blue' | 'yellow';
+export type ButtonType = 'white' | 'blue' | 'yellow';
 
 interface IButtonProps {
     btnType: ButtonType
@@ -40,9 +40,10 @@ const Button = styled.button<IButtonProps>`
     font-family: var(--family-primary);
     letter-spacing: 1px;
     cursor: pointer;
+    font-size: var(--fs-h6);
     
     min-width: 12rem;
-    padding: 1.8rem 2rem;
+    padding: 1.5rem 2rem;
     border-radius: 5.5rem;
 
     background: var(--button-color);

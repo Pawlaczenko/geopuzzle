@@ -2,17 +2,17 @@ import { FC } from 'react'
 import styled from 'styled-components'
 import NavigationItem, { INavigationItem } from './NavigationItem'
 import { NAV_ROUTES } from 'src/data/navigation.data'
-import { NAVIGATION_ICONS } from 'src/data/icons'
+import { ICONS } from 'src/data/icons'
 import { BREAKPOINTS } from 'src/styles/variables'
 import { flexContainer } from 'src/styles/mixins'
 
 const Navigation : FC = () => {
     const navigationItems : INavigationItem[] = [
-        {label: "Strona Główna", path: NAV_ROUTES.home, Icon: NAVIGATION_ICONS.home},
-        {label: "Eksploruj", path: NAV_ROUTES.placeholder, Icon: NAVIGATION_ICONS.explore},
-        {label: "Utwórz Trasę", path: NAV_ROUTES.createTrack, Icon: NAVIGATION_ICONS.create},
-        {label: "Zagadki", path: NAV_ROUTES.placeholder, Icon: NAVIGATION_ICONS.puzzle},
-        {label: "Zaloguj", path: NAV_ROUTES.placeholder, Icon: NAVIGATION_ICONS.login},
+        {label: "Strona Główna", path: NAV_ROUTES.home, Icon: ICONS.get('home')!},
+        {label: "Eksploruj", path: NAV_ROUTES.placeholder, Icon: ICONS.get('explore')!},
+        {label: "Utwórz Trasę", path: NAV_ROUTES.createTrack, Icon: ICONS.get('create')!},
+        {label: "Zagadki", path: NAV_ROUTES.placeholder, Icon: ICONS.get('puzzle')!},
+        {label: "Zaloguj", path: NAV_ROUTES.placeholder, Icon: ICONS.get('login')!},
     ]
     return (
         <StyledNavigation>
