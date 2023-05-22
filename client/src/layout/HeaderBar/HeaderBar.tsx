@@ -50,6 +50,7 @@ export const StyledHeaderBar = styled.header<{$isOpen: boolean}>`
         left: 0;
         width: 100%;
         padding: .8rem;
+        z-index: 10;
 
         ${StyledLogo} {
             display: none;
