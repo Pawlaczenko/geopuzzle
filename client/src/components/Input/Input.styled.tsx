@@ -1,3 +1,4 @@
+import { BREAKPOINTS } from "src/styles/variables";
 import { styled } from "styled-components";
 
 export const StyledInput = styled.input`
@@ -15,7 +16,8 @@ export const StyledInput = styled.input`
     padding: 0 3rem;
 
     &:focus,
-    &:active {
+    &:active,
+    &:has(input:focus) {
         outline: .2rem solid var(--color-secondary);
     }
 `
@@ -24,6 +26,10 @@ export const StyledLabel = styled.label`
     --input-width: 55rem;
     width: min(var(--input-width),100%);
     margin-bottom: 2rem;
+
+    @media only screen and (${BREAKPOINTS.phone}){
+        width: 100%
+    }
 `
 
 export const StyledLabelText = styled.span`

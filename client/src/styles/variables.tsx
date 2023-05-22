@@ -47,6 +47,7 @@ export const variables = css`
         --radius: 1.5rem;
         --navbar-size: 28rem;
         --mobile-topbar-size: 5.5rem;
+        --input-height: 5.2rem;
 
         //BORDERS
         --border-thin: 1px solid var(--color-grey);

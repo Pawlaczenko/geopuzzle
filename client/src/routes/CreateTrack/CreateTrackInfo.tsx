@@ -8,6 +8,7 @@ import Section from 'src/layout/Section.styled';
 import { BREAKPOINTS } from 'src/styles/variables';
 import styled from 'styled-components'
 import ButtonIcon from 'src/components/Button/ButtonIcon';
+import TagsInput from 'src/components/Input/TagsInput/TagsInput';
 
 const InfoFormLabels = {
     trackName: "track_name",
@@ -24,7 +25,7 @@ const CreateTrackInfo : FC = () => {
                 <TextInput label='Nazwa Trasy' name={InfoFormLabels.trackName} placeholder='Podaj nazwę trasy' required />
                 <TextArea label='Opis Trasy' name={InfoFormLabels.trackDesc} placeholder='Dodaj opis trasy' required />
                 <FileInput name={InfoFormLabels.trackThumb} label='Dodaj miniaturę trasy' />
-                <TextInput label='Tagi' name={InfoFormLabels.trackTags} placeholder='Dodaj tagi' required />
+                <TagsInput label='Tagi' name={InfoFormLabels.trackTags} placeholder='Dodaj tagi' required />
                 <ButtonIcon btnType='white' icon='create'>Następny krok</ButtonIcon>
             </StyledForm>
         </StyledCreateTrackInfo>
@@ -42,11 +43,11 @@ const StyledForm = styled(Form)`
     display: grid;
     grid-template-columns: 1.15fr 1fr;
     align-items: center;
-    justify-items: center;
+    justify-items: start;
     grid-template-areas: 
         "name thumb" 
         "desc thumb"
-        "tags thumb"
+        "tags tags"
         "button button";
     gap: 2rem 3rem;
     
@@ -54,7 +55,7 @@ const StyledForm = styled(Form)`
     label[for=${InfoFormLabels.trackDesc}]{grid-area: desc;}
     label[for=${InfoFormLabels.trackThumb}]{grid-area: thumb;}
     label[for=${InfoFormLabels.trackTags}]{grid-area: tags;}
-    button{grid-area: button;}
+    button{grid-area: button; justify-self: center;}
 
     @media only screen and (${BREAKPOINTS.phone}){
         grid-template-columns: 1fr;
