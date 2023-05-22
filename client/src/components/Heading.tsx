@@ -25,7 +25,6 @@ const Heading : FC<IHeadingProps> = (props) => {
 }
 
 export const StyledHeading = styled.h1<{$alignCenter?:boolean}>`
-    display: inline-block;
     font-size: var(--heading-size);
     font-family: var(--family-primary);
     ${(props) => props.$alignCenter && "text-align: center;"};
@@ -33,7 +32,6 @@ export const StyledHeading = styled.h1<{$alignCenter?:boolean}>`
 
     color: ${({theme}) => theme.text};
     text-shadow: 0 4px rgba(121,174,163,.25);
-    line-height: 1;
 `;
 
 const HeadingAccentImage = styled.figure`
