@@ -1,3 +1,4 @@
+import { IconType } from "react-icons";
 import {
     MdAddCircleOutline,
     MdOutlineHome,
@@ -6,11 +7,12 @@ import {
     MdLogin
 } from "react-icons/md";
 
-export const NAVIGATION_ICONS = {
-    home: MdOutlineHome,
-    explore: MdTravelExplore,
-    create: MdAddCircleOutline,
-    puzzle: MdLightbulbOutline,
-    login: MdLogin
-}
- 
+export type IconName = 'home' | 'explore' | 'create' | 'puzzle' | 'login';
+
+export const ICONS = new Map<IconName,IconType>([
+    ['create',MdAddCircleOutline],
+    ['home',MdOutlineHome],
+    ['explore',MdTravelExplore],
+    ['puzzle',MdLightbulbOutline],
+    ['login',MdLogin],
+]);

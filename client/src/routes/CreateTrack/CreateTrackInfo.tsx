@@ -1,6 +1,5 @@
 import { FC } from 'react'
 import { Form } from 'react-router-dom';
-import Button from 'src/components/Button/Button.styled';
 import Heading from 'src/components/Heading';
 import FileInput from 'src/components/Input/FileInput';
 import TextInput from 'src/components/Input/TextInput';
@@ -8,6 +7,7 @@ import TextArea from 'src/components/Input/TextArea';
 import Section from 'src/layout/Section.styled';
 import { BREAKPOINTS } from 'src/styles/variables';
 import styled from 'styled-components'
+import ButtonIcon from 'src/components/Button/ButtonIcon';
 
 const InfoFormLabels = {
     trackName: "track_name",
@@ -25,7 +25,7 @@ const CreateTrackInfo : FC = () => {
                 <TextArea label='Opis Trasy' name={InfoFormLabels.trackDesc} placeholder='Dodaj opis trasy' required />
                 <FileInput name={InfoFormLabels.trackThumb} label='Dodaj miniaturę trasy' />
                 <TextInput label='Tagi' name={InfoFormLabels.trackTags} placeholder='Dodaj tagi' required />
-                <Button btnType='white'>Dalej</Button>
+                <ButtonIcon btnType='white' icon='create'>Następny krok</ButtonIcon>
             </StyledForm>
         </StyledCreateTrackInfo>
     )

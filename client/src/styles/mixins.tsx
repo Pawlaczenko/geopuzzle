@@ -33,6 +33,7 @@ export const createCircle = (size:string) => {
         width: ${size};
         height: ${size};
         border-radius: 50%;
-        flex-shrink: 0;  
+        flex-shrink: 0;
+        aspect-ratio: 1/1;
     `
 }
