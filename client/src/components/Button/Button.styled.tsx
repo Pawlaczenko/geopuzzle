@@ -40,10 +40,11 @@ const Button = styled.button<IButtonProps>`
     font-family: var(--family-primary);
     letter-spacing: 1px;
     cursor: pointer;
-    font-size: var(--fs-h6);
+    font-size: var(--fs-paragraph);
+    font-weight: bold;
     
     min-width: 12rem;
-    padding: 1.5rem 2rem;
+    padding: 1rem 2rem;
     border-radius: 5.5rem;
 
     background: var(--button-color);

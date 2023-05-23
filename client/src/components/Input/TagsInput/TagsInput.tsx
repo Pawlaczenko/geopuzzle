@@ -4,6 +4,8 @@ import { StyledInput, StyledLabel, StyledLabelText } from '../Input.styled';
 import { IInputProps } from '../IInputProps.interface';
 import { flexContainer } from 'src/styles/mixins';
 import TagItem from './TagItem';
+import InputErrors from '../InputErrors';
+import InputWrapper from '../InputWrapper';
 
 interface ITagsInputProps extends IInputProps {
     placeholder?: string,
@@ -62,9 +64,8 @@ const TagsInput : FC<ITagsInputProps> = (props) => {
     }
 
     return (
-        <InputLabel htmlFor={props.name}>
-            <StyledLabelText>Tagi {props.required && '*'}</StyledLabelText>
-            <TagsInputWrapper as='div'>
+        <InputWrapper label={props.label} required={props.required} errors={props.errors} name={props.name}>
+            <TagsInputWrapper as='div' $error={props.errors.length > 0} >
                 <TagsWrapper>
                     {
                         tags.map((tag,index) => <TagItem tag={tag} id={index} key={tag} handleClick={deleteTag} />)
@@ -78,19 +79,16 @@ const TagsInput : FC<ITagsInputProps> = (props) => {
                         onChange={handleOnChange}/>
                 </TagsWrapper>
             </TagsInputWrapper>
-        </InputLabel>
+        </InputWrapper>
     )
 }
-
-const InputLabel = styled(StyledLabel)`
-    width: 100%;
-`
 
 const TagsInputWrapper = styled(StyledInput)`
     min-height: var(--input-height);
     padding-top: 1rem;
     padding-bottom: 1rem;
     cursor: text;
+    
 `
 
 const StyledTagsInput = styled.input`

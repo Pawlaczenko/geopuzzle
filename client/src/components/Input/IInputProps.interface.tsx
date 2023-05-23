@@ -1,5 +1,6 @@
 export interface IInputProps {
-    label?: string,
+    label: string,
     required?: boolean,
     name: string,
+    errors: string[]
 }
