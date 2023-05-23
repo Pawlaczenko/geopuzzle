@@ -44,10 +44,11 @@ export const variables = css`
         --family-secondary: 'Open Sans', sans-serif;
 
         //SIZE        
-        --radius: 1.5rem;
+        --radius: 1rem;
         --navbar-size: 28rem;
         --mobile-topbar-size: 5.5rem;
         --input-height: 5.2rem;
+        --website-width: 130rem;
 
         //BORDERS
         --border-thin: 1px solid var(--color-grey);

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Button from './Button.styled';
 import { ButtonType } from './Button.styled';
 import { flexContainer } from 'src/styles/mixins';
-import { ICONS, IconName } from 'src/data/icons';
+import { ICONS, IconName } from 'src/data/icons.data';
 
 interface IButtonIconProps {
     btnType: ButtonType,
