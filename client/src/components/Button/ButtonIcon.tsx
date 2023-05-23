@@ -27,8 +27,8 @@ const StyledButtonIcon = styled(Button)`
 
     & > svg {
         fill: var(--button-border-color);
-        width: 3rem;
-        height: 3rem;
+        width: 2.5rem;
+        height: 2.5rem;
     }
 `;
 

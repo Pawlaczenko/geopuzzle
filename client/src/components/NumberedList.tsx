@@ -12,7 +12,7 @@ const NumberedList : FC<{items: NumberedListItem[]}> = ({items}) => {
         <StyledNumberedList>
             {
                 items.map((item,index) => (
-                    <ListItem>
+                    <ListItem key={'numberedlist-'+index}>
                         <ListItemLabel>{index+1}. {item.label}</ListItemLabel>
                         <Paragraph>{item.description}</Paragraph>
                     </ListItem>

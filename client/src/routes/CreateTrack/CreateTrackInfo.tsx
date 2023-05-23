@@ -12,7 +12,8 @@ import TagsInput from 'src/components/Input/TagsInput/TagsInput';
 import { flexContainer } from 'src/styles/mixins';
 import Logo from 'src/components/Logo';
 import Paragraph from 'src/components/Paragraph.styled';
-import NumberedList, { NumberedListItem } from 'src/components/NumberedList';
+import NumberedList from 'src/components/NumberedList';
+import { tutorialList } from 'src/data/trackInfo.data';
 
 const InfoFormLabels = {
     trackName: "track_name",
@@ -22,33 +23,20 @@ const InfoFormLabels = {
 }
 
 const CreateTrackInfo : FC = () => {
-    const tutorialList : NumberedListItem[] = [
-        {
-            label: "Nazwa Trasy",
-            description: "W tym polu wpisz nazwę trasy, którą chcesz stworzyć. Nazwa powinna być krótka, ale jednocześnie zwięzła i oddająca charakter trasy oraz wskazówek."
-        },
-        {
-            label: "Opis Trasy",
-            description: "To pole służy do dodania opisu trasy, który pozwoli użytkownikom zrozumieć, czego mogą się spodziewać. Tutaj zachęć użytkownika do rozegrania twojej trasy."
-        },
-        {
-            label: "Miniatura Trasy",
-            description: "Miniatura powinna być atrakcyjna wizualnie i oddawać charakter trasy. Możesz użyć zdjęcia związanego z miejscami na trasie lub stworzyć grafikę, która przyciągnie uwagę użytkowników."
-        },
-        {
-            label: "Tagi",
-            description: "Tagi pomagają w kategoryzowaniu tras i ułatwiają użytkownikom ich szukanie. Możesz dodawać różne tagi, które opisują tematyczne lub lokalizacyjne aspekty trasy. Na przykład, jeśli twoja trasa dotyczy parków narodowych, możesz dodać tagi takie jak 'park-narodowy' czy 'natura'."
-        }
-    ];
-    
+    const FormErrors = {
+        trackName: [],
+        description: [],
+        thumbnail: [],
+        tags: []
+    }
     return (
         <StyledCreateTrackInfo>
             <Heading level='h3' withAccent $alignCenter>Informacje o trasie</Heading>
             <StyledForm method="POST">
-                <TextInput label='Nazwa Trasy' name={InfoFormLabels.trackName} placeholder='Podaj nazwę trasy' required />
-                <TextArea label='Opis Trasy' name={InfoFormLabels.trackDesc} placeholder='Dodaj opis trasy' required />
-                <FileInput name={InfoFormLabels.trackThumb} label='Dodaj miniaturę trasy' />
-                <TagsInput label='Tagi' name={InfoFormLabels.trackTags} placeholder='Dodaj tagi' required />
+                <TextInput label='Nazwa Trasy' name={InfoFormLabels.trackName} placeholder='Podaj nazwę trasy' errors={FormErrors.trackName} required />
+                <TextArea label='Opis Trasy' name={InfoFormLabels.trackDesc} placeholder='Dodaj opis trasy' errors={FormErrors.description} required />
+                <FileInput name={InfoFormLabels.trackThumb} label='Miniatura Trasy' errors={FormErrors.thumbnail} />
+                <TagsInput label='Tagi' name={InfoFormLabels.trackTags} placeholder='Dodaj tagi' errors={FormErrors.tags} required />
                 <ButtonIcon btnType='white' icon='create'>Następny krok</ButtonIcon>
             </StyledForm>
             <StyledTutorial>
@@ -81,6 +69,7 @@ const StyledForm = styled(Form)`
     grid-area: form;
     ${flexContainer('flex-start','center','column')}
     gap: 2rem;
+    min-width: 0;
     
     @media only screen and (${BREAKPOINTS.phone}){
         & > button {

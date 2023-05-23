@@ -1,12 +1,12 @@
 import { BREAKPOINTS } from "src/styles/variables";
 import { styled } from "styled-components";
 
-export const StyledInput = styled.input`
+export const StyledInput = styled.input<{$error?: boolean}>`
     font-size: var(--fs-paragraph);
     font-family: var(--family-primary);
     
     background: var(--color-grey-light);
-    box-shadow: 0 .3rem var(--color-secondary);
+    box-shadow: 0 .3rem ${(props) => props.$error ? 'var(--color-error)' : 'var(--color-secondary)'};
     border: none;
     border-radius: var(--radius);
 

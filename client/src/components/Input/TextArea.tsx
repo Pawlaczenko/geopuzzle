@@ -1,7 +1,8 @@
 import { FC } from 'react'
 import styled from 'styled-components'
-import { StyledInput, StyledLabel, StyledLabelText } from './Input.styled';
+import { StyledInput} from './Input.styled';
 import { IInputProps } from './IInputProps.interface';
+import InputWrapper from './InputWrapper';
 
 interface ITextAreaProps extends IInputProps {
     placeholder?: string
@@ -9,10 +10,9 @@ interface ITextAreaProps extends IInputProps {
 
 const TextArea : FC<ITextAreaProps> = (props) => {
     return (
-        <StyledLabel htmlFor={props.name}>
-            <StyledLabelText>{props.label} {props.required && "*"}</StyledLabelText>
-            <StyledTextArea as='textarea' name={props.name} placeholder={props.placeholder} required={props.required} id={props.name} />
-        </StyledLabel>
+        <InputWrapper label={props.label} required={props.required} errors={props.errors} name={props.name}>
+            <StyledTextArea as='textarea' name={props.name} placeholder={props.placeholder} required={props.required} id={props.name} $error={props.errors.length > 0} />
+        </InputWrapper>
     )
 }
 
