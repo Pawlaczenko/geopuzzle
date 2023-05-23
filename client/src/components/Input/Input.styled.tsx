@@ -2,7 +2,7 @@ import { BREAKPOINTS } from "src/styles/variables";
 import { styled } from "styled-components";
 
 export const StyledInput = styled.input`
-    font-size: var(--fs-h6);
+    font-size: var(--fs-paragraph);
     font-family: var(--family-primary);
     
     background: var(--color-grey-light);
@@ -10,7 +10,7 @@ export const StyledInput = styled.input`
     border: none;
     border-radius: var(--radius);
 
-    --input-height: 5.2rem;
+    --input-height: 4.5rem;
 
     width: 100%;
     padding: 0 3rem;
@@ -24,7 +24,7 @@ export const StyledInput = styled.input`
 
 export const StyledLabel = styled.label`
     --input-width: 55rem;
-    width: min(var(--input-width),100%);
+    width: 100%;
     margin-bottom: 2rem;
 
     @media only screen and (${BREAKPOINTS.phone}){

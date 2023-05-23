@@ -2,7 +2,7 @@ import { FC } from 'react'
 import styled from 'styled-components'
 import NavigationItem, { INavigationItem } from './NavigationItem'
 import { NAV_ROUTES } from 'src/data/navigation.data'
-import { ICONS } from 'src/data/icons'
+import { ICONS } from 'src/data/icons.data'
 import { BREAKPOINTS } from 'src/styles/variables'
 import { flexContainer } from 'src/styles/mixins'
 
