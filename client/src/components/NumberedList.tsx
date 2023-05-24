@@ -38,7 +38,7 @@ const ListItemLabel = styled.span`
     display: inline-block;
     margin-bottom: .5rem;
     font-size: 1.8rem;
-    color: var(--color-secondary);
+    color: ${(props) => props.theme.primary};
 `
 
 
