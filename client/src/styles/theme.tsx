@@ -18,7 +18,7 @@ export const lightTheme : ITheme = {
     body: 'var(--color-white)',
     text: 'var(--color-black)',
     textBlue: 'var(--color-dark)',
-    header: 'var(--color-white)',
+    header: 'var(--color-grey-light)',
     primary: 'var(--color-secondary)',
     grey: 'var(--color-grey-light)'
 };
