@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { IError } from "../interfaces/IError.js";
-import AppError from "../utils/appError.js";
 //Send complete error for developer purpuse (develepment mode)
 const sendErrorDev = (err:IError, res:Response) => {
+  
   res.status(err.statusCode).json({
     status: err.status,
     error: err,
@@ -20,7 +20,7 @@ const sendErrorProd = (err:IError, res:Response) => {
   } else {
     res.status(500).json({
       status: 'error',
-      message: 'Something went very wrong!'
+      message: 'Krytyczny bląd aplikacji'
     });
   }
 };
@@ -34,8 +34,6 @@ const sendErrorProd = (err:IError, res:Response) => {
     let error = JSON.parse(JSON.stringify(err));
     error.message = err.message;
     // handle custom errors 
-   
-
     sendErrorProd(error, res);
   }
 };

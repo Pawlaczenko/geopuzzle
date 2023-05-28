@@ -27,8 +27,9 @@ mongoose
     console.log('GeoPuzzle Database connected');
   })
   .catch((error) => {
-    console.log('Geopuzzle app cannot coonect database');
+    console.log('Geopuzzle app cannot connect database');
+    console.error(error)
   });
 const server = app.listen(PORT, () => {
-  console.log(`server n running port: ${PORT} in ${process.env.NODE_ENV} mode`);
+  console.log(`Server GeoPuzzle running port: ${PORT} in ${process.env.NODE_ENV} mode`);
 });
