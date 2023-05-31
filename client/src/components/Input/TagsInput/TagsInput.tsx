@@ -1,19 +1,26 @@
-import { FC, useState, ChangeEvent } from 'react';
+import { FC, useState, ChangeEvent, useEffect, useRef } from 'react';
 import styled from 'styled-components'
-import { StyledInput, StyledLabel, StyledLabelText } from '../Input.styled';
+import { StyledInput} from '../Input.styled';
 import { IInputProps } from '../IInputProps.interface';
 import { flexContainer } from 'src/styles/mixins';
 import TagItem from './TagItem';
-import InputErrors from '../InputErrors';
 import InputWrapper from '../InputWrapper';
 
 interface ITagsInputProps extends IInputProps {
     placeholder?: string,
+    handleChange: (value: string[]) => void
 }
 
 const TagsInput : FC<ITagsInputProps> = (props) => {
     const [tags, setTags] = useState<string[]>([]);
-    const TAG_CAPACITY = 5;
+    const inputRef = useRef<HTMLInputElement>(null);
+    
+    useEffect(() => {
+        if(inputRef && inputRef.current){
+            props.handleChange(tags);
+            inputRef.current.value = tags.join(" ");
+        }
+    },[tags]);
 
     const deleteTag = (incomingTag:string) => {
         const filteredArray = tags.filter(tag => tag!=incomingTag);
@@ -63,18 +70,27 @@ const TagsInput : FC<ITagsInputProps> = (props) => {
         }
     }
 
+    const handleOnBlur = (event : ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        addTag(value);
+        event.target.value = "";  
+    }
+
     return (
         <InputWrapper label={props.label} required={props.required} errors={props.errors} name={props.name}>
-            <TagsInputWrapper as='div' $error={props.errors.length > 0} >
+            <input ref={inputRef} style={{display: 'none'}} type="text" value={props.value} readOnly name={props.name} required={props.required}/>
+            <TagsInputWrapper as='div' $error={props.errors && props.errors.length > 0} >
                 <TagsWrapper>
                     {
                         tags.map((tag,index) => <TagItem tag={tag} id={index} key={tag} handleClick={deleteTag} />)
                     }
-                    <StyledTagsInput 
-                        name={props.name} 
-                        required={props.required} 
-                        placeholder={props.placeholder} 
-                        id={props.name} 
+                    <StyledTagsInput
+                        placeholder={props.placeholder}
+                        id={props.name}
+                        onBlur={(e : ChangeEvent<HTMLInputElement>) => {
+                            handleOnBlur(e);
+                            props.handleBlur();
+                        }}
                         onKeyDown={handleKeyUp}
                         onChange={handleOnChange}/>
                 </TagsWrapper>
