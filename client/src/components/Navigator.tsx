@@ -33,10 +33,11 @@ const Navigator : FC = () => {
             {
                 NavigatorRoutes.map((route,index) => {
                     return(
-                        <>
-                            <StyledNavigatorLink to={route.path} isVisited={checkStatus(route.id)}>{route.label}</StyledNavigatorLink>
-                            {index < NavigatorRoutes.length-1 && <StyledArrow>{"-"}</StyledArrow>}
-                        </>
+                        <StyledNavigatorItem key={`${route.path}-${index}`}>
+                            <StyledNavigatorLink to={route.path} $isVisited={checkStatus(route.id)}>
+                                {route.label}
+                            </StyledNavigatorLink>
+                        </StyledNavigatorItem>
                     )
                 } )
             }
@@ -44,21 +45,26 @@ const Navigator : FC = () => {
     )
 }
 
-const StyledNavigator = styled.div`
+const StyledNavigator = styled.ul`
     background: var(--color-grey);
     padding: 2rem;
     ${flexContainer('center','center')};
-    gap: 3rem;
+    gap: 4rem;
+    /* list-style-type: none; */
 
     @media only screen and (${BREAKPOINTS.phone}){
         gap: 1.5rem;
     }
 `;
 
-const StyledNavigatorLink = styled(NavLink)<{isVisited: boolean}>`
+const StyledNavigatorItem = styled.li`
+    
+`
+
+const StyledNavigatorLink = styled(NavLink)<{$isVisited: boolean}>`
     font-family: var(--family-primary);
     color: var(--color-dark);
-    ${(props) => props.isVisited ? "font-weight: bold" : "pointer-events: none"};
+    ${(props) => props.$isVisited ? "font-weight: bold" : "pointer-events: none"};
     @media only screen and (${BREAKPOINTS.phone}){
         font-size: 1.2rem;
     }
@@ -67,10 +73,6 @@ const StyledNavigatorLink = styled(NavLink)<{isVisited: boolean}>`
         font-weight: bold;
         text-decoration: underline;
     }
-`
-
-const StyledArrow = styled.span`
-    font-weight: bold;
 `
 
 export default Navigator

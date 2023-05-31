@@ -6,14 +6,23 @@ import InputWrapper from './InputWrapper';
 
 interface ITextInputProps extends IInputProps {
     placeholder?: string,
-    type?: React.HTMLInputTypeAttribute
+    type?: React.HTMLInputTypeAttribute,
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>)=>void
 }
 
 const TextInput : FC<ITextInputProps> = (props) => {
-    const type = props.type ? props.type==='textarea' ? undefined : props.type : 'text';
     return (
         <InputWrapper label={props.label} required={props.required} errors={props.errors} name={props.name}>
-            <StyledTextInput type={type} name={props.name} placeholder={props.placeholder} required={props.required} id={props.name} $error={props.errors.length > 0} />
+            <StyledTextInput
+                value={props.value}
+                onChange={props.handleChange}
+                onBlur={()=>{props.handleBlur(props.name,props.value)}}
+                type={props.type || 'text'} 
+                name={props.name} 
+                placeholder={props.placeholder}
+                required={props.required}
+                id={props.name}
+                $error={props.errors && props.errors.length > 0} />
         </InputWrapper>
     )
 }

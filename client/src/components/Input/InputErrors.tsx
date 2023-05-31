@@ -1,11 +1,13 @@
-import { FC } from 'react'
+import { FC } from 'react';
+import { MdOutlineError } from 'react-icons/md';
+import { flexContainer } from 'src/styles/mixins';
 import styled from 'styled-components'
 
-const InputErrors : FC<{errors: string[]}> = ({errors}) => {
+const InputErrors : FC<{errors?: string[]}> = ({errors}) => {
     return (
         <StyledInputErrors>
             {
-                errors.map((error) => <StyledInputError>{error}</StyledInputError>)
+                errors && errors.map((error,index) => <StyledInputError key={`error-${index}`} ><MdOutlineError /> {error}</StyledInputError>)
             }
         </StyledInputErrors>
     )
@@ -17,7 +19,12 @@ const StyledInputErrors = styled.div`
 
 const StyledInputError = styled.span`
     color: var(--color-error);
-    display: block;
+    ${flexContainer('flex-start','center')};
+    gap: 1rem;
+    & > svg {
+        width: 2rem;
+        height: 2rem;
+    }
 `
 
 

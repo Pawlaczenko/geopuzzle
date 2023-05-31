@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 export type ButtonType = 'white' | 'blue' | 'yellow';
 
 interface IButtonProps {
-    btnType: ButtonType
+    $btnType: ButtonType
 }
 
 const getButtonStyles = (btnType: ButtonType = 'white') => {
@@ -35,7 +35,7 @@ const YellowButton = css`
 `
 
 const Button = styled.button<IButtonProps>`
-    ${(props) => getButtonStyles(props.btnType)};
+    ${(props) => getButtonStyles(props.$btnType)};
 
     font-family: var(--family-primary);
     letter-spacing: 1px;

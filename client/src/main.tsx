@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import { store } from 'src/app/store';
 import HomePage from 'src/routes/HomePage/HomePage.tsx'
 import { NAV_ROUTES } from 'src/data/navigation.data'
-import CreateTrackInfo from './routes/CreateTrack/CreateTrackInfo'
+import CreateTrackInfo from './routes/CreateTrack/CreateTrackInfo/CreateTrackInfo'
 
 const router = createBrowserRouter([
     {
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
                 children: [
                     {
                         index: true,
-                        element: <CreateTrackInfo />
+                        element: <CreateTrackInfo />,
                     }
                 ]
             }

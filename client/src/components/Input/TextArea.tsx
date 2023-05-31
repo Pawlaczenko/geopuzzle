@@ -5,13 +5,23 @@ import { IInputProps } from './IInputProps.interface';
 import InputWrapper from './InputWrapper';
 
 interface ITextAreaProps extends IInputProps {
-    placeholder?: string
+    placeholder?: string,
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>)=>void
 }
 
 const TextArea : FC<ITextAreaProps> = (props) => {
     return (
         <InputWrapper label={props.label} required={props.required} errors={props.errors} name={props.name}>
-            <StyledTextArea as='textarea' name={props.name} placeholder={props.placeholder} required={props.required} id={props.name} $error={props.errors.length > 0} />
+            <StyledTextArea
+                value={props.value}
+                onChange={props.handleChange}
+                onBlur={()=>{props.handleBlur(props.name,props.value)}}
+                as='textarea' 
+                name={props.name} 
+                placeholder={props.placeholder} 
+                required={props.required} 
+                id={props.name} 
+                $error={props.errors && props.errors.length > 0} />
         </InputWrapper>
     )
 }

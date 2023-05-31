@@ -14,7 +14,7 @@ interface IButtonIconProps {
 const ButtonIcon : FC<IButtonIconProps> = (props) => {
     const Icon = ICONS.get(props.icon);
     return (
-        <StyledButtonIcon btnType={props.btnType} >
+        <StyledButtonIcon $btnType={props.btnType} >
             {Icon && <Icon />}
             {props.children}
         </StyledButtonIcon>
