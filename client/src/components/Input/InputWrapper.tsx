@@ -1,28 +1,25 @@
-import { FC, useEffect, useRef } from 'react'
+import { FC } from 'react'
 import { StyledLabel, StyledLabelText } from './Input.styled';
 import InputErrors from './InputErrors';
+import { useFormikContext } from 'formik';
+import { FormValues } from 'src/components/CreateTrackForm/CreateTrackForm';
 
 interface IInputWrapperProps {
     label: string,
-    errors?: string[],
-    required?: boolean,
     name: string,
     children: React.ReactNode,
 }
 
 const InputWrapper : FC<IInputWrapperProps> = (props) => {
-    const elementRef = useRef<HTMLLabelElement>(null);
-    useEffect(() => {
-        if(props.errors && props.errors.length > 0) {
-            if(elementRef.current) elementRef.current.scrollIntoView();
-        }
-    },[props.errors]);
+    const {errors, touched} = useFormikContext<FormValues>();
+    const fieldErrors : string | undefined = errors[props.name as keyof FormValues];
+    const touchedField : boolean | undefined = touched[props.name as keyof FormValues];
 
     return (
-        <StyledLabel htmlFor={props.name} ref={elementRef}>
-            <StyledLabelText>{props.label} {props.required && "*"}</StyledLabelText>
+        <StyledLabel htmlFor={props.name}>
+            <StyledLabelText>{props.label}</StyledLabelText>
             {props.children}
-            <InputErrors errors={props.errors} />
+            {touchedField && fieldErrors && <InputErrors errors={fieldErrors} />}
         </StyledLabel>
     )
 }

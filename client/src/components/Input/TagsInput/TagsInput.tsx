@@ -1,24 +1,20 @@
 import { FC, useState, ChangeEvent, useEffect, useRef } from 'react';
 import styled from 'styled-components'
 import { StyledInput} from '../Input.styled';
-import { IInputProps } from '../IInputProps.interface';
 import { flexContainer } from 'src/styles/mixins';
 import TagItem from './TagItem';
 import InputWrapper from '../InputWrapper';
+import { useFormikContext } from 'formik';
+import { IInputProps } from '../IInputProps.interface';
 
-interface ITagsInputProps extends IInputProps {
-    placeholder?: string,
-    handleChange: (value: string[]) => void
-}
-
-const TagsInput : FC<ITagsInputProps> = (props) => {
+const TagsInput : FC<IInputProps> = (props) => {
     const [tags, setTags] = useState<string[]>([]);
     const inputRef = useRef<HTMLInputElement>(null);
+    const {getFieldProps, setFieldValue} = useFormikContext();
     
     useEffect(() => {
         if(inputRef && inputRef.current){
-            props.handleChange(tags);
-            inputRef.current.value = tags.join(" ");
+            setFieldValue(props.name, tags.join(" "));
         }
     },[tags]);
 
@@ -77,9 +73,9 @@ const TagsInput : FC<ITagsInputProps> = (props) => {
     }
 
     return (
-        <InputWrapper label={props.label} required={props.required} errors={props.errors} name={props.name}>
-            <input ref={inputRef} style={{display: 'none'}} type="text" value={props.value} readOnly name={props.name} required={props.required}/>
-            <TagsInputWrapper as='div' $error={props.errors && props.errors.length > 0} >
+        <InputWrapper label={props.label} name={props.name}>
+            <input ref={inputRef} style={{display: 'none'}} {...getFieldProps(props.name)} />
+            <TagsInputWrapper as='div'>
                 <TagsWrapper>
                     {
                         tags.map((tag,index) => <TagItem tag={tag} id={index} key={tag} handleClick={deleteTag} />)
@@ -87,10 +83,7 @@ const TagsInput : FC<ITagsInputProps> = (props) => {
                     <StyledTagsInput
                         placeholder={props.placeholder}
                         id={props.name}
-                        onBlur={(e : ChangeEvent<HTMLInputElement>) => {
-                            handleOnBlur(e);
-                            props.handleBlur();
-                        }}
+                        onBlur={handleOnBlur}
                         onKeyDown={handleKeyUp}
                         onChange={handleOnChange}/>
                 </TagsWrapper>

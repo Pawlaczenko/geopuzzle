@@ -8,7 +8,7 @@ import Logo from 'src/components/Logo';
 import Paragraph from 'src/components/Paragraph.styled';
 import NumberedList from 'src/components/NumberedList';
 import { tutorialList } from 'src/data/trackInfo.data';
-import CreateTrackForm from './CreateTrackForm';
+import CreateTrackForm from '../../components/CreateTrackForm/CreateTrackForm';
 
 const CreateTrackInfo : FC = () => {
     return (

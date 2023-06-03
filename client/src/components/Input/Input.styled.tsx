@@ -5,7 +5,8 @@ export const StyledInput = styled.input<{$error?: boolean}>`
     font-size: var(--fs-paragraph);
     font-family: var(--family-primary);
     
-    background: var(--color-grey-light);
+    background: ${({theme}) => theme.input};
+    color: ${({theme}) => theme.textBlue};
     box-shadow: 0 .3rem ${(props) => props.$error ? 'var(--color-error)' : 'var(--color-secondary)'};
     border: none;
     border-radius: var(--radius);
@@ -19,6 +20,10 @@ export const StyledInput = styled.input<{$error?: boolean}>`
     &:active,
     &:has(input:focus) {
         outline: .2rem solid var(--color-secondary);
+    }
+
+    &::placeholder {
+        color: ${({theme}) => theme.text};
     }
 `
 
