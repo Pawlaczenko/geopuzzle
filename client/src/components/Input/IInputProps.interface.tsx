@@ -1,9 +1,6 @@
 export interface IInputProps {
+    placeholder?: string,
+    type?: React.HTMLInputTypeAttribute,
     label: string,
-    required?: boolean,
-    name: string,
-    errors?: string[],
-    value?: string,
-    handleBlur: (...args: any[]) => boolean
-
+    name: string
 }

@@ -8,13 +8,14 @@ import { ICONS, IconName } from 'src/data/icons.data';
 interface IButtonIconProps {
     btnType: ButtonType,
     children: React.ReactNode,
-    icon: IconName
+    icon: IconName,
+    type?: "submit" | "button" | "reset"
 }
 
 const ButtonIcon : FC<IButtonIconProps> = (props) => {
     const Icon = ICONS.get(props.icon);
     return (
-        <StyledButtonIcon $btnType={props.btnType} >
+        <StyledButtonIcon $btnType={props.btnType} type={props.type}>
             {Icon && <Icon />}
             {props.children}
         </StyledButtonIcon>

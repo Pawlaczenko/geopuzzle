@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { IFormState } from 'src/routes/CreateTrack/CreateTrackInfo/CreateTrackForm';
+import { IFormState } from 'src/components/CreateTrackForm/CreateTrackForm';
 
 export type trackCreatorState = {
     name: string,

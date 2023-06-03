@@ -18,6 +18,7 @@ export const variables = css`
         --color-grey-light: #F5F5F5;
         --color-white: #FFFBFF;
         --color-black: #3E3736;
+        --color-grey-dark: #666666;
         --color-error: #ff7878;
 
 

@@ -1,16 +1,14 @@
-import { ChangeEvent, FC, useState, useRef, useEffect } from 'react';
+import { ChangeEvent, FC, useState, useRef } from 'react';
 import styled from 'styled-components'
 import InputImage from 'src/assets/image-placeholder.svg';
 import Button from '../Button/Button.styled';
 import { StyledInput } from './Input.styled';
 import { IInputProps } from './IInputProps.interface';
 import InputWrapper from './InputWrapper';
+import { useFormikContext } from 'formik';
 
-interface IFileInputProps extends IInputProps {
-    handleChange: (value: File | undefined) => void
-}
-
-const FileInput : FC<IFileInputProps> = (props) => {
+const FileInput : FC<IInputProps> = (props) => {
+    const {setFieldValue} = useFormikContext();
     const [selectedFile, setSelectedFile] = useState<string | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -18,34 +16,30 @@ const FileInput : FC<IFileInputProps> = (props) => {
         const file = event.target.files?.[0] || null;
         if(file) {
             setSelectedFile(URL.createObjectURL(file));
-            props.handleChange(file);
+            setFieldValue(props.name,file);
         }
     };
 
     const removePhoto = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault();
         setSelectedFile(null);
-        props.handleChange(undefined);
+        setFieldValue(props.name,undefined);
         if(inputRef.current) {
             inputRef.current.value = "";
         }
     }
 
     return (
-        <InputWrapper label={props.label} required={props.required} errors={props.errors} name={props.name}>
+        <InputWrapper label={props.label} name={props.name}>
             <StyledFileWrapper>
-                <StyledImage as="figure" selectedImg={selectedFile || undefined} $error={props.errors && props.errors.length > 0} />
-                {selectedFile && <Button $btnType='yellow' onClick={removePhoto}>Remove Photo</Button>}
+                <StyledImage as="figure" $selectedImg={selectedFile || undefined} />
+                {selectedFile && <Button type="button" $btnType='white' onClick={removePhoto}>X</Button>}
                 <input
-                    type='file' 
+                    type='file'
                     id={props.name} 
-                    name={props.name} 
-                    required={props.required} 
                     accept="image/png, image/jpeg"
-                    onBlur={props.handleBlur}
-                    onChange={(event: ChangeEvent<HTMLInputElement>)=>{
-                        handleFileChange(event);
-                    }} 
+                    name={props.name}
+                    onChange={handleFileChange}
                     ref={inputRef} />
             </StyledFileWrapper>
         </InputWrapper>
@@ -64,21 +58,21 @@ const StyledFileWrapper = styled.div`
 
     & > button {
         position: absolute;
-        bottom: 0;
-        right: 0;
+        top: -1rem;
+        left: -1rem;
     }
 `;
 
-const StyledImage = styled(StyledInput)<{selectedImg?: string}>`
+const StyledImage = styled(StyledInput)<{$selectedImg?: string}>`
     background:
-        ${({selectedImg}) => {
+        ${({$selectedImg: selectedImg}) => {
             if(selectedImg){
                 return `url(${selectedImg}) center/cover no-repeat` //show selected image
             } else {
-                return `url(${InputImage}) center/cover no-repeat` //show default image
+                return `url(${InputImage}) bottom right/65% no-repeat` //show default image
             }
-        }}, 
-        var(--color-grey-light);
+        }},
+        ${({theme}) => theme.input};
     width: 100%;
     aspect-ratio: 1.65/1;
 `
