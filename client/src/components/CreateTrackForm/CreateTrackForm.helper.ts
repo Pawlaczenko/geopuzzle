@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { FormValues } from './CreateTrackForm';
 
 const getExtension = (filename?: string) : string | undefined => {
     if(!filename) return undefined;
@@ -10,14 +11,22 @@ export const TRACK_INFO_CONSTRAINTS = {
     trackDescription: 500,
     trackTagNames: 5,
     trackThumbnail: 5 * 1024 * 1024,
-    thumbnailExtension: ['png', 'jpg', 'JPG', 'jpeg', 'webp']
+    thumbnailExtension: ['png', 'jpg', 'JPG', 'jpeg', 'webp'],
+    requiredFields: {
+        trackName: true,
+        trackDescription: true,
+        trackTagNames: true,
+        trackThumbnail: false
+    }
 }
 
 export const trackInfoValidationSchema = Yup.object({
     trackName: Yup.string()
+        .transform((value, originalValue) => originalValue.trim())
         .max(TRACK_INFO_CONSTRAINTS.trackName, `Nazwa trasy nie może przekraczać ${TRACK_INFO_CONSTRAINTS.trackName} znaków.`)
         .required('Nazwa trasy jest obowiązkowa.'),
     trackDescription: Yup.string()
+        .transform((value, originalValue) => originalValue.trim())
         .max(TRACK_INFO_CONSTRAINTS.trackDescription,`Opis trasy nie może przekraczać ${TRACK_INFO_CONSTRAINTS.trackDescription} znaków.`)
         .required('Opis trasy jest obowiązkowy.'),
     trackTagNames: Yup.string()

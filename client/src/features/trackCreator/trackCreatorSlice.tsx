@@ -1,12 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { IFormState } from 'src/components/CreateTrackForm/CreateTrackForm';
 
 export type trackCreatorState = {
     name: string,
     description: string,
     tags: string[],
-    thumbnail?: string
+    thumbnail?: string | Blob | null;
 }
 
 const initialState: trackCreatorState = {
@@ -15,17 +14,24 @@ const initialState: trackCreatorState = {
     tags: [],
 };
 
+interface IFormInfo {
+    trackName: string;
+    trackDescription: string;
+    trackTagNames: string;
+    trackThumbnail?: string | null;
+}
+
 export const trackCreatorSlice = createSlice({
     name: "trackCreator",
     initialState,
     reducers: {
-        updateTrackInfo: (state, action: PayloadAction<IFormState>) => {
-            const thumbnail = typeof action.payload.track_thumbnail === "string" ? action.payload.track_thumbnail : undefined;
+        updateTrackInfo: (state, action: PayloadAction<IFormInfo>) => {
+            const thumbnail = typeof action.payload.trackThumbnail === "string" ? action.payload.trackThumbnail : undefined;
             return {
                 ...state,
-                name: action.payload.track_name,
-                decription: action.payload.track_description,
-                tags: action.payload.track_tags,
+                name: action.payload.trackName,
+                decription: action.payload.trackDescription,
+                tags: action.payload.trackTagNames.split(" "),
                 thumbnail: thumbnail,
             };
         }
