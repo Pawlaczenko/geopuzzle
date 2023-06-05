@@ -7,10 +7,10 @@ export function useDetectOutside(ref : RefObject<HTMLElement>, handleCallback: (
         handleCallback();
       }
     }
-    
-    document.addEventListener("mouseup", handleClickOutside,{capture: true});
+      
+    document.addEventListener("mouseup", (e)=>{handleClickOutside(e)},{capture: true});
     return () => {
-      document.removeEventListener("mouseup", handleClickOutside,{capture: true});
+        document.removeEventListener("mouseup", (e)=>{handleClickOutside(e)},{capture: true});
     };
   }, [ref]);
 }

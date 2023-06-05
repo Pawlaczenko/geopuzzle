@@ -25,17 +25,25 @@ export interface FormValues {
     trackName: string;
     trackDescription: string;
     trackTagNames: string;
-    trackThumbnail: string;
+    trackThumbnail?: Blob;
 }
 
 const CreateTrackForm : FC = () => {
-    const initialValues : FormValues = {trackName: '', trackDescription: '', trackTagNames: '', trackThumbnail: ''};
+    const dispatch = useDispatch();
+    const initialValues : FormValues = {trackName: '', trackDescription: '', trackTagNames: '', trackThumbnail: undefined};
+    
     return (
         <Formik
             initialValues={initialValues}
             validationSchema={trackInfoValidationSchema}
             onSubmit={(values,{setSubmitting}) => {
-                console.log(values);
+                console.log("siema");
+                dispatch(updateTrackInfo({
+                    trackDescription: values.trackDescription,
+                    trackName: values.trackName.trim(),
+                    trackTagNames: values.trackTagNames,
+                    trackThumbnail: values.trackThumbnail ? URL.createObjectURL(values.trackThumbnail) : null
+                }));
             }}
         >
             {
