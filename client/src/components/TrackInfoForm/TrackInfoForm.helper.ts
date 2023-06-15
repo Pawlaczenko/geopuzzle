@@ -1,5 +1,4 @@
 import * as Yup from 'yup';
-import { FormValues } from './CreateTrackForm';
 
 const getExtension = (filename?: string) : string | undefined => {
     if(!filename) return undefined;
