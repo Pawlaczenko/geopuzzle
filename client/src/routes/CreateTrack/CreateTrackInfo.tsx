@@ -8,13 +8,13 @@ import Logo from 'src/components/Logo';
 import Paragraph from 'src/components/Paragraph.styled';
 import NumberedList from 'src/components/NumberedList';
 import { tutorialList } from 'src/data/trackInfo.data';
-import CreateTrackForm from '../../components/CreateTrackForm/CreateTrackForm';
+import TrackInfoForm from '../../components/TrackInfoForm/TrackInfoForm';
 
 const CreateTrackInfo : FC = () => {
     return (
         <StyledCreateTrackInfo>
             <Heading level='h3' withAccent $alignCenter>Informacje o trasie</Heading>
-            <CreateTrackForm />
+            <TrackInfoForm />
             <StyledTutorial>
                 <Logo logoType='compact' />
                 <Heading level='h5'>Witaj w kreatorze tras!</Heading>

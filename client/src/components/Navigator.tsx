@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { NavLink } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { NAV_ROUTES } from 'src/data/navigation.data';
 import { flexContainer } from 'src/styles/mixins';
 import { BREAKPOINTS } from 'src/styles/variables';
 import styled, { css } from 'styled-components'
@@ -9,17 +10,17 @@ const Navigator : FC = () => {
     const NavigatorRoutes = [
         {
             id: 1,
-            path: '/createTrack',
+            path: NAV_ROUTES.createTrack,
             label: "Informacje o Trasie"
         },
         {
             id: 2,
-            path: '/createTrack/waypoint',
+            path: NAV_ROUTES.createTrack+'/waypoint',
             label: "Dodaj Punkt"
         },
         {
             id: 3,
-            path: '/createTrack/summary',
+            path: NAV_ROUTES.createTrack+'/summary',
             label: "Podsumowanie"
         },
     ];
@@ -50,7 +51,7 @@ const StyledNavigator = styled.ul`
     padding: 2rem;
     ${flexContainer('center','center')};
     gap: 4rem;
-    /* list-style-type: none; */
+    list-style-type: none;
 
     @media only screen and (${BREAKPOINTS.phone}){
         gap: 1.5rem;
@@ -71,7 +72,6 @@ const StyledNavigatorLink = styled(NavLink)<{$isVisited: boolean}>`
     
     &.active {
         font-weight: bold;
-        text-decoration: underline;
     }
 `
 

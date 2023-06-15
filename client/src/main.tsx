@@ -7,6 +7,7 @@ import { store } from 'src/app/store';
 import HomePage from 'src/routes/HomePage/HomePage.tsx'
 import { NAV_ROUTES } from 'src/data/navigation.data'
 import CreateTrackInfo from './routes/CreateTrack/CreateTrackInfo'
+import CreateTrackddPoint from './routes/CreateTrack/CreateTrackPoint'
 
 const router = createBrowserRouter([
     {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <CreateTrackInfo />,
+                    },
+                    {
+                        path: NAV_ROUTES.createTrack+'/waypoint',
+                        element: <CreateTrackddPoint />
                     }
                 ]
             }

@@ -1,18 +1,18 @@
-import { Formik, useFormik } from 'formik';
-import { FC, FormEvent, useRef, useState } from 'react'
+import { Formik } from 'formik';
+import { FC } from 'react'
 import { useDispatch } from 'react-redux';
-import { Form } from 'react-router-dom';
+import { Form, useNavigate } from 'react-router-dom';
 import ButtonIcon from 'src/components/Button/ButtonIcon';
 import FileInput from 'src/components/Input/FileInput';
 import TagsInput from 'src/components/Input/TagsInput/TagsInput';
 import TextArea from 'src/components/Input/TextArea';
 import TextInput from 'src/components/Input/TextInput';
 import { updateTrackInfo } from 'src/features/trackCreator/trackCreatorSlice';
-import { toBase64 } from 'src/helpers/toBase64.helper';
 import { flexContainer } from 'src/styles/mixins';
 import { BREAKPOINTS } from 'src/styles/variables';
 import styled from 'styled-components'
-import { trackInfoValidationSchema } from './CreateTrackForm.helper';
+import { trackInfoValidationSchema } from './TrackInfoForm.helper';
+import { NAV_ROUTES } from 'src/data/navigation.data';
 
 const FormNames = {
     track_name: "trackName",
@@ -21,29 +21,30 @@ const FormNames = {
     track_tags: "trackTagNames"
 }
 
-export interface FormValues {
+export interface TrackInfoFormValues {
     trackName: string;
     trackDescription: string;
     trackTagNames: string;
     trackThumbnail?: Blob;
 }
 
-const CreateTrackForm : FC = () => {
+const TrackInfoForm : FC = () => {
     const dispatch = useDispatch();
-    const initialValues : FormValues = {trackName: '', trackDescription: '', trackTagNames: '', trackThumbnail: undefined};
-    
+    const initialValues : TrackInfoFormValues = {trackName: 'a', trackDescription: 'a', trackTagNames: 'a', trackThumbnail: undefined};
+    const navigate = useNavigate();
+
     return (
         <Formik
             initialValues={initialValues}
             validationSchema={trackInfoValidationSchema}
             onSubmit={(values,{setSubmitting}) => {
-                console.log("siema");
                 dispatch(updateTrackInfo({
                     trackDescription: values.trackDescription,
                     trackName: values.trackName.trim(),
                     trackTagNames: values.trackTagNames,
                     trackThumbnail: values.trackThumbnail ? URL.createObjectURL(values.trackThumbnail) : null
                 }));
+                navigate(NAV_ROUTES.createTrack+'/waypoint');
             }}
         >
             {
@@ -61,7 +62,7 @@ const CreateTrackForm : FC = () => {
     )
 }
 
-const StyledForm = styled(Form)`
+export const StyledForm = styled(Form)`
     grid-area: form;
     ${flexContainer('flex-start','center','column')}
     gap: 2rem;
@@ -74,4 +75,4 @@ const StyledForm = styled(Form)`
     }
 `
 
-export default CreateTrackForm
+export default TrackInfoForm
