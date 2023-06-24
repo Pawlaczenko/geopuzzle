@@ -23,7 +23,7 @@ export const StyledInput = styled.input<{$error?: boolean}>`
     }
 
     &::placeholder {
-        color: ${({theme}) => theme.text};
+        color: grey;
     }
 `
 
