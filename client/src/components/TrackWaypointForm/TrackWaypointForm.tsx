@@ -1,5 +1,5 @@
 import { Formik } from 'formik';
-import { FC, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import TextInput from 'src/components/Input/TextInput';
 import { StyledForm } from '../TrackInfoForm/TrackInfoForm';
 import Map from '../Map/Map';
@@ -30,16 +30,26 @@ const TrackWaypointForm : FC = () => {
     const [mapWaypoint, setMapWaypoint] = useState<coordSuggestion | undefined>(undefined);
     const [suggestions, setSuggestions] = useState<coordSuggestion[] | undefined>(undefined);
 
-    const handleLocationSearch = debounce(async (query: string) => {
+    const handleLocationSearch = useCallback(debounce(async (query: string) => {
         const results : SearchResult<RawResult>[] = await searchProvider.search({query: query});
         const suggestions : coordSuggestion[] = results.map(item => {
             return {
                 label: item.label,
-                coords: [item.x, item.y]
+                coords: [item.y, item.x]
             }
         });
         setSuggestions(suggestions);
-    }, 300);
+    }, 300),[]);
+
+    useEffect(() => {
+        return () => {
+          handleLocationSearch.cancel();
+        };
+      }, []);
+
+    const handleWaypointChange = (waypoint: coordSuggestion) => {
+        setMapWaypoint(waypoint);
+    }
 
     return (
         <Formik
@@ -52,8 +62,15 @@ const TrackWaypointForm : FC = () => {
                 formik => (
                     <StyledForm method="POST" onSubmit={formik.handleSubmit}>
                         <TextInput name={FormNames.point_name} label="Nazwa Punktu" placeholder='Podaj Nazwę Punktu'/>
-                        <CoordinatesInput name={FormNames.point_direction} label="Odpowiedź" placeholder='Wybierz Punkt do zgadnięcia' handleChange={handleLocationSearch} suggestions={suggestions}/>
-                        <Map />
+                        <CoordinatesInput
+                            name={FormNames.point_direction} 
+                            label="Odpowiedź" 
+                            placeholder='Wybierz Punkt do zgadnięcia' 
+                            handleChange={handleLocationSearch}
+                            chosenWaypoint={mapWaypoint}
+                            handleWaypointChange={handleWaypointChange}
+                            suggestions={suggestions}/>
+                        <Map chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange = {handleWaypointChange} />
                     </StyledForm>
                 )
             }
