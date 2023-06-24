@@ -2,19 +2,29 @@ import { FC, useEffect } from "react"
 import { Marker, Popup, useMap, useMapEvents } from "react-leaflet"
 import { IMapProps } from "./Map";
 import { coordSuggestion } from "src/types/input.types";
+import flagImage from 'src/assets/logo/logo-compact.svg';
+import flagShadow from 'src/assets/logo/flag-shadow.svg';
+import L from "leaflet";
+
+const flagIcon = L.icon({
+    iconUrl: flagImage,
+    shadowUrl: flagShadow,
+    iconSize: [50,50],
+    iconAnchor: [0, 50],
+    shadowAnchor: [12, 8]
+})
 
 const LocationMarker : FC<IMapProps> = ({chosenMarkerCoords,handleWaypointChange}) => {
     const map = useMap();
     
     useEffect(()=>{
         if(chosenMarkerCoords) {
-            map.flyTo(chosenMarkerCoords,map.getZoom(),{animate: false});
+            map.flyTo(chosenMarkerCoords,map.getZoom(),{easeLinearity: 1});
         }
     },[chosenMarkerCoords]);
 
     const mapEvent = useMapEvents({
         click(e) {
-            console.log(e);
             const coords : coordSuggestion = {
                 coords:  e.latlng,
                 label: e.latlng.toString()
@@ -24,8 +34,7 @@ const LocationMarker : FC<IMapProps> = ({chosenMarkerCoords,handleWaypointChange
     })
 
     return chosenMarkerCoords === undefined ? null : (
-        <Marker position={chosenMarkerCoords}>
-            <Popup>You are here</Popup>
+        <Marker position={chosenMarkerCoords} icon={flagIcon}>
         </Marker>
     )
 }
