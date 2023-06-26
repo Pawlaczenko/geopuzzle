@@ -2,22 +2,22 @@ import { FC } from 'react'
 import styled from 'styled-components'
 import { StyledLabel, StyledLabelText } from './Input/Input.styled';
 import ButtonIcon from './Button/ButtonIcon';
-import { ICONS } from 'src/data/icons.data';
 
-const AddPuzzleLabel : FC = () => {
+const AddPuzzleLabel : FC<{handleModalClick: ()=>void}> = ({handleModalClick}) => {
     return (
         <StyledAddPuzzleLabel>
             <StyledLabelText>Zagadka w tym punkcie: *</StyledLabelText>
             <StyledInfoText>Do tego punktu jeszcze nie dodano zagadki</StyledInfoText>
-            <ButtonIcon btnType='yellow' icon="puzzle">Dodaj zagadkę</ButtonIcon>
+            <ButtonIcon type='button' onClick={handleModalClick} btnType='yellow' icon="puzzle">Dodaj zagadkę</ButtonIcon>
         </StyledAddPuzzleLabel>
     )
 }
 
-const StyledAddPuzzleLabel = styled(StyledLabel)`
+const StyledAddPuzzleLabel = styled.section`
     border: var(--border-thin);
     border-radius: 1.5rem;
     padding: 2rem 1rem;
+    width: 100%;
 
     & > button {
         margin: 0 auto;

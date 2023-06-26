@@ -31,7 +31,7 @@ const BlueButton = css`
 const YellowButton = css`
     --button-color: var(--color-primary);
     --button-text-color: var(--color-dark);
-    --button-border-color: ${(props) => props.theme.text};
+    --button-border-color: var(--color-grey-dark);
 `
 
 const Button = styled.button<IButtonProps>`

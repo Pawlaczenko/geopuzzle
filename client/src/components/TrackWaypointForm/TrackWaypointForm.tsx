@@ -10,6 +10,8 @@ import CoordinatesInput from '../Input/CoordinatesInput';
 import { coordSuggestion } from 'src/types/input.types';
 import debounce from 'lodash/debounce';
 import AddPuzzleLabel from '../AddPuzzleLabel';
+import Modal from '../Modal';
+import { useLocationSearch } from 'src/hooks/useLocationSearch';
 
 const FormNames = {
     point_name: "pointName",
@@ -23,30 +25,9 @@ export interface WaypointFormValues {
 
 const TrackWaypointForm : FC = () => {
     const initialValues : WaypointFormValues = {pointName: '', pointDirection: ''};
-    const searchProvider = new OpenStreetMapProvider({
-        params: {
-            limit: 5
-        }
-    });
     const [mapWaypoint, setMapWaypoint] = useState<coordSuggestion | undefined>(undefined);
-    const [suggestions, setSuggestions] = useState<coordSuggestion[] | undefined>(undefined);
-
-    const handleLocationSearch = useCallback(debounce(async (query: string) => {
-        const results : SearchResult<RawResult>[] = await searchProvider.search({query: query});
-        const suggestions : coordSuggestion[] = results.map(item => {
-            return {
-                label: item.label,
-                coords: [item.y, item.x]
-            }
-        });
-        setSuggestions(suggestions);
-    }, 300),[]);
-
-    useEffect(() => {
-        return () => {
-          handleLocationSearch.cancel();
-        };
-      }, []);
+    const {suggestions, handleLocationSearch} = useLocationSearch();
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     const handleWaypointChange = (waypoint: coordSuggestion) => {
         setMapWaypoint(waypoint);
@@ -72,7 +53,10 @@ const TrackWaypointForm : FC = () => {
                             handleWaypointChange={handleWaypointChange}
                             suggestions={suggestions}/>
                         <Map chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange = {handleWaypointChange} />
-                        <AddPuzzleLabel />
+                        <AddPuzzleLabel handleModalClick={()=>{setIsModalOpen(true)}} />
+                        <Modal shouldShow={isModalOpen} handleClose={()=>{setIsModalOpen(false)}} title="Dodaj Zagadkę">
+                            Hello
+                        </Modal>
                     </StyledForm>
                 )
             }
