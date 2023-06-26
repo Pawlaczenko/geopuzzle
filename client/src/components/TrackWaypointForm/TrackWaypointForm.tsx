@@ -9,6 +9,7 @@ import { RawResult } from 'leaflet-geosearch/dist/providers/openStreetMapProvide
 import CoordinatesInput from '../Input/CoordinatesInput';
 import { coordSuggestion } from 'src/types/input.types';
 import debounce from 'lodash/debounce';
+import AddPuzzleLabel from '../AddPuzzleLabel';
 
 const FormNames = {
     point_name: "pointName",
@@ -71,6 +72,7 @@ const TrackWaypointForm : FC = () => {
                             handleWaypointChange={handleWaypointChange}
                             suggestions={suggestions}/>
                         <Map chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange = {handleWaypointChange} />
+                        <AddPuzzleLabel />
                     </StyledForm>
                 )
             }

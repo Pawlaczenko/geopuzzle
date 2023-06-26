@@ -42,7 +42,8 @@ export const StyledLabelText = styled.span`
     display: block;
 
     font-weight: bold;
-    text-align: center;
+    text-align: left;
     font-family: var(--family-primary);
     margin-bottom: 1.5rem;
+    padding-left: 3rem;
 `
