@@ -20,6 +20,11 @@ export const reset = css`
     body {
         -webkit-font-smoothing: antialiased;
     }
+
+    body.modal-open {
+        overflow: hidden;
+    }
+
     a {
         color: inherit; /* blue colors for links too */
         text-decoration: inherit; /* no underline */
