@@ -37,3 +37,23 @@ export const createCircle = (size:string) => {
         aspect-ratio: 1/1;
     `
 }
+
+export const myScrollBar = css`
+    &::-webkit-scrollbar {
+        width: 1rem;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: var(--color-grey);
+        border-radius: 1rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--color-secondary);
+        border-radius: 1rem;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: var(--color-grey-dark);
+    }
+`

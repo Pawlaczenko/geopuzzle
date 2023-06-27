@@ -12,6 +12,7 @@ import debounce from 'lodash/debounce';
 import AddPuzzleLabel from '../AddPuzzleLabel';
 import Modal from '../Modal';
 import { useLocationSearch } from 'src/hooks/useLocationSearch';
+import PuzzleList from '../PuzzleList/PuzzleList';
 
 const FormNames = {
     point_name: "pointName",
@@ -55,7 +56,7 @@ const TrackWaypointForm : FC = () => {
                         <Map chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange = {handleWaypointChange} />
                         <AddPuzzleLabel handleModalClick={()=>{setIsModalOpen(true)}} />
                         <Modal shouldShow={isModalOpen} handleClose={()=>{setIsModalOpen(false)}} title="Dodaj Zagadkę">
-                            Hello
+                            <PuzzleList />
                         </Modal>
                     </StyledForm>
                 )

@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 
 interface IParagraphProps {
-    align?: 'center' | 'left' | 'right' | 'justify'
+    align?: 'center' | 'left' | 'right' | 'justify',
+    padding?: boolean
 }
 
 const Paragraph = styled.p<IParagraphProps>`
@@ -10,7 +11,7 @@ const Paragraph = styled.p<IParagraphProps>`
     color: ${(props) => props.theme.textBlue};
     text-align: ${(props) => props.align || 'left'};
     line-height: 1.5;
-    padding: 1rem 1.5rem;
+    ${(props) => (props.padding === undefined || props.padding) && 'padding: 1rem 1.5rem'};
 `;
 
 

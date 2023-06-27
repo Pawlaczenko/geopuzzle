@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FiX } from "react-icons/fi";
 import Heading from './Heading';
 import { useDetectOutside } from 'src/hooks/useDetectOutside';
-import { ICONS } from 'src/data/icons.data';
+import { myScrollBar } from 'src/styles/mixins';
 
 interface IModalProps {
     shouldShow: boolean,
@@ -27,8 +27,6 @@ const Modal : FC<IModalProps> = ({shouldShow, handleClose, children, title}) => 
         }
     },[shouldShow]);
 
-    const ModalIcon = ICONS.get("puzzle");
-
     return (
         <StyledModal ref={modalRef}>
             <ModalBar>
@@ -41,10 +39,11 @@ const Modal : FC<IModalProps> = ({shouldShow, handleClose, children, title}) => 
 }
 
 const StyledModal = styled.dialog`
-    min-width: 30vw;
+    min-width: 40vw;
+    max-width: 80vw;
     margin: auto;
     inset: 0;
-    padding: 2rem;
+    padding: 3rem;
     padding-left: 4rem;
 
     border: var(--border-thin);
@@ -54,13 +53,15 @@ const StyledModal = styled.dialog`
     &::backdrop {
         background: rgba(0, 0, 0, 0.25);
     }
+
+    ${myScrollBar};
 `;
 
 const ModalBar = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: 4rem;
 `
 
 const CloseButton = styled.button`
