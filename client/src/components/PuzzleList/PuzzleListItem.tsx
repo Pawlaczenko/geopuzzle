@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { IPuzzle } from 'src/data/puzzles.data'
+import { IPuzzleItem } from 'src/data/puzzleItems.data'
 import styled from 'styled-components'
 import Heading from '../Heading'
 import Paragraph from '../Paragraph.styled'
@@ -9,7 +9,7 @@ interface IPuzzleListItemProps {
     handleClick?: ()=>void
 }
 
-const PuzzleListItem : FC<IPuzzleListItemProps & IPuzzle> = (props) => {
+const PuzzleListItem : FC<IPuzzleListItemProps & IPuzzleItem> = (props) => {
     return (
         <StyledPuzzleListItem>
             <PuzzleIcon>

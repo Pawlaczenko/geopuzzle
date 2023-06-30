@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { PUZZLES } from 'src/data/puzzles.data'
+import { PUZZLES } from 'src/data/puzzleItems.data'
 import styled from 'styled-components'
 import PuzzleListItem from './PuzzleListItem'
 

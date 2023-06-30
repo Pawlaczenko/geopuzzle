@@ -5,7 +5,7 @@ export type trackCreatorState = {
     name: string,
     description: string,
     tags: string[],
-    thumbnail?: string | Blob | null;
+    thumbnail?: string | Blob | null,
 }
 
 const initialState: trackCreatorState = {

@@ -1,34 +1,31 @@
 import { Formik } from 'formik';
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import TextInput from 'src/components/Input/TextInput';
 import { StyledForm } from '../TrackInfoForm/TrackInfoForm';
 import Map from '../Map/Map';
-import { OpenStreetMapProvider } from 'leaflet-geosearch';
-import { SearchResult } from 'leaflet-geosearch/dist/providers/provider.js';
-import { RawResult } from 'leaflet-geosearch/dist/providers/openStreetMapProvider.js';
 import CoordinatesInput from '../Input/CoordinatesInput';
 import { coordSuggestion } from 'src/types/input.types';
-import debounce from 'lodash/debounce';
 import AddPuzzleLabel from '../AddPuzzleLabel';
-import Modal from '../Modal';
 import { useLocationSearch } from 'src/hooks/useLocationSearch';
-import PuzzleList from '../PuzzleList/PuzzleList';
+import Button from '../Button/Button.styled';
+import { IPuzzle, puzzleID } from 'src/types/puzzle.types';
 
 const FormNames = {
     point_name: "pointName",
     point_direction: "pointDirection",
+    point_puzzle_type: "puzzleType"
 }
 
 export interface WaypointFormValues {
     pointName: string;
     pointDirection: string;
+    puzzleType: puzzleID;
 }
 
 const TrackWaypointForm : FC = () => {
-    const initialValues : WaypointFormValues = {pointName: '', pointDirection: ''};
+    const initialValues : WaypointFormValues = {pointName: '', pointDirection: '', puzzleType: 'text'};
     const [mapWaypoint, setMapWaypoint] = useState<coordSuggestion | undefined>(undefined);
     const {suggestions, handleLocationSearch} = useLocationSearch();
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     const handleWaypointChange = (waypoint: coordSuggestion) => {
         setMapWaypoint(waypoint);
@@ -54,10 +51,8 @@ const TrackWaypointForm : FC = () => {
                             handleWaypointChange={handleWaypointChange}
                             suggestions={suggestions}/>
                         <Map chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange = {handleWaypointChange} />
-                        <AddPuzzleLabel handleModalClick={()=>{setIsModalOpen(true)}} />
-                        <Modal shouldShow={isModalOpen} handleClose={()=>{setIsModalOpen(false)}} title="Dodaj Zagadkę">
-                            <PuzzleList />
-                        </Modal>
+                        <AddPuzzleLabel name={FormNames.point_puzzle_type} />
+                        <Button $btnType='yellow' type='submit'>Add Point</Button>
                     </StyledForm>
                 )
             }
