@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { StyledInput} from './Input.styled';
 import InputWrapper from './InputWrapper';
 import { useFormikContext } from 'formik';
-import { IInputProps } from './IInputProps.interface';
+import { IInputProps } from 'src/types/input.types';
 
 const TextArea : FC<IInputProps> = (props) => {
     const {getFieldProps} = useFormikContext();

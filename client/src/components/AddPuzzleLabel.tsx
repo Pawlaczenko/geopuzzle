@@ -1,14 +1,41 @@
 import { FC } from 'react'
 import styled from 'styled-components'
-import { StyledLabel, StyledLabelText } from './Input/Input.styled';
-import ButtonIcon from './Button/ButtonIcon';
+import { StyledLabelText, StyledInput } from './Input/Input.styled';
+import { PUZZLES } from 'src/data/puzzleItems.data';
+import TextPuzzleForm from './PuzzleForms/TextPuzzleForm';
+import { flexContainer } from 'src/styles/mixins';
+import ImagePuzzleForm from './PuzzleForms/ImagePuzzleForm';
+import { useFormikContext } from 'formik';
+import { WaypointFormValues } from './TrackWaypointForm/TrackWaypointForm';
+import { puzzleID } from 'src/types/puzzle.types';
 
-const AddPuzzleLabel : FC<{handleModalClick: ()=>void}> = ({handleModalClick}) => {
+const displayPuzzleForm = (puzzleId: puzzleID) => {
+    switch(puzzleId) {
+        case 'text':
+        default:
+            return <TextPuzzleForm />
+        case 'image':
+            return <ImagePuzzleForm />
+    }
+}
+
+interface IAddPuzzleLabelProps {
+    name: string,
+}
+
+const AddPuzzleLabel : FC<IAddPuzzleLabelProps> = (props) => {
+    const {values, getFieldProps} = useFormikContext<WaypointFormValues>();
     return (
         <StyledAddPuzzleLabel>
-            <StyledLabelText>Zagadka w tym punkcie: *</StyledLabelText>
-            <StyledInfoText>Do tego punktu jeszcze nie dodano zagadki</StyledInfoText>
-            <ButtonIcon type='button' onClick={handleModalClick} btnType='yellow' icon="puzzle">Dodaj zagadkę</ButtonIcon>
+            <AddPuzzleBar>
+                <StyledLabelText>Zagadka w tym punkcie: *</StyledLabelText>
+                <StyledSelect as="select" {...getFieldProps(props.name)}>
+                    {
+                        PUZZLES.map((puzzle) => <option key={puzzle.id} value={puzzle.id}>{puzzle.label}</option>)
+                    }
+                </StyledSelect>
+            </AddPuzzleBar>
+            {displayPuzzleForm(values.puzzleType)}
         </StyledAddPuzzleLabel>
     )
 }
@@ -24,10 +51,15 @@ const StyledAddPuzzleLabel = styled.section`
     }
 `
 
-const StyledInfoText = styled.p`
-    padding: 1rem 0 2rem 3rem;
-    color: var(--color-secondary);
-`;
+const AddPuzzleBar = styled.div`
+    ${flexContainer('flex-start','center')};
+    gap: 2rem;
+`
 
+const StyledSelect = styled(StyledInput)`
+    height: var(--input-height);
+    width: auto;
+    margin-bottom: 2.5rem;
+`
 
 export default AddPuzzleLabel

@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import InputImage from 'src/assets/image-placeholder.svg';
 import Button from '../Button/Button.styled';
 import { StyledInput } from './Input.styled';
-import { IInputProps } from './IInputProps.interface';
 import InputWrapper from './InputWrapper';
 import { useFormikContext } from 'formik';
+import { IInputProps } from 'src/types/input.types';
 
 const FileInput : FC<IInputProps> = (props) => {
     const {setFieldValue} = useFormikContext();
@@ -17,7 +17,7 @@ const FileInput : FC<IInputProps> = (props) => {
         if(file) {
             setSelectedFile(URL.createObjectURL(file));
             setFieldValue(props.name,file);
-        }
+    }
     };
 
     const removePhoto = (event: React.MouseEvent<HTMLElement>) => {
