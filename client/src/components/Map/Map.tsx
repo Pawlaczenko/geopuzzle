@@ -1,9 +1,11 @@
 import { FC } from 'react'
-import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
+import { Circle, MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
 import { styled } from 'styled-components'
 import { LatLngExpression } from 'leaflet'
 import LocationMarker from './LocationMarker'
 import { coordSuggestion } from 'src/types/input.types'
+import { useFormikContext } from 'formik'
+import { WaypointFormValues } from '../TrackWaypointForm/TrackWaypointForm'
 
 export interface IMapProps {
     chosenMarkerCoords?: LatLngExpression;
@@ -12,6 +14,11 @@ export interface IMapProps {
 
 const Map : FC<IMapProps> = ({chosenMarkerCoords,handleWaypointChange}) => {
     const defaultPosition : LatLngExpression  = [35.081407, -106.650957];
+    const radiusCircleTheme = {
+        color: '#79AEA3',
+        fillColor: '#FFE25F'
+    } 
+    const {values} = useFormikContext<WaypointFormValues>();
 
     return (
         <StyledMap center={chosenMarkerCoords ?? defaultPosition} zoom={10} scrollWheelZoom={true}>
@@ -20,6 +27,7 @@ const Map : FC<IMapProps> = ({chosenMarkerCoords,handleWaypointChange}) => {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <LocationMarker chosenMarkerCoords={chosenMarkerCoords} handleWaypointChange={handleWaypointChange} />
+            <Circle center={chosenMarkerCoords || defaultPosition} radius={values.pointRadius} pathOptions={radiusCircleTheme} />
         </StyledMap>
     )
 }

@@ -6,7 +6,7 @@ import InfoBox from '../InfoBox';
 const ImagePuzzleForm : FC = () => {
     return (
         <StyledImagePuzzleForm>
-            <FileInput label={'Dodaj Zdjęcie'} name={'puzzle-image-photo'} />
+            <FileInput label={'Dodaj Zdjęcie'} name={'puzzleContent'} />
             <InfoBox>Pamiętam, aby zdjęcie odzwierciedlało punkt na mapie, który ma odgadnąć użytkownik.</InfoBox>
         </StyledImagePuzzleForm>
     )

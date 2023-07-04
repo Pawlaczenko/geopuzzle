@@ -5,7 +5,7 @@ import { flexContainer } from 'src/styles/mixins';
 import TagItem from './TagItem';
 import InputWrapper from '../InputWrapper';
 import { useFormikContext } from 'formik';
-import { IInputProps } from '../IInputProps.interface';
+import { IInputProps } from 'src/types/input.types';
 
 const TagsInput : FC<IInputProps> = (props) => {
     const [tags, setTags] = useState<string[]>([]);

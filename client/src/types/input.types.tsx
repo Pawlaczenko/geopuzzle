@@ -9,5 +9,5 @@ export interface IInputProps {
 
 export type coordSuggestion = {
     coords: LatLngExpression,
-    label?: string
+    label: string
 }

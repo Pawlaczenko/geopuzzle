@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react';
 import styled from 'styled-components'
 import { StyledLabelText, StyledInput } from './Input/Input.styled';
 import { PUZZLES } from 'src/data/puzzleItems.data';
@@ -8,6 +8,7 @@ import ImagePuzzleForm from './PuzzleForms/ImagePuzzleForm';
 import { useFormikContext } from 'formik';
 import { WaypointFormValues } from './TrackWaypointForm/TrackWaypointForm';
 import { puzzleID } from 'src/types/puzzle.types';
+import TextArea from './Input/TextArea';
 
 const displayPuzzleForm = (puzzleId: puzzleID) => {
     switch(puzzleId) {
@@ -24,12 +25,13 @@ interface IAddPuzzleLabelProps {
 }
 
 const AddPuzzleLabel : FC<IAddPuzzleLabelProps> = (props) => {
-    const {values, getFieldProps} = useFormikContext<WaypointFormValues>();
+    const {values, getFieldProps, setFieldValue} = useFormikContext<WaypointFormValues>();
+
     return (
         <StyledAddPuzzleLabel>
             <AddPuzzleBar>
                 <StyledLabelText>Zagadka w tym punkcie: *</StyledLabelText>
-                <StyledSelect as="select" {...getFieldProps(props.name)}>
+                <StyledSelect as="select" {...getFieldProps(props.name)} onChange={(e)=>{getFieldProps(props.name).onChange(e); setFieldValue("puzzleContent",undefined)}}>
                     {
                         PUZZLES.map((puzzle) => <option key={puzzle.id} value={puzzle.id}>{puzzle.label}</option>)
                     }

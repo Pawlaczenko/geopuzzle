@@ -4,7 +4,7 @@ import { IMapProps } from "./Map";
 import { coordSuggestion } from "src/types/input.types";
 import flagImage from 'src/assets/logo/logo-compact.svg';
 import flagShadow from 'src/assets/logo/flag-shadow.svg';
-import L from "leaflet";
+import L, { LatLngExpression } from "leaflet";
 
 const flagIcon = L.icon({
     iconUrl: flagImage,
@@ -14,7 +14,12 @@ const flagIcon = L.icon({
     shadowAnchor: [12, 8]
 })
 
-const LocationMarker : FC<IMapProps> = ({chosenMarkerCoords,handleWaypointChange}) => {
+interface IMarkerProps {
+    chosenMarkerCoords?: LatLngExpression;
+    handleWaypointChange: (waypoint: coordSuggestion)=>void;
+}
+
+const LocationMarker : FC<IMarkerProps> = ({chosenMarkerCoords,handleWaypointChange}) => {
     const map = useMap();
     
     useEffect(()=>{
