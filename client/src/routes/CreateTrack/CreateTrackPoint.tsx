@@ -1,15 +1,21 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import Heading, { StyledHeading } from 'src/components/Heading';
 import TrackWaypointForm from 'src/components/TrackWaypointForm/TrackWaypointForm';
 import Section from 'src/layout/Section.styled';
 import { BREAKPOINTS } from 'src/styles/variables';
 import styled from 'styled-components'
 
-const CreateTrackddPoint : FC = () => {
+const CreateTrackPoint : FC = () => {
+    const [currentPoint, setCurrentPoint] = useState<number>(0);
+    
+    const handleIndexChange = (index:number) => {
+        setCurrentPoint(index);
+    }
+
     return (
         <StyledCreateTrackPoint>
-            <Heading level='h3' withAccent $alignCenter>Dodaj Punkt #1</Heading>
-            <TrackWaypointForm />
+            <Heading level='h3' withAccent $alignCenter>Dodaj Punkt #{currentPoint+1}</Heading>
+            <TrackWaypointForm currentPoint={currentPoint} handleIndexChange={handleIndexChange} />
         </StyledCreateTrackPoint>
     )
 }
@@ -31,4 +37,4 @@ const StyledCreateTrackPoint = styled(Section)`
     }
 `;
 
-export default CreateTrackddPoint
+export default CreateTrackPoint

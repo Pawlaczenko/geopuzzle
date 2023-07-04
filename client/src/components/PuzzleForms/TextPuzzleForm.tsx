@@ -6,7 +6,7 @@ import InfoBox from '../InfoBox';
 const TextPuzzleForm : FC = () => {
     return (
         <StyledTextPuzzleForm>
-            <TextArea label={'Treść Zagadki'} name={'puzzle-text-content'} placeholder='Podaj treść zagadki' />
+            <TextArea label={'Treść Zagadki'} name={'puzzleContent'} placeholder='Podaj treść zagadki' />
             <InfoBox>Pamiętaj, aby treść zagadki odpowiadała punktowi na mapie.</InfoBox>
         </StyledTextPuzzleForm>
     )

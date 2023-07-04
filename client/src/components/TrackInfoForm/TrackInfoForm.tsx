@@ -13,6 +13,7 @@ import { BREAKPOINTS } from 'src/styles/variables';
 import styled from 'styled-components'
 import { trackInfoValidationSchema } from './TrackInfoForm.helper';
 import { NAV_ROUTES } from 'src/data/navigation.data';
+import { CreateTrackFormData, useCreateTrackContext } from 'src/context/CreateTrackContext';
 
 const FormNames = {
     track_name: "trackName",
@@ -24,27 +25,32 @@ const FormNames = {
 export interface TrackInfoFormValues {
     trackName: string;
     trackDescription: string;
-    trackTagNames: string;
-    trackThumbnail?: Blob;
+    trackTagNames: string[];
+    trackThumbnail?: string | Blob | null;
 }
 
 const TrackInfoForm : FC = () => {
-    const dispatch = useDispatch();
-    const initialValues : TrackInfoFormValues = {trackName: 'a', trackDescription: 'a', trackTagNames: 'a', trackThumbnail: undefined};
-    const navigate = useNavigate();
+    const {activeStepIndex,setActiveStepIndex,formData,setFormData} = useCreateTrackContext();
+    const initialValues : TrackInfoFormValues = {
+        trackName: formData.trackName, 
+        trackDescription: formData.trackDescription, 
+        trackTagNames: formData.trackTagNames, 
+    };
 
     return (
         <Formik
             initialValues={initialValues}
             validationSchema={trackInfoValidationSchema}
-            onSubmit={(values,{setSubmitting}) => {
-                dispatch(updateTrackInfo({
-                    trackDescription: values.trackDescription,
+            onSubmit={(values) => {
+                const data: CreateTrackFormData = {
+                    ...formData,
                     trackName: values.trackName.trim(),
+                    trackDescription: values.trackDescription.trim(),
                     trackTagNames: values.trackTagNames,
-                    trackThumbnail: values.trackThumbnail ? URL.createObjectURL(values.trackThumbnail) : null
-                }));
-                navigate(NAV_ROUTES.createTrack+'/waypoint');
+                    trackThumbnail: values.trackThumbnail
+                };
+                setFormData(data);
+                setActiveStepIndex(activeStepIndex + 1);
             }}
         >
             {

@@ -10,7 +10,7 @@ interface IButtonIconProps {
     children: React.ReactNode,
     icon: IconName,
     type?: "submit" | "button" | "reset",
-    onClick: ()=>void
+    onClick?: ()=>void
 }
 
 const ButtonIcon : FC<IButtonIconProps> = (props) => {
