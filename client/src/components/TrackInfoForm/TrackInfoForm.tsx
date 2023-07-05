@@ -1,18 +1,15 @@
 import { Formik } from 'formik';
 import { FC } from 'react'
-import { useDispatch } from 'react-redux';
-import { Form, useNavigate } from 'react-router-dom';
+import { Form } from 'react-router-dom';
 import ButtonIcon from 'src/components/Button/ButtonIcon';
 import FileInput from 'src/components/Input/FileInput';
 import TagsInput from 'src/components/Input/TagsInput/TagsInput';
 import TextArea from 'src/components/Input/TextArea';
 import TextInput from 'src/components/Input/TextInput';
-import { updateTrackInfo } from 'src/features/trackCreator/trackCreatorSlice';
 import { flexContainer } from 'src/styles/mixins';
 import { BREAKPOINTS } from 'src/styles/variables';
 import styled from 'styled-components'
 import { trackInfoValidationSchema } from './TrackInfoForm.helper';
-import { NAV_ROUTES } from 'src/data/navigation.data';
 import { CreateTrackFormData, useCreateTrackContext } from 'src/context/CreateTrackContext';
 
 const FormNames = {

@@ -1,13 +1,15 @@
-import { FormikErrors } from 'formik';
 import { FC } from 'react';
 import { MdOutlineError } from 'react-icons/md';
 import { flexContainer } from 'src/styles/mixins';
 import styled from 'styled-components'
 
-const InputErrors : FC<{errors?: FormikErrors<string>}> = ({errors}) => {
+const InputErrors : FC<{errors?: string | string[]}> = ({errors}) => {
+    const errorsArray = typeof errors === 'string' ? [errors] : errors ? [...errors] : [];
     return (
         <StyledInputErrors>
-            <StyledInputError><MdOutlineError />{errors}</StyledInputError>
+            {
+                errorsArray.map(error => <StyledInputError><MdOutlineError />{error}</StyledInputError>)
+            }
         </StyledInputErrors>
     )
 }

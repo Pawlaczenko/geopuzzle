@@ -1,5 +1,5 @@
 import { Formik } from 'formik';
-import { FC, useState, useRef, useEffect } from 'react';
+import { FC, useState } from 'react';
 import TextInput from 'src/components/Input/TextInput';
 import { StyledForm } from '../TrackInfoForm/TrackInfoForm';
 import Map from '../Map/Map';
@@ -8,11 +8,11 @@ import { coordSuggestion } from 'src/types/input.types';
 import AddPuzzleLabel from '../AddPuzzleLabel';
 import { useLocationSearch } from 'src/hooks/useLocationSearch';
 import Button from '../Button/Button.styled';
-import { IPuzzle, puzzleID } from 'src/types/puzzle.types';
+import { puzzleID } from 'src/types/puzzle.types';
 import { TrackWaypoint, useCreateTrackContext } from 'src/context/CreateTrackContext';
 import TextArea from '../Input/TextArea';
 import { styled } from 'styled-components';
-import { flexContainer } from 'src/styles/mixins';
+import { getTrackWaypointValidationSchema } from './TrackWaypointForm.helper';
 
 const FormNames = {
     point_name: "pointName",
@@ -33,7 +33,6 @@ export interface WaypointFormValues {
 }
 
 const TrackWaypointForm : FC<{currentPoint: number, handleIndexChange: (index:number)=>void}> = ({currentPoint,handleIndexChange}) => {
-    const formRef = useRef(null);
     const {formData, setFormData} = useCreateTrackContext();
     const doesPointExist = typeof formData.trackWaypoints[currentPoint] !== 'undefined';
     const initialPoint: WaypointFormValues = {
@@ -46,6 +45,7 @@ const TrackWaypointForm : FC<{currentPoint: number, handleIndexChange: (index:nu
     }
     const [mapWaypoint, setMapWaypoint] = useState<coordSuggestion | undefined>(doesPointExist ? formData.trackWaypoints[currentPoint].puzzleCoords : undefined);
     const {suggestions, handleLocationSearch} = useLocationSearch();
+    const [puzzleType, setPuzzleType] = useState<puzzleID>(initialPoint.puzzleType);
 
     const handleWaypointChange = (waypoint: coordSuggestion) => {
         setMapWaypoint(waypoint);
@@ -54,34 +54,33 @@ const TrackWaypointForm : FC<{currentPoint: number, handleIndexChange: (index:nu
     return (
         <Formik
             initialValues={initialPoint}
+            validationSchema={getTrackWaypointValidationSchema(puzzleType,mapWaypoint)}
             onSubmit={(values,{resetForm}) => {
-                console.log(values);
-                if(mapWaypoint && values.puzzleContent) {
-                    const waypoint : TrackWaypoint = {
-                        pointName: values.pointName,
-                        puzzleType: values.puzzleType,
-                        puzzleCoords: mapWaypoint,
-                        puzzleContent: values.puzzleContent
-                    }
-                    const waypointsArray = [...formData.trackWaypoints];
-                    if(doesPointExist){
-                        waypointsArray.push(waypoint);
-                    } else {
-                        waypointsArray[currentPoint] = waypoint;
-                    }
-                    setFormData({
-                        ...formData,
-                        trackWaypoints: waypointsArray
-                    });
-                    handleIndexChange(currentPoint+1);
-                    resetForm();
-                    setMapWaypoint(undefined);
+                const waypoint : TrackWaypoint = {
+                    pointName: values.pointName,
+                    puzzleType: values.puzzleType,
+                    puzzleCoords: mapWaypoint!,
+                    puzzleContent: values.puzzleContent
                 }
-            }}
+                const waypointsArray = [...formData.trackWaypoints];
+                if(doesPointExist){
+                    waypointsArray.push(waypoint);
+                } else {
+                    waypointsArray[currentPoint] = waypoint;
+                }
+                setFormData({
+                    ...formData,
+                    trackWaypoints: waypointsArray
+                });
+                handleIndexChange(currentPoint+1);
+                resetForm();
+                setMapWaypoint(undefined);
+            }
+            }
         >
             {
                 formik => (
-                    <StyledForm method="POST" onSubmit={formik.handleSubmit} ref={formRef}>
+                    <StyledForm method="POST" onSubmit={formik.handleSubmit}>
                         <TextInput name={FormNames.point_name} label="Nazwa Punktu" placeholder='Podaj Nazwę Punktu'/>
                         <FormGroup>
                             <CoordinatesInput
@@ -95,7 +94,7 @@ const TrackWaypointForm : FC<{currentPoint: number, handleIndexChange: (index:nu
                             <TextInput label={"Promień tolerancji"} name={FormNames.point_radius} type='number' />
                         </FormGroup>
                         <Map chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
-                        <AddPuzzleLabel name={FormNames.point_puzzle_type} />
+                        <AddPuzzleLabel name={FormNames.point_puzzle_type} hadnelPuzzleTypeChange={setPuzzleType} />
                         <TextArea label={'Objaśnienie Zagadki'} name={FormNames.puzzle_explanation} placeholder='Wpisz objaśnienie zagadki' />
                         <Button $btnType='yellow' type='submit'>Add Point</Button>
                     </StyledForm>
