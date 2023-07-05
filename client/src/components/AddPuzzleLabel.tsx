@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import styled from 'styled-components'
 import { StyledLabelText, StyledInput } from './Input/Input.styled';
 import { PUZZLES } from 'src/data/puzzleItems.data';
@@ -8,7 +8,6 @@ import ImagePuzzleForm from './PuzzleForms/ImagePuzzleForm';
 import { useFormikContext } from 'formik';
 import { WaypointFormValues } from './TrackWaypointForm/TrackWaypointForm';
 import { puzzleID } from 'src/types/puzzle.types';
-import TextArea from './Input/TextArea';
 
 const displayPuzzleForm = (puzzleId: puzzleID) => {
     switch(puzzleId) {
@@ -22,16 +21,22 @@ const displayPuzzleForm = (puzzleId: puzzleID) => {
 
 interface IAddPuzzleLabelProps {
     name: string,
+    hadnelPuzzleTypeChange: Dispatch<SetStateAction<puzzleID>>
 }
 
 const AddPuzzleLabel : FC<IAddPuzzleLabelProps> = (props) => {
     const {values, getFieldProps, setFieldValue} = useFormikContext<WaypointFormValues>();
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        getFieldProps(props.name).onChange(e); 
+        setFieldValue("puzzleContent",undefined);
+        props.hadnelPuzzleTypeChange(e.target.value as puzzleID);
+    }
 
     return (
         <StyledAddPuzzleLabel>
             <AddPuzzleBar>
                 <StyledLabelText>Zagadka w tym punkcie: *</StyledLabelText>
-                <StyledSelect as="select" {...getFieldProps(props.name)} onChange={(e)=>{getFieldProps(props.name).onChange(e); setFieldValue("puzzleContent",undefined)}}>
+                <StyledSelect as="select" {...getFieldProps(props.name)} onChange={handleChange}>
                     {
                         PUZZLES.map((puzzle) => <option key={puzzle.id} value={puzzle.id}>{puzzle.label}</option>)
                     }

@@ -1,9 +1,7 @@
 import { FC } from 'react'
 import { StyledLabel, StyledLabelText } from './Input.styled';
 import InputErrors from './InputErrors';
-import { useFormikContext } from 'formik';
-import { TrackInfoFormValues } from 'src/components/TrackInfoForm/TrackInfoForm';
-import { TRACK_INFO_CONSTRAINTS } from '../TrackInfoForm/TrackInfoForm.helper';
+import { FormikErrors, FormikTouched, useFormikContext } from 'formik';
 
 interface IInputWrapperProps {
     label: string,
@@ -12,14 +10,13 @@ interface IInputWrapperProps {
 }
 
 const InputWrapper : FC<IInputWrapperProps> = (props) => {
-    const {errors, touched} = useFormikContext<TrackInfoFormValues>();
-    const fieldErrors : string | undefined = errors[props.name as keyof TrackInfoFormValues];
-    const touchedField : boolean | undefined = touched[props.name as keyof TrackInfoFormValues];
-    const isRequired : boolean = TRACK_INFO_CONSTRAINTS.requiredFields[props.name as keyof TrackInfoFormValues];
+    const {errors, touched} = useFormikContext();
+    const fieldErrors : string | string[] | undefined = errors[props.name as keyof FormikErrors<unknown>];
+    const touchedField : boolean | undefined = touched[props.name as keyof FormikTouched<unknown>];
 
     return (
         <StyledLabel htmlFor={props.name}>
-            <StyledLabelText>{props.label}{isRequired && '*'}</StyledLabelText>
+            <StyledLabelText>{props.label}</StyledLabelText>
             {props.children}
             {touchedField && fieldErrors && <InputErrors errors={fieldErrors} />}
         </StyledLabel>
