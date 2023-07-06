@@ -17,7 +17,7 @@ const InfoBox : FC<IInfoBoxProps> = (props) => {
 }
 
 const StyledInfoBox = styled.div`
-    background-color: var(--color-secondary);
+    background-color: var(--color-primary);
     border-radius: 1.5rem;
     padding: 3.5rem;
     margin: 1rem 0;

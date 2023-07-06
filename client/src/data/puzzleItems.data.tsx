@@ -1,12 +1,11 @@
-import textPuzzleImage from 'src/assets/puzzles/text.svg';
-import imagePuzzleImage from 'src/assets/puzzles/image.svg';
 import { puzzleID } from '../types/puzzle.types';
+import {BsFileText,BsCardImage} from "react-icons/bs";
 
 export interface IPuzzleItem {
     id: puzzleID,
     label: string,
-    icon: string,
-    description: string,
+    description?: string,
+    Icon: string
 }
 
 export const PUZZLES : IPuzzleItem[] = [
@@ -14,12 +13,12 @@ export const PUZZLES : IPuzzleItem[] = [
         id: "text",
         label: "Zagadka Tekstowa",
         description: "Zagadka tekstowa Zagadka tekstowa Zagadka tekstowa",
-        icon: textPuzzleImage
+        Icon: BsFileText
     },
     {
         id: "image",
         label: "Zagadka Obrazkowa",
         description: "Zagadka obrazkowa Zagadka tekstowa Zagadka tekstowa",
-        icon: imagePuzzleImage
+        Icon: BsCardImage
     }
 ] 
