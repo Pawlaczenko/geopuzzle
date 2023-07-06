@@ -16,7 +16,12 @@ const CreateTrack : FC = () => {
     });
 
     useEffect(() => {
-        if(pageRef.current) pageRef.current.scrollTop = 0;
+        if(pageRef.current) {
+            pageRef.current.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+            });
+        }
     }, [activeStepIndex,formData.trackWaypoints]);
 
     return (

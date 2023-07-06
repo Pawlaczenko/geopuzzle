@@ -21,6 +21,12 @@ export const variables = css`
         --color-grey-dark: #666666;
         --color-error: #ff7878;
 
+        --gradient-primary: linear-gradient(
+            45deg,
+            hsl(49deg 100% 69%) 0%,
+            hsl(48deg 85% 78%) 50%,
+            hsl(47deg 57% 85%) 100%
+        );
 
         ///TYPOGRAPHY
         //FONT SIZE

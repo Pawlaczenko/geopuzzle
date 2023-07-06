@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 
 export const TRACK_WAYPOINT_CONSTRAINTS = {
     pointName: 100,
-    pointDirection: 100,
+    pointDirection: 400,
     pointRadius: 10000000,
     puzzleExplanation: 500
 }

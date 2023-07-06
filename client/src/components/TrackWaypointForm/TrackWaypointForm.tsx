@@ -72,9 +72,10 @@ const TrackWaypointForm : FC<{currentPoint: number, handleIndexChange: (index:nu
                     ...formData,
                     trackWaypoints: waypointsArray
                 });
-                handleIndexChange(currentPoint+1);
+                // handleIndexChange(currentPoint+1);
                 resetForm();
                 setMapWaypoint(undefined);
+                setPuzzleType('text');
             }
             }
         >
