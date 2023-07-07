@@ -43,7 +43,6 @@ const Button = styled.button<IButtonProps>`
     font-size: var(--fs-paragraph);
     font-weight: bold;
     
-    /* min-width: 12rem; */
     width: fit-content;
     padding: 1rem 2rem;
     border-radius: 5.5rem;

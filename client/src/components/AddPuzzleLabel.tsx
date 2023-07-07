@@ -8,6 +8,7 @@ import ImagePuzzleForm from './PuzzleForms/ImagePuzzleForm';
 import { useFormikContext } from 'formik';
 import { WaypointFormValues } from './TrackWaypointForm/TrackWaypointForm';
 import { puzzleID } from 'src/types/puzzle.types';
+import { BREAKPOINTS } from 'src/styles/variables';
 
 const displayPuzzleForm = (puzzleId: puzzleID) => {
     switch(puzzleId) {
@@ -61,12 +62,21 @@ const StyledAddPuzzleLabel = styled.section`
 const AddPuzzleBar = styled.div`
     ${flexContainer('flex-start','center')};
     gap: 2rem;
+
+    @media only screen and (${BREAKPOINTS.phone}){
+        flex-direction: column;
+        align-items: flex-start;
+    }
 `
 
 const StyledSelect = styled(StyledInput)`
     height: var(--input-height);
     width: auto;
     margin-bottom: 2.5rem;
+
+    @media only screen and (${BREAKPOINTS.phone}){
+        width: 100%;
+    }
 `
 
 export default AddPuzzleLabel

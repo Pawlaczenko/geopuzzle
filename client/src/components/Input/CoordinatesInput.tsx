@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState, RefObject } from 'react';
 import { StyledTextInput } from './TextInput';
 import { useFormikContext } from 'formik';
 import InputWrapper from './InputWrapper';
@@ -17,18 +17,19 @@ const CoordinatesInput : FC<ICoordinatesInputProps> = (props) => {
     const [isFocused, setIsFocused] = useState(false);
     const suggestionsRef = useRef(null);
 
-    useEffect(() => {
-        if(props.chosenWaypoint !== undefined) {
-            setFieldValue(props.name, props.chosenWaypoint.label);
-        }
-    },[props.chosenWaypoint]);
-
     const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
         getFieldProps(props.name).onBlur(e);
         if(e.relatedTarget !== suggestionsRef.current && e.target !== suggestionsRef.current){
             setIsFocused(false);
         }
     }
+
+    useEffect(() => {
+        if(props.chosenWaypoint !== undefined) {
+            setFieldValue(props.name, props.chosenWaypoint.label);
+            setIsFocused(false);
+        }
+    },[props.chosenWaypoint]);
 
     return (
         <InputWrapper label={props.label} name={props.name}>

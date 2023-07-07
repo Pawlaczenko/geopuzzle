@@ -1,7 +1,6 @@
 import { Formik } from 'formik';
 import { FC, useState } from 'react';
 import TextInput from 'src/components/Input/TextInput';
-import { StyledForm } from '../TrackInfoForm/TrackInfoForm';
 import Map from '../Map/Map';
 import CoordinatesInput from '../Input/CoordinatesInput';
 import { coordSuggestion } from 'src/types/input.types';
@@ -13,6 +12,9 @@ import { TrackWaypoint, useCreateTrackContext } from 'src/context/CreateTrackCon
 import TextArea from '../Input/TextArea';
 import { styled } from 'styled-components';
 import { getTrackWaypointValidationSchema } from './TrackWaypointForm.helper';
+import { BREAKPOINTS } from 'src/styles/variables';
+import ButtonIcon from '../Button/ButtonIcon';
+import StyledForm from '../Form.styled';
 
 const FormNames = {
     point_name: "pointName",
@@ -72,7 +74,6 @@ const TrackWaypointForm : FC<{currentPoint: number, handleIndexChange: (index:nu
                     ...formData,
                     trackWaypoints: waypointsArray
                 });
-                // handleIndexChange(currentPoint+1);
                 resetForm();
                 setMapWaypoint(undefined);
                 setPuzzleType('text');
@@ -97,7 +98,7 @@ const TrackWaypointForm : FC<{currentPoint: number, handleIndexChange: (index:nu
                         <Map chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
                         <AddPuzzleLabel name={FormNames.point_puzzle_type} hadnelPuzzleTypeChange={setPuzzleType} />
                         <TextArea label={'Objaśnienie Zagadki'} name={FormNames.puzzle_explanation} placeholder='Wpisz objaśnienie zagadki' />
-                        <Button $btnType='yellow' type='submit'>Add Point</Button>
+                        <ButtonIcon btnType='yellow' type='submit' icon='create'>Add Point</ButtonIcon>
                     </StyledForm>
                 )
             }
@@ -110,6 +111,10 @@ const FormGroup = styled.div`
     grid-template-columns: 1.5fr 1fr;
     gap: 1.5rem;
     width: 100%;
+
+    @media only screen and (${BREAKPOINTS.phone}){
+        grid-template-columns: 1fr;
+    }
 `
 
 export default TrackWaypointForm

@@ -5,6 +5,7 @@ import InfoBox from '../InfoBox';
 import { StyledLabelText } from '../Input/Input.styled';
 import PointListItem from './PointListItem';
 import { flexContainer } from 'src/styles/mixins';
+import { BREAKPOINTS } from 'src/styles/variables';
 
 interface IPointListProps {
     pointsArray: TrackWaypoint[],
@@ -47,6 +48,11 @@ const StyledPointList = styled.ul`
 
     ${flexContainer('flex-start','stretch','column')};
     gap: 1rem;
+
+    @media only screen and (${BREAKPOINTS.phone}){
+        position: relative;
+        top: 0;
+    }
 `;
 
 export default PointList
