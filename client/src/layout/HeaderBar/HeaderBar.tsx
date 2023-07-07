@@ -50,7 +50,7 @@ export const StyledHeaderBar = styled.header<{$isOpen: boolean}>`
         left: 0;
         width: 100%;
         padding: .8rem;
-        z-index: 10;
+        z-index: 10000;
 
         ${StyledLogo} {
             display: none;
@@ -74,7 +74,7 @@ const ButtonsContainer = styled.div<{$isOpen: boolean}>`
 
         padding: 1rem 2rem; 
         justify-content: flex-end;
-        background: ${(props) => props.theme.body}
+        background: ${(props) => props.theme.body};
     }
 `
 
