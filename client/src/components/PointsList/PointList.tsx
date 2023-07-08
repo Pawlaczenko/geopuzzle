@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { TrackWaypoint, useCreateTrackContext } from 'src/context/CreateTrackContext';
 import styled from 'styled-components'
 import InfoBox from '../InfoBox';
@@ -6,6 +6,9 @@ import { StyledLabelText } from '../Input/Input.styled';
 import PointListItem from './PointListItem';
 import { flexContainer } from 'src/styles/mixins';
 import { BREAKPOINTS } from 'src/styles/variables';
+import Modal, { ModalFooter } from '../Modal/Modal';
+import Button from '../Button/Button.styled';
+import DeleteConfirmationModal from '../Modal/DeleteConfirmationModal';
 
 interface IPointListProps {
     pointsArray: TrackWaypoint[],
@@ -13,8 +16,11 @@ interface IPointListProps {
 
 const PointList : FC<IPointListProps> = ({pointsArray}) => {
     const {setFormData} = useCreateTrackContext();
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
+    const [pointToDelete, setPointToDelete] = useState<number>();
 
     const handleDeletePoint = (index: number) => {
+        setIsModalOpen(false);
         setFormData((prevState) => {
             const newArray = [...prevState.trackWaypoints];
             newArray.splice(index,1);
@@ -26,12 +32,25 @@ const PointList : FC<IPointListProps> = ({pointsArray}) => {
         })
     }
 
+    const handleOpenModal = (index: number) => {
+        setPointToDelete(index);
+        setIsModalOpen(true);
+    }
+
     return (
         <StyledPointList>
             <StyledLabelText>Dodane Punkty: {pointsArray.length}/10</StyledLabelText>
             {pointsArray.length === 0 && <InfoBox symbol='!'>Nie dodano jeszcze żadnych punktów</InfoBox>}
             {
-                pointsArray.map((point,index) => <PointListItem point={point} pointIndex={index+1} handleDelete={()=>{handleDeletePoint(index)}} />)
+                pointsArray.map((point,index) => <PointListItem point={point} pointIndex={index+1} handleDelete={()=>{handleOpenModal(index)}} />)
+            }
+            {
+                pointToDelete!==undefined && 
+                <DeleteConfirmationModal 
+                    shouldShow={isModalOpen} 
+                    handleClose={()=>{setIsModalOpen(false)}} 
+                    itemLabel={`Punkt ${pointToDelete+1}`} 
+                    onDelete={()=>{handleDeletePoint(pointToDelete)}}/>
             }
         </StyledPointList>
     )

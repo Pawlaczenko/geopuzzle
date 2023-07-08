@@ -4,7 +4,7 @@ import { IPuzzleItem, PUZZLES } from 'src/data/puzzleItems.data';
 import { flexContainer } from 'src/styles/mixins';
 import styled from 'styled-components'
 import {FiX} from "react-icons/fi";
-import Modal from '../Modal';
+import Modal from '../Modal/Modal';
 
 interface IPointListItemProps {
     point: TrackWaypoint,

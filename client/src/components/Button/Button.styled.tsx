@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-export type ButtonType = 'white' | 'blue' | 'yellow';
+export type ButtonType = 'white' | 'blue' | 'yellow' | 'danger';
 
 interface IButtonProps {
     $btnType: ButtonType
@@ -10,6 +10,7 @@ const getButtonStyles = (btnType: ButtonType = 'white') => {
     switch(btnType){
         case 'blue': return BlueButton;
         case 'yellow': return YellowButton;
+        case 'danger': return DangerButton;
         case 'white':
         default:
              return WhiteButton;
@@ -31,6 +32,12 @@ const BlueButton = css`
 const YellowButton = css`
     --button-color: var(--color-primary);
     --button-text-color: var(--color-dark);
+    --button-border-color: var(--color-grey-dark);
+`
+
+const DangerButton = css`
+    --button-color: var(--color-error);
+    --button-text-color: var(--color-white);
     --button-border-color: var(--color-grey-dark);
 `
 

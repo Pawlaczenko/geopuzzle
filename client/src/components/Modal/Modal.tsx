@@ -1,15 +1,15 @@
 import { FC, useRef, useEffect } from 'react';
 import styled from 'styled-components'
 import { FiX } from "react-icons/fi";
-import Heading from './Heading';
+import Heading from '../Heading';
 import { useDetectOutside } from 'src/hooks/useDetectOutside';
-import { myScrollBar } from 'src/styles/mixins';
+import { flexContainer, myScrollBar } from 'src/styles/mixins';
 
-interface IModalProps {
+export interface IModalProps {
     shouldShow: boolean,
     handleClose: ()=>void,
-    children: React.ReactNode,
-    title: string
+    children?: React.ReactNode,
+    title?: string
 }
 
 const Modal : FC<IModalProps> = ({shouldShow, handleClose, children, title}) => {
@@ -62,6 +62,7 @@ const ModalBar = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 4rem;
+    gap: 3rem;
 `
 
 const CloseButton = styled.button`
@@ -83,6 +84,13 @@ const CloseButton = styled.button`
     &:hover {
         background-color: var(--color-grey);
     }
+`
+
+export const ModalFooter = styled.div`
+    border-top: var(--border-thin);
+    padding-top: 2rem;
+    ${flexContainer('flex-end','center')};
+    gap: 1.5rem;
 `
 
 export default Modal

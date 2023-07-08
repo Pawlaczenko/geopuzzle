@@ -1,36 +1,63 @@
 import { FC } from 'react'
 import { createCircle } from 'src/styles/mixins'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+
+type InfoBoxType = 'primary' | 'secondary' | 'danger';
 
 interface IInfoBoxProps {
     children: React.ReactNode,
-    symbol?: '?' | '!'
+    symbol?: '?' | '!',
+    variant?: InfoBoxType
 }
 
-const InfoBox : FC<IInfoBoxProps> = (props) => {
+const InfoBox : FC<IInfoBoxProps> = ({children,symbol='?',variant='primary'}) => {
     return (
-        <StyledInfoBox>
-            <InfoBoxSymbol>{props.symbol || '?'}</InfoBoxSymbol>
-            <p>{props.children}</p>
+        <StyledInfoBox variant={variant}>
+            <InfoBoxSymbol>{symbol}</InfoBoxSymbol>
+            <p>{children}</p>
         </StyledInfoBox>
     )
 }
 
-const StyledInfoBox = styled.div`
-    background-color: var(--color-primary);
+const getInfoBoxStyles = (boxType: InfoBoxType = 'primary') => {
+    switch(boxType){
+        case 'primary':
+        default:
+            return YellowBoxStyle;
+        case 'danger': return DangerBoxStyle;
+        case 'secondary': return BlueBoxStyle;
+    }
+}
+
+const YellowBoxStyle = css`
+    --box-background: var(--color-primary);
+    --box-color: black;
+`
+
+const DangerBoxStyle = css`
+    --box-background: #ff787888;
+    --box-color: black;
+`
+
+const BlueBoxStyle = css`
+    --box-background: var(--color-secondary);
+    --box-color: white;
+`
+
+const StyledInfoBox = styled.div<{variant: InfoBoxType}>`
+    ${(props) => getInfoBoxStyles(props.variant)};
+    background-color: var(--box-background);
+    color: var(--box-color);
+
     border-radius: 1.5rem;
     padding: 3.5rem;
     margin: 1rem 0;
-
-    font-size: 1.4rem;
-    font-weight: var(--fw-bold);
-    color: black;
-
     position: relative;
 
     & > p {
         width: 75%;
         font-family: var(--family-primary);
+        font-size: 1.6rem;
     }
 `;
 
