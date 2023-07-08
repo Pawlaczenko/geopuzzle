@@ -56,7 +56,7 @@ const PointList : FC<IPointListProps> = ({pointsArray}) => {
     )
 }
 
-const StyledPointList = styled.ul`
+export const StyledPointList = styled.ul`
     display: block;
     position: sticky;
     top: 2.5rem;
