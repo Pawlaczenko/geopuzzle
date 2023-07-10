@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState, useRef } from 'react';
+import { ChangeEvent, FC, useState, useRef, useEffect } from 'react';
 import styled from 'styled-components'
 import InputImage from 'src/assets/image-placeholder.svg';
 import Button from '../Button/Button.styled';
@@ -8,9 +8,16 @@ import { useFormikContext } from 'formik';
 import { IInputProps } from 'src/types/input.types';
 
 const FileInput : FC<IInputProps> = (props) => {
-    const {setFieldValue} = useFormikContext();
+    const {setFieldValue,getFieldProps} = useFormikContext();
     const [selectedFile, setSelectedFile] = useState<string | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(()=>{
+        const file = getFieldProps(props.name).value;
+        if(file){
+            setSelectedFile(URL.createObjectURL(file));
+        }
+    },[]);
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0] || null;

@@ -18,6 +18,14 @@ const TagsInput : FC<IInputProps> = (props) => {
         }
     },[tags]);
 
+
+    useEffect(()=>{
+        const items = getFieldProps(props.name).value;
+        if(items){
+            setTags(items.split(" "));
+        }
+    },[]);
+
     const deleteTag = (incomingTag:string) => {
         const filteredArray = tags.filter(tag => tag!=incomingTag);
         setTags(filteredArray);
