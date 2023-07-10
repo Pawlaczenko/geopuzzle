@@ -59,7 +59,7 @@ const StyledCreateTrackPoint = styled(Section)`
     }
 
     @media only screen and (${BREAKPOINTS.big}){
-        grid-template-areas: "heading" "points" "form";
+        grid-template-areas: "heading" "points" "form" "button";
         grid-template-columns: 1fr;
     }
 `;

@@ -10,5 +10,5 @@ export interface ITextPuzzle extends IPuzzle {
 }
 
 export interface IImagePuzzle extends IPuzzle {
-    image: string | Blob | null,
+    image: Blob,
 }

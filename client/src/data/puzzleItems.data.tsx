@@ -21,4 +21,8 @@ export const PUZZLES : IPuzzleItem[] = [
         description: "Zagadka obrazkowa Zagadka tekstowa Zagadka tekstowa",
         Icon: BsCardImage
     }
-] 
+];
+
+export const getPuzzleLabelById = (id: puzzleID) => {
+    return PUZZLES.find(puzzle=>puzzle.id===id)?.label;
+}
