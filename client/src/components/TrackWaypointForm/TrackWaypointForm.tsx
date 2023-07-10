@@ -31,7 +31,7 @@ export interface WaypointFormValues {
     puzzleType: puzzleID;
     puzzleContent?: unknown;
     puzzleExplanation?: string;
-    pointRadius?: number;
+    pointRadius: number;
 }
 
 const TrackWaypointForm : FC<{currentPoint: number, handleIndexChange: (index:number)=>void}> = ({currentPoint,handleIndexChange}) => {
@@ -62,7 +62,9 @@ const TrackWaypointForm : FC<{currentPoint: number, handleIndexChange: (index:nu
                     pointName: values.pointName,
                     puzzleType: values.puzzleType,
                     puzzleCoords: mapWaypoint!,
-                    puzzleContent: values.puzzleContent
+                    puzzleContent: values.puzzleContent,
+                    pointRadius: values.pointRadius,
+                    puzzleExplanation: values.puzzleExplanation
                 }
                 const waypointsArray = [...formData.trackWaypoints];
                 if(doesPointExist){
@@ -98,7 +100,7 @@ const TrackWaypointForm : FC<{currentPoint: number, handleIndexChange: (index:nu
                         <Map chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
                         <AddPuzzleLabel name={FormNames.point_puzzle_type} hadnelPuzzleTypeChange={setPuzzleType} />
                         <TextArea label={'Objaśnienie Zagadki'} name={FormNames.puzzle_explanation} placeholder='Wpisz objaśnienie zagadki' />
-                        <ButtonIcon btnType='yellow' type='submit' icon='create'>Add Point</ButtonIcon>
+                        <ButtonIcon btnType='yellow' type='submit' icon='create'>Dodaj Punkt</ButtonIcon>
                     </StyledForm>
                 )
             }

@@ -2,10 +2,10 @@ import { FC, useState, ChangeEvent, useEffect, useRef } from 'react';
 import styled from 'styled-components'
 import { StyledInput} from '../Input.styled';
 import { flexContainer } from 'src/styles/mixins';
-import TagItem from './TagItem';
 import InputWrapper from '../InputWrapper';
 import { useFormikContext } from 'formik';
 import { IInputProps } from 'src/types/input.types';
+import TagItem from 'src/components/TagNames/TagItem';
 
 const TagsInput : FC<IInputProps> = (props) => {
     const [tags, setTags] = useState<string[]>([]);

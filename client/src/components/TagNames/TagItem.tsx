@@ -16,7 +16,7 @@ const TagItem : FC<ITagItemProps> = (props) => {
     )
 }
 
-const StyledTagItem = styled.span`
+export const StyledTagItem = styled.span`
     background: var(--color-grey);
     padding: .5rem .8rem;
     border-radius: .5rem;

@@ -21,16 +21,16 @@ const FormNames = {
 export interface TrackInfoFormValues {
     trackName: string;
     trackDescription: string;
-    trackTagNames: string[];
-    trackThumbnail?: string | Blob | null;
+    trackTagNames: string;
+    trackThumbnail?: Blob | null;
 }
 
 const TrackInfoForm : FC = () => {
     const {activeStepIndex,setActiveStepIndex,formData,setFormData} = useCreateTrackContext();
     const initialValues : TrackInfoFormValues = {
-        trackName: formData.trackName, 
-        trackDescription: formData.trackDescription, 
-        trackTagNames: formData.trackTagNames, 
+        trackName: formData.trackName || "Stolice Państw Europejskich", 
+        trackDescription: formData.trackDescription || "Czy jesteś w stanie znaleźć wszystkie stolice państw europejskich?", 
+        trackTagNames: formData.trackTagNames.join(" "),
     };
 
     return (
@@ -42,9 +42,10 @@ const TrackInfoForm : FC = () => {
                     ...formData,
                     trackName: values.trackName.trim(),
                     trackDescription: values.trackDescription.trim(),
-                    trackTagNames: values.trackTagNames,
+                    trackTagNames: values.trackTagNames.split(" "),
                     trackThumbnail: values.trackThumbnail
                 };
+                console.log(data);
                 setFormData(data);
                 setActiveStepIndex(activeStepIndex + 1);
             }}
@@ -64,7 +65,7 @@ const TrackInfoForm : FC = () => {
     )
 }
 
-export const StyledInfoForm = styled(StyledForm)`   
+export const StyledInfoForm = styled(StyledForm)`
     @media only screen and (${BREAKPOINTS.phone}){
         & > button {
             margin-top: 5rem;

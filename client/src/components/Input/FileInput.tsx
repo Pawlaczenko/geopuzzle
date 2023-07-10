@@ -17,7 +17,7 @@ const FileInput : FC<IInputProps> = (props) => {
         if(file) {
             setSelectedFile(URL.createObjectURL(file));
             setFieldValue(props.name,file);
-    }
+        }
     };
 
     const removePhoto = (event: React.MouseEvent<HTMLElement>) => {
@@ -63,7 +63,7 @@ const StyledFileWrapper = styled.div`
     }
 `;
 
-const StyledImage = styled(StyledInput)<{$selectedImg?: string}>`
+export const StyledImage = styled(StyledInput)<{$selectedImg?: string}>`
     background:
         ${({$selectedImg: selectedImg}) => {
             if(selectedImg){

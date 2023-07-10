@@ -6,8 +6,6 @@ import { StyledLabelText } from '../Input/Input.styled';
 import PointListItem from './PointListItem';
 import { flexContainer } from 'src/styles/mixins';
 import { BREAKPOINTS } from 'src/styles/variables';
-import Modal, { ModalFooter } from '../Modal/Modal';
-import Button from '../Button/Button.styled';
 import DeleteConfirmationModal from '../Modal/DeleteConfirmationModal';
 
 interface IPointListProps {

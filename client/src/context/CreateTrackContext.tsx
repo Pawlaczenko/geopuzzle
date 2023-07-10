@@ -7,7 +7,7 @@ export type TrackWaypoint = {
     pointName: string,
     puzzleType: puzzleID
     puzzleCoords: coordSuggestion,
-    pointRadius?: number,
+    pointRadius: number,
     puzzleContent: unknown,
     puzzleExplanation?: string
 }
@@ -16,7 +16,7 @@ export type CreateTrackFormData = {
     trackName: string,
     trackDescription: string,
     trackTagNames: string[],
-    trackThumbnail?: string | Blob | null,
+    trackThumbnail?: Blob | null,
     trackWaypoints: TrackWaypoint[]
 }
 
