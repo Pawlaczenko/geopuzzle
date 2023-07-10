@@ -28,9 +28,10 @@ export interface TrackInfoFormValues {
 const TrackInfoForm : FC = () => {
     const {activeStepIndex,setActiveStepIndex,formData,setFormData} = useCreateTrackContext();
     const initialValues : TrackInfoFormValues = {
-        trackName: formData.trackName || "Stolice Państw Europejskich", 
-        trackDescription: formData.trackDescription || "Czy jesteś w stanie znaleźć wszystkie stolice państw europejskich?", 
+        trackName: formData.trackName, 
+        trackDescription: formData.trackDescription, 
         trackTagNames: formData.trackTagNames.join(" "),
+        trackThumbnail: formData.trackThumbnail || undefined
     };
 
     return (
@@ -45,7 +46,6 @@ const TrackInfoForm : FC = () => {
                     trackTagNames: values.trackTagNames.split(" "),
                     trackThumbnail: values.trackThumbnail
                 };
-                console.log(data);
                 setFormData(data);
                 setActiveStepIndex(activeStepIndex + 1);
             }}

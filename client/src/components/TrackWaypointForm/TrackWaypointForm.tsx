@@ -6,7 +6,6 @@ import CoordinatesInput from '../Input/CoordinatesInput';
 import { coordSuggestion } from 'src/types/input.types';
 import AddPuzzleLabel from '../AddPuzzleLabel';
 import { useLocationSearch } from 'src/hooks/useLocationSearch';
-import Button from '../Button/Button.styled';
 import { puzzleID } from 'src/types/puzzle.types';
 import { TrackWaypoint, useCreateTrackContext } from 'src/context/CreateTrackContext';
 import TextArea from '../Input/TextArea';
@@ -100,7 +99,7 @@ const TrackWaypointForm : FC<{currentPoint: number, handleIndexChange: (index:nu
                         <Map chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
                         <AddPuzzleLabel name={FormNames.point_puzzle_type} hadnelPuzzleTypeChange={setPuzzleType} />
                         <TextArea label={'Objaśnienie Zagadki'} name={FormNames.puzzle_explanation} placeholder='Wpisz objaśnienie zagadki' />
-                        <ButtonIcon btnType='yellow' type='submit' icon='create'>Dodaj Punkt</ButtonIcon>
+                        <ButtonIcon btnType='yellow' type='submit' icon='create'>Zapisz Punkt</ButtonIcon>
                     </StyledForm>
                 )
             }

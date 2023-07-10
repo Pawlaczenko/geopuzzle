@@ -1,12 +1,11 @@
 import { FC } from 'react'
-import { NavLink } from 'react-router-dom';
 import { useCreateTrackContext } from 'src/context/CreateTrackContext';
-import { flexContainer } from 'src/styles/mixins';
+import { createCircle, flexContainer } from 'src/styles/mixins';
 import { BREAKPOINTS } from 'src/styles/variables';
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const Stepper : FC = () => {
-    const {activeStepIndex} = useCreateTrackContext();
+    const {activeStepIndex, setActiveStepIndex} = useCreateTrackContext();
     const FORM_STEPS = [
         {
             id: 1,
@@ -22,14 +21,25 @@ const Stepper : FC = () => {
         },
     ];
 
+    const handleOnClick = (isVisited: boolean,index: number) => {
+        if(isVisited){
+            setActiveStepIndex(index);
+        }
+    }
+
     return (
         <StyledStepper>
             {
                 FORM_STEPS.map((step,index) => {
+                    const isVisited = activeStepIndex >= step.id;
                     return(
-                        <StyledStepperItem key={`${step.label}-${index}`} $isVisited={activeStepIndex >= step.id}>
+                        <>
+                            {index !== 0 && <StyledLine $isVisited={isVisited} />}
+                            <StyledStepperItem key={`${step.label}-${index}`} $isVisited={isVisited} onClick={()=>{handleOnClick(isVisited,index+1)}}>
+                                <StepperNumber>{index+1}</StepperNumber>
                                 {step.label}
-                        </StyledStepperItem>
+                            </StyledStepperItem>
+                        </>
                     )
                 } )
             }
@@ -38,24 +48,55 @@ const Stepper : FC = () => {
 }
 
 const StyledStepper = styled.ul`
-    background: var(--color-grey);
-    padding: 2rem;
-    ${flexContainer('center','center')};
-    gap: 4rem;
+    background: var(--color-grey-light);
+    padding: 2rem 15%;
+    ${flexContainer('space-between','center')};
+    gap: 3rem;
     list-style-type: none;
 
     @media only screen and (${BREAKPOINTS.phone}){
         gap: 1.5rem;
+        padding: 2rem;
     }
 `;
 
+const ActiveStepperStyle = css`
+    --step-background: var(--color-secondary);
+    --step-color: var(--color-secondary);
+    font-weight: bold;
+`
+
 const StyledStepperItem = styled.li<{$isVisited: boolean}>`
+    --step-background: var(--color-grey);
+    --step-color: var(--color-grey-dark);
     font-family: var(--family-primary);
-    color: var(--color-dark);
-    ${(props) => props.$isVisited ? "font-weight: bold" : "pointer-events: none"};
+    ${(props) => props.$isVisited && ActiveStepperStyle};
+
+    color: var(--step-color);    
+    ${flexContainer('center','center')};
+    gap: .6rem;
+
+    cursor: ${(props) => props.$isVisited ? "pointer" : "unset"};
+
     @media only screen and (${BREAKPOINTS.phone}){
-        font-size: 1.2rem;
+        font-size: 1.3rem;
+        flex-direction: column;
     }
+`
+
+const StepperNumber = styled.figure`
+    ${createCircle('4rem')};
+    ${flexContainer('center','center')};
+    font-size: 2rem;
+    
+    background: var(--step-background);
+    color: white;
+`
+
+const StyledLine = styled.hr<{$isVisited: boolean}>`
+    --hr-color: ${(props) => props.$isVisited ? 'var(--color-secondary)' : 'var(--color-grey)'};
+    flex: 1;
+    border: 1px solid var(--hr-color);
 `
 
 export default Stepper

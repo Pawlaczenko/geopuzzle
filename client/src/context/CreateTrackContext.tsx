@@ -23,6 +23,8 @@ export type CreateTrackFormData = {
 export type CreateTrackValues = {
     activeStepIndex: number,
     setActiveStepIndex: Dispatch<SetStateAction<number>>,
+    currentPoint: number,
+    setCurrentPoint: Dispatch<React.SetStateAction<number>>,
     formData: CreateTrackFormData,
     setFormData: Dispatch<SetStateAction<CreateTrackFormData>>,
 }
@@ -30,11 +32,13 @@ export type CreateTrackValues = {
 export const CreateTrackContext = createContext<CreateTrackValues>({
     activeStepIndex: 1,
     setActiveStepIndex: ()=>{},
+    currentPoint: 0,
+    setCurrentPoint: ()=>{},
     formData: {
         trackName: "",
         trackDescription: "",
         trackTagNames: [],
-        trackWaypoints: []
+        trackWaypoints: [],
     },
     setFormData: ()=>{}
 });

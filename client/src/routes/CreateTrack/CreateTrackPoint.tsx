@@ -10,8 +10,7 @@ import { BREAKPOINTS } from 'src/styles/variables';
 import styled from 'styled-components'
 
 const CreateTrackPoint : FC = () => {
-    const [currentPoint, setCurrentPoint] = useState<number>(0);
-    const {formData,activeStepIndex,setActiveStepIndex} = useCreateTrackContext();
+    const {formData,activeStepIndex,setActiveStepIndex,currentPoint, setCurrentPoint} = useCreateTrackContext();
     
     const handleIndexChange = (index:number) => {
         setCurrentPoint(index);
