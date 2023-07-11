@@ -13,7 +13,7 @@ export interface IMapProps {
 }
 
 const Map : FC<IMapProps> = ({chosenMarkerCoords,handleWaypointChange}) => {
-    const defaultPosition : LatLngExpression  = [35.081407, -106.650957];
+    const defaultPosition : LatLngExpression  = [49.016257, -22.851563];
     const radiusCircleTheme = {
         color: '#79AEA3',
         fillColor: '#FFE25F'
@@ -21,7 +21,7 @@ const Map : FC<IMapProps> = ({chosenMarkerCoords,handleWaypointChange}) => {
     const {values} = useFormikContext<WaypointFormValues>();
 
     return (
-        <StyledMap center={chosenMarkerCoords ?? defaultPosition} zoom={10} scrollWheelZoom={true}>
+        <StyledMap center={chosenMarkerCoords ?? defaultPosition} zoom={1} scrollWheelZoom={true}>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -1,5 +1,5 @@
 import { Formik } from 'formik';
-import { FC, useState } from 'react';
+import { FC, useState, useEffect, useCallback } from 'react';
 import TextInput from 'src/components/Input/TextInput';
 import Map from '../Map/Map';
 import CoordinatesInput from '../Input/CoordinatesInput';
@@ -28,12 +28,12 @@ export interface WaypointFormValues {
     pointName: string;
     pointDirection: string;
     puzzleType: puzzleID;
-    puzzleContent?: unknown;
+    puzzleContent: unknown;
     puzzleExplanation?: string;
     pointRadius: number;
 }
 
-const TrackWaypointForm : FC<{currentPoint: number, handleIndexChange: (index:number)=>void}> = ({currentPoint,handleIndexChange}) => {
+const TrackWaypointForm : FC<{currentPoint: number}> = ({currentPoint}) => {
     const {formData, setFormData} = useCreateTrackContext();
     const doesPointExist = typeof formData.trackWaypoints[currentPoint] !== 'undefined';
     const initialPoint: WaypointFormValues = {
@@ -44,18 +44,27 @@ const TrackWaypointForm : FC<{currentPoint: number, handleIndexChange: (index:nu
         puzzleExplanation: doesPointExist ? formData.trackWaypoints[currentPoint].puzzleExplanation : '',
         pointRadius: doesPointExist ? formData.trackWaypoints[currentPoint].pointRadius : 10,
     }
-    const [mapWaypoint, setMapWaypoint] = useState<coordSuggestion | undefined>(doesPointExist ? formData.trackWaypoints[currentPoint].puzzleCoords : undefined);
-    const {suggestions, handleLocationSearch} = useLocationSearch();
+    const [mapWaypoint, setMapWaypoint] = useState<coordSuggestion | undefined>(undefined);
+    const {suggestions, handleLocationSearch,resetSuggestions} = useLocationSearch();
     const [puzzleType, setPuzzleType] = useState<puzzleID>(initialPoint.puzzleType);
 
     const handleWaypointChange = (waypoint: coordSuggestion) => {
         setMapWaypoint(waypoint);
     }
 
+    useEffect(()=>{
+        resetSuggestions();
+        if(doesPointExist){
+            setMapWaypoint(formData.trackWaypoints[currentPoint].puzzleCoords);
+            setPuzzleType(formData.trackWaypoints[currentPoint].puzzleType);
+        }
+    },[currentPoint])
+
     return (
         <Formik
             initialValues={initialPoint}
-            validationSchema={getTrackWaypointValidationSchema(puzzleType,mapWaypoint)}
+            validationSchema={useCallback(()=>getTrackWaypointValidationSchema(puzzleType,mapWaypoint),[puzzleType,mapWaypoint])}
+            enableReinitialize={true}
             onSubmit={(values,{resetForm}) => {
                 const waypoint : TrackWaypoint = {
                     pointName: values.pointName,
@@ -67,9 +76,9 @@ const TrackWaypointForm : FC<{currentPoint: number, handleIndexChange: (index:nu
                 }
                 const waypointsArray = [...formData.trackWaypoints];
                 if(doesPointExist){
-                    waypointsArray.push(waypoint);
-                } else {
                     waypointsArray[currentPoint] = waypoint;
+                } else {
+                    waypointsArray.push(waypoint);
                 }
                 setFormData({
                     ...formData,
@@ -78,12 +87,11 @@ const TrackWaypointForm : FC<{currentPoint: number, handleIndexChange: (index:nu
                 resetForm();
                 setMapWaypoint(undefined);
                 setPuzzleType('text');
-            }
-            }
+            }}
         >
             {
                 formik => (
-                    <StyledForm method="POST" onSubmit={formik.handleSubmit}>
+                    <StyledForm method="POST" onSubmit={formik.handleSubmit} key={`PointForm-${currentPoint}`}>
                         <TextInput name={FormNames.point_name} label="Nazwa Punktu" placeholder='Podaj Nazwę Punktu'/>
                         <FormGroup>
                             <CoordinatesInput

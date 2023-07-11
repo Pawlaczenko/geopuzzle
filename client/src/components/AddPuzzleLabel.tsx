@@ -29,7 +29,7 @@ const AddPuzzleLabel : FC<IAddPuzzleLabelProps> = (props) => {
     const {values, getFieldProps, setFieldValue} = useFormikContext<WaypointFormValues>();
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         getFieldProps(props.name).onChange(e); 
-        setFieldValue("puzzleContent",undefined);
+        setFieldValue("puzzleContent",'');
         props.hadnelPuzzleTypeChange(e.target.value as puzzleID);
     }
 

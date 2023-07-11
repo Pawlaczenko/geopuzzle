@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, Fragment } from 'react'
 import { useCreateTrackContext } from 'src/context/CreateTrackContext';
 import { createCircle, flexContainer } from 'src/styles/mixins';
 import { BREAKPOINTS } from 'src/styles/variables';
@@ -13,7 +13,7 @@ const Stepper : FC = () => {
         },
         {
             id: 2,
-            label: "Dodaj Punkt"
+            label: "Dodaj Punkty"
         },
         {
             id: 3,
@@ -33,13 +33,13 @@ const Stepper : FC = () => {
                 FORM_STEPS.map((step,index) => {
                     const isVisited = activeStepIndex >= step.id;
                     return(
-                        <>
+                        <Fragment key={`stepper-step-${index}`}>
                             {index !== 0 && <StyledLine $isVisited={isVisited} />}
                             <StyledStepperItem key={`${step.label}-${index}`} $isVisited={isVisited} onClick={()=>{handleOnClick(isVisited,index+1)}}>
                                 <StepperNumber>{index+1}</StepperNumber>
                                 {step.label}
                             </StyledStepperItem>
-                        </>
+                        </Fragment>
                     )
                 } )
             }

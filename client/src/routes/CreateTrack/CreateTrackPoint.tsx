@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import ButtonIcon from 'src/components/Button/ButtonIcon';
 import Heading, { StyledHeading } from 'src/components/Heading';
-import InfoBox from 'src/components/InfoBox';
+import InfoBox, { StyledInfoBox } from 'src/components/InfoBox';
 import PointList, { StyledPointList } from 'src/components/PointsList/PointList';
 import TrackWaypointForm from 'src/components/TrackWaypointForm/TrackWaypointForm';
 import { useCreateTrackContext } from 'src/context/CreateTrackContext';
@@ -11,21 +11,22 @@ import styled from 'styled-components'
 
 const CreateTrackPoint : FC = () => {
     const {formData,activeStepIndex,setActiveStepIndex,currentPoint, setCurrentPoint} = useCreateTrackContext();
-    
-    const handleIndexChange = (index:number) => {
-        setCurrentPoint(index);
-    }
+    const canAdd = currentPoint < 10;
 
     useEffect(()=>{
         setCurrentPoint(formData.trackWaypoints.length);
     },[formData.trackWaypoints])
 
     return (
-        <StyledCreateTrackPoint>
-            <Heading level='h3' withAccent $alignCenter>Dodaj Punkt #{Math.min(currentPoint+1,10)}</Heading>
+        <StyledCreateTrackPoint $isFull={!canAdd}>
+            <Heading level='h3' withAccent $alignCenter>
+                {
+                    canAdd ? `Punkt #${currentPoint+1}` : "Osiągnięto Limit"
+                }
+            </Heading>
             {
-                formData.trackWaypoints.length < 10
-                ? <TrackWaypointForm currentPoint={currentPoint} handleIndexChange={handleIndexChange} />
+                canAdd
+                ? <TrackWaypointForm currentPoint={currentPoint} />
                 : <InfoBox symbol='!'>Osiągnięto maksymalną liczbę punktów w trasie: 10</InfoBox>
             }
             <PointList pointsArray={formData.trackWaypoints} />
@@ -36,10 +37,11 @@ const CreateTrackPoint : FC = () => {
     )
 }
 
-const StyledCreateTrackPoint = styled(Section)`
+const StyledCreateTrackPoint = styled(Section)<{$isFull: boolean}>`
     display: grid;
-    grid-template-columns: 1.5fr 1fr;
+    grid-template-columns: 1.7fr 1fr;
     grid-template-areas: "heading heading" "form points" "button points";
+    grid-template-rows: auto ${({$isFull}) => $isFull ? '11rem' : 'auto'} auto;
     gap: 2rem 5rem;
     align-items: start;
 
@@ -56,9 +58,14 @@ const StyledCreateTrackPoint = styled(Section)`
         grid-area: button;
         justify-self: center;
     }
+    
+    & > ${StyledInfoBox} {
+        grid-area: form;
+    }
 
     @media only screen and (${BREAKPOINTS.big}){
         grid-template-areas: "heading" "points" "form" "button";
+        grid-template-rows: auto;
         grid-template-columns: 1fr;
     }
 `;

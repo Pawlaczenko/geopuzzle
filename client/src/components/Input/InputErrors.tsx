@@ -8,7 +8,7 @@ const InputErrors : FC<{errors?: string | string[]}> = ({errors}) => {
     return (
         <StyledInputErrors>
             {
-                errorsArray.map(error => <StyledInputError><MdOutlineError />{error}</StyledInputError>)
+                errorsArray.map((error,index) => <StyledInputError key={`input-error-${index}`}><MdOutlineError />{error}</StyledInputError>)
             }
         </StyledInputErrors>
     )
