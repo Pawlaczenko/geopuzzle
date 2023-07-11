@@ -18,16 +18,18 @@ const CoordinatesInput : FC<ICoordinatesInputProps> = (props) => {
     const suggestionsRef = useRef(null);
 
     const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-        getFieldProps(props.name).onBlur(e);
         if(e.relatedTarget !== suggestionsRef.current && e.target !== suggestionsRef.current){
             setIsFocused(false);
+            getFieldProps(props.name).onBlur(e);
         }
     }
 
     useEffect(() => {
         if(props.chosenWaypoint !== undefined) {
             setFieldValue(props.name, props.chosenWaypoint.label);
-            setIsFocused(false);
+            setTimeout(()=>{
+                setIsFocused(false);
+            },1);
         }
     },[props.chosenWaypoint]);
 

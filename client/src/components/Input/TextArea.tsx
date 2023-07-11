@@ -22,6 +22,7 @@ const StyledTextArea = styled(StyledInput)`
     resize: vertical;
     padding-top: 2rem;
     min-height: calc(4 * var(--input-height));
+    line-height: 1.5;
 `;
 
 

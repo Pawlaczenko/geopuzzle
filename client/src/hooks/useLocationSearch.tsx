@@ -13,6 +13,10 @@ export const useLocationSearch = () => {
         }
     });
 
+    const resetSuggestions = () => {
+        setSuggestions([]);
+    }
+
     const handleLocationSearch = useCallback(debounce(async (query: string) => {
         const results : SearchResult<RawResult>[] = await searchProvider.search({query: query});
         const suggestions : coordSuggestion[] = results.map(item => {
@@ -30,5 +34,5 @@ export const useLocationSearch = () => {
         };
       }, []);
 
-      return {suggestions, handleLocationSearch};
+      return {suggestions, handleLocationSearch,resetSuggestions};
 }

@@ -24,7 +24,7 @@ const LocationMarker : FC<IMarkerProps> = ({chosenMarkerCoords,handleWaypointCha
     
     useEffect(()=>{
         if(chosenMarkerCoords) {
-            map.flyTo(chosenMarkerCoords,map.getZoom(),{easeLinearity: 1});
+            map.flyTo(chosenMarkerCoords,10,{easeLinearity: 1});
         }
     },[chosenMarkerCoords]);
 

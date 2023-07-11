@@ -44,7 +44,7 @@ const BlueBoxStyle = css`
     --box-color: white;
 `
 
-const StyledInfoBox = styled.div<{variant: InfoBoxType}>`
+export const StyledInfoBox = styled.div<{variant: InfoBoxType}>`
     ${(props) => getInfoBoxStyles(props.variant)};
     background-color: var(--box-background);
     color: var(--box-color);

@@ -7,6 +7,7 @@ import PointListItem from './PointListItem';
 import { flexContainer } from 'src/styles/mixins';
 import { BREAKPOINTS } from 'src/styles/variables';
 import DeleteConfirmationModal from '../Modal/DeleteConfirmationModal';
+import AddNewPointButton from './AddNewPointButton';
 
 interface IPointListProps {
     pointsArray: TrackWaypoint[],
@@ -34,15 +35,17 @@ const PointList : FC<IPointListProps> = ({pointsArray}) => {
         setPointToDelete(index);
         setIsModalOpen(true);
     }
-
+    
     return (
         <StyledPointList>
             <StyledLabelText>Dodane Punkty: {pointsArray.length}/10</StyledLabelText>
             {pointsArray.length === 0 && <InfoBox symbol='!'>Nie dodano jeszcze żadnych punktów</InfoBox>}
             {
-                pointsArray.map((point,index) => <PointListItem point={point} pointIndex={index+1} handleDelete={()=>{handleOpenModal(index)}} />)
+                pointsArray.map((point,index) => <PointListItem key={`point-${index}`} point={point} pointIndex={index+1} handleDelete={()=>{handleOpenModal(index)}} />)
             }
+            {pointsArray.length < 10 && <AddNewPointButton />}
             {
+                /* CONFIRM DELETE MODAL */
                 pointToDelete!==undefined && 
                 <DeleteConfirmationModal 
                     shouldShow={isModalOpen} 
@@ -65,6 +68,10 @@ export const StyledPointList = styled.ul`
 
     ${flexContainer('flex-start','stretch','column')};
     gap: 1rem;
+
+    & > button {
+        align-self: center;
+    }
 
     @media only screen and (${BREAKPOINTS.phone}){
         position: relative;
