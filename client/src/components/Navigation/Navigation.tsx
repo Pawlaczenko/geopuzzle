@@ -9,7 +9,7 @@ import { flexContainer } from 'src/styles/mixins'
 const Navigation : FC = () => {
     const navigationItems : INavigationItem[] = [
         {label: "Strona Główna", path: NAV_ROUTES.home, Icon: ICONS.get('home')!},
-        {label: "Eksploruj", path: NAV_ROUTES.placeholder, Icon: ICONS.get('explore')!},
+        {label: "Eksploruj", path: NAV_ROUTES.displayTrack, Icon: ICONS.get('explore')!},
         {label: "Utwórz Trasę", path: NAV_ROUTES.createTrack, Icon: ICONS.get('create')!},
         {label: "Zagadki", path: NAV_ROUTES.placeholder, Icon: ICONS.get('puzzle')!},
         {label: "Zaloguj", path: NAV_ROUTES.placeholder, Icon: ICONS.get('login')!},

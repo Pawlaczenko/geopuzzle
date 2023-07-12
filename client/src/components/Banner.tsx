@@ -11,26 +11,26 @@ interface IBannerProps {
 const Banner : FC<IBannerProps> = ({text}) => {
     return (
         <StyledBanner>
-            <BannerText>
+            <BannerBox>
                 <Heading level='h1' $alignCenter={true}>{text}</Heading>
-            </BannerText>
+            </BannerBox>
         </StyledBanner>
     )
 } 
 
-const StyledBanner = styled.div`
+export const StyledBanner = styled.div<{background?: string}>`
     width: 100%;
     background: 
-        url(${MapImage}) center left/ cover no-repeat,
+        url(${(props)=>props.background ? props.background : MapImage}) center / cover no-repeat,
         var(--color-secondary);
     ${flexContainer('center','center')};
     padding: 3rem 0;
 `;
 
-const BannerText = styled.div`
+export const BannerBox = styled.div`
     background: ${(props) => props.theme.header};
-    padding: 1rem;
-    width: min(75%, 40rem);
+    padding: 1rem 5rem;
+    width: min-content;
     border-radius: 3rem;
     box-shadow: 0 .4rem 0 0 rgba(0,0,0,.25);
     line-height: 1;
