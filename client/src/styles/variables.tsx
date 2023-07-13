@@ -20,6 +20,20 @@ export const variables = css`
         --color-black: #3E3736;
         --color-grey-dark: #666666;
         --color-error: #ff7878;
+        --color-incorrect:
+            linear-gradient(
+                45deg,
+                hsl(0deg 100% 77%) 0%,
+                hsl(2deg 85% 87%) 50%,
+                hsl(26deg 26% 95%) 100%
+                );
+        --color-correct: 
+            linear-gradient(
+                45deg,
+                hsl(133deg 100% 77%) 0%,
+                hsl(129deg 79% 82%) 50%,
+                hsl(118deg 46% 86%) 100%
+            );
 
         --gradient-primary: linear-gradient(
             45deg,
@@ -60,6 +74,9 @@ export const variables = css`
 
         //BORDERS
         --border-thin: 1px solid var(--color-grey);
+        //SHADOWS
+        --shadow-primary: 0 .4rem .4rem .1rem rgba(0,0,0,.15);
+        --shadow-inset: inset 0 .0 .8rem rgba(0,0,0,.25);
         //ANIMATIONS
     }
 `;

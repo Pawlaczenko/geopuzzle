@@ -4,6 +4,7 @@ import { IPuzzleItem, PUZZLES } from 'src/data/puzzleItems.data';
 import { flexContainer } from 'src/styles/mixins';
 import styled from 'styled-components'
 import {FiX} from "react-icons/fi";
+import PointNumber from '../PointNumber';
 
 interface IPointListItemProps {
     point: TrackWaypoint,
@@ -24,7 +25,7 @@ const PointListItem : FC<IPointListItemProps> = ({point,pointIndex,handleDelete}
 
     return (
         <StyledPointsListItem onClick={()=>{setCurrentPoint(pointIndex-1)}}>
-            <PointNumber>{id}</PointNumber>
+            <PointNumber variant='active'>{id}</PointNumber>
             <PointInfo>
                 {point.pointName}
                 <PuzzleType>
@@ -51,21 +52,6 @@ export const StyledPointsListItem = styled.li`
         background: var(--color-grey);
     }
 `;
-
-export const PointNumber = styled.figure`
-    background: var(--gradient-primary);
-
-    font-weight: var(--fw-bold);
-    font-size: 3rem;
-    font-family: var(--family-primary);
-    line-height: 1;
-
-    ${flexContainer('center','center')};
-    flex-shrink: 0;
-    border-radius: .5rem;
-    width: 6rem;
-    aspect-ratio: 1/1;
-`
 
 const PointInfo = styled.div`
     font-size: 2.1rem;
