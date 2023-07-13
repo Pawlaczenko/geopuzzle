@@ -2,10 +2,11 @@ import { FC } from 'react'
 import styled from 'styled-components'
 import { flexContainer } from 'src/styles/mixins';
 import PointNumber, { pointNumberVariant } from './PointNumber';
+import React from 'react';
 
 const TrackPointNavigation : FC = () => {
     const points = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
-    const currentIndex = 0;
+    const currentIndex = -1;
 
     const getNumberVariant = (state: number, currentIndex: number, index: number) : pointNumberVariant => {
         switch(state){
@@ -35,7 +36,7 @@ const TrackPointNavigation : FC = () => {
     )
 }
 
-const StyledTrackPointNavigation = styled.ul`
+export const StyledTrackPointNavigation = styled.ul`
     list-style-type: none;
     padding: 0;
 
@@ -44,4 +45,4 @@ const StyledTrackPointNavigation = styled.ul`
 `;
 
 
-export default TrackPointNavigation
+export default React.memo(TrackPointNavigation)

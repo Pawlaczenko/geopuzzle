@@ -4,10 +4,11 @@ import {
     MdOutlineHome,
     MdTravelExplore,
     MdLightbulbOutline,
-    MdLogin
+    MdLogin,
+    MdPlayCircle
 } from "react-icons/md";
 
-export type IconName = 'home' | 'explore' | 'create' | 'puzzle' | 'login';
+export type IconName = 'home' | 'explore' | 'create' | 'puzzle' | 'login' | 'start';
 
 export const ICONS = new Map<IconName,IconType>([
     ['create',MdAddCircleOutline],
@@ -15,4 +16,5 @@ export const ICONS = new Map<IconName,IconType>([
     ['explore',MdTravelExplore],
     ['puzzle',MdLightbulbOutline],
     ['login',MdLogin],
+    ['start',MdPlayCircle]
 ]);

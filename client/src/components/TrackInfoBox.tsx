@@ -5,6 +5,7 @@ import { flexContainer } from 'src/styles/mixins'
 import TagNamesContainer from './TagNames/TagNamesContainer'
 import Heading from './Heading'
 import Paragraph from './Paragraph.styled'
+import React from 'react'
 
 const TrackInfoBox : FC = () => {
     return (
@@ -16,7 +17,7 @@ const TrackInfoBox : FC = () => {
                 <InfoText>Stworzona przez <b><u>Adam Driver</u></b></InfoText>
                 <InfoText>Rozegrana 123 razy</InfoText>
                 <InfoText>Średnia ocen: <b>4/5</b></InfoText>
-                <InfoText>8 Zagadek</InfoText>
+                <InfoText>10 Zagadek</InfoText>
             </MetaInfo>
         </TrackInfo>
     )
@@ -55,4 +56,4 @@ const MetaInfo = styled.div`
 `
 
 
-export default TrackInfoBox
+export default React.memo(TrackInfoBox);
