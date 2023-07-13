@@ -1,7 +1,6 @@
 import { Formik } from 'formik';
 import { FC, useState, useEffect, useCallback } from 'react';
 import TextInput from 'src/components/Input/TextInput';
-import Map from '../Map/Map';
 import CoordinatesInput from '../Input/CoordinatesInput';
 import { coordSuggestion } from 'src/types/input.types';
 import AddPuzzleLabel from '../AddPuzzleLabel';
@@ -14,6 +13,7 @@ import { getTrackWaypointValidationSchema } from './TrackWaypointForm.helper';
 import { BREAKPOINTS } from 'src/styles/variables';
 import ButtonIcon from '../Button/ButtonIcon';
 import StyledForm from '../Form.styled';
+import FormMap from '../Map/FormMap';
 
 const FormNames = {
     point_name: "pointName",
@@ -104,7 +104,7 @@ const TrackWaypointForm : FC<{currentPoint: number}> = ({currentPoint}) => {
                                 suggestions={suggestions}/>
                             <TextInput label={"Promień tolerancji"} name={FormNames.point_radius} type='number' />
                         </FormGroup>
-                        <Map chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
+                        <FormMap chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
                         <AddPuzzleLabel name={FormNames.point_puzzle_type} hadnelPuzzleTypeChange={setPuzzleType} />
                         <TextArea label={'Objaśnienie Zagadki'} name={FormNames.puzzle_explanation} placeholder='Wpisz objaśnienie zagadki' />
                         <ButtonIcon btnType='yellow' type='submit' icon='create'>Zapisz Punkt</ButtonIcon>
