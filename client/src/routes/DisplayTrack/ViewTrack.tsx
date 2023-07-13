@@ -9,10 +9,18 @@ import TrackPointNavigation, { StyledTrackPointNavigation } from 'src/components
 import StopWatch from 'src/components/StopWatch';
 import useTimer from 'src/hooks/useTimer';
 import ButtonIcon from 'src/components/Button/ButtonIcon';
+import GameMap from 'src/components/Map/GameMap';
+import { coordSuggestion } from 'src/types/input.types';
 
-const DisplayTrack : FC = () => {
-    const [isRunning, setIsRunning] = useState(true);
+const ViewTrack : FC = () => {
+    const [isRunning, setIsRunning] = useState(false);
     const time = useTimer(isRunning);
+
+    const [mapWaypoint, setMapWaypoint] = useState<coordSuggestion | undefined>(undefined);
+    const handleWaypointChange = (waypoint: coordSuggestion) => {
+        setMapWaypoint(waypoint);
+    }
+
     return (
         <Page>
             <TrackBanner background={BackgroundImage}>
@@ -23,6 +31,7 @@ const DisplayTrack : FC = () => {
                 <ButtonIcon btnType='yellow' icon='start'>Rozpocznij grę</ButtonIcon>
                 <StopWatch time={time}/>
             </InteractiveBar>
+            <GameMap chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
         </Page>
     )
 }
@@ -41,4 +50,4 @@ const InteractiveBar = styled.div`
     }
 `;
 
-export default DisplayTrack
+export default ViewTrack

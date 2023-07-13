@@ -11,3 +11,10 @@ export type coordSuggestion = {
     coords: LatLngExpression,
     label: string
 }
+
+export interface ICustomMapProps {
+    chosenMarkerCoords?: LatLngExpression;
+    handleWaypointChange: (waypoint: coordSuggestion)=>void;
+}
+
+export const DEFAULT_MAP_POSITION : LatLngExpression  = [49.016257, -22.851563];
