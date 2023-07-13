@@ -24,7 +24,7 @@ export const StyledBanner = styled.div<{background?: string}>`
         url(${(props)=>props.background ? props.background : MapImage}) center / cover no-repeat,
         var(--color-secondary);
     ${flexContainer('center','center')};
-    padding: 3rem 0;
+    padding: 3rem;
 `;
 
 export const BannerBox = styled.div`

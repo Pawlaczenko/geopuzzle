@@ -1,13 +1,14 @@
 import { FC } from 'react'
 import styled from 'styled-components'
-import { PointNumber, StyledPointsListItem } from './PointListItem';
+import { StyledPointsListItem } from './PointListItem';
 import { useCreateTrackContext } from 'src/context/CreateTrackContext';
+import PointNumber from '../PointNumber';
 
 const AddNewPointButton : FC = () => {
     const {setCurrentPoint,formData} = useCreateTrackContext();
     return (
         <StyledAddNewPointButton onClick={()=>{setCurrentPoint(formData.trackWaypoints.length)}}>
-            <PointNumber>+</PointNumber>
+            <PointNumber variant='active'>+</PointNumber>
             Dodaj Nowy Punkt
         </StyledAddNewPointButton>
     )
