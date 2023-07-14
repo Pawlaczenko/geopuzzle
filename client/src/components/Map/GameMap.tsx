@@ -37,8 +37,8 @@ const StyledMapContainer = styled.div<{isExpanded:boolean}>`
 `
 
 const FullScreenButton = styled.button<{isExpanded: boolean}>`
-    width: 9rem;
-    height: 3rem;
+    width: 8rem;
+    height: 2rem;
     aspect-ratio: 1/1;
     background: white;
     box-shadow: 0 .2rem 0 .2rem rgba(0,0,0,.15);
@@ -47,8 +47,8 @@ const FullScreenButton = styled.button<{isExpanded: boolean}>`
 
     cursor: pointer;
     position: absolute;
-    bottom: -2.9rem;
-    left: calc(50% - 9rem);
+    bottom: -2rem;
+    left: calc(50% - 4rem);
 
     ${flexContainer('center','center')};
     & > svg {

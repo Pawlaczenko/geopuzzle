@@ -12,3 +12,8 @@ export interface ITextPuzzle extends IPuzzle {
 export interface IImagePuzzle extends IPuzzle {
     image: Blob,
 }
+
+export interface IPuzzleContent {
+    type: puzzleID;
+    content: unknown;
+}

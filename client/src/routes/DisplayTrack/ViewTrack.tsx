@@ -11,6 +11,8 @@ import useTimer from 'src/hooks/useTimer';
 import ButtonIcon from 'src/components/Button/ButtonIcon';
 import GameMap from 'src/components/Map/GameMap';
 import { coordSuggestion } from 'src/types/input.types';
+import PuzzleWrapper from 'src/components/Puzzles/PuzzleWrapper';
+import { IPuzzleContent } from 'src/types/puzzle.types';
 
 const ViewTrack : FC = () => {
     const [isRunning, setIsRunning] = useState(false);
@@ -19,6 +21,16 @@ const ViewTrack : FC = () => {
     const [mapWaypoint, setMapWaypoint] = useState<coordSuggestion | undefined>(undefined);
     const handleWaypointChange = (waypoint: coordSuggestion) => {
         setMapWaypoint(waypoint);
+    }
+
+    const textPuzzle : IPuzzleContent = {
+        type: 'text',
+        content: 'Państwo o tej stolicy zostało zaatakowane przez III Rzeszę 1 września 1939, co zapoczątkowało II Wojnę Światową.'
+    }
+
+    const imagePuzzle : IPuzzleContent = {
+        type: 'image',
+        content: 'https://fajnepodroze.pl/wp-content/uploads/2023/03/luk-triumfalny.jpg'
     }
 
     return (
@@ -32,6 +44,7 @@ const ViewTrack : FC = () => {
                 <StopWatch time={time}/>
             </InteractiveBar>
             <GameMap chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
+            <PuzzleWrapper puzzle={imagePuzzle} />
         </Page>
     )
 }
