@@ -23,6 +23,11 @@ export const PUZZLES : IPuzzleItem[] = [
     }
 ];
 
+export const getPuzzleById = (id: puzzleID) => {
+    const res = PUZZLES.find(puzzle=>puzzle.id===id);
+    return res || PUZZLES[0];
+}
+
 export const getPuzzleLabelById = (id: puzzleID) => {
     return PUZZLES.find(puzzle=>puzzle.id===id)?.label;
 }

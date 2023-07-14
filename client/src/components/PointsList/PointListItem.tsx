@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { TrackWaypoint, useCreateTrackContext } from 'src/context/CreateTrackContext';
-import { IPuzzleItem, PUZZLES } from 'src/data/puzzleItems.data';
+import { IPuzzleItem, getPuzzleById } from 'src/data/puzzleItems.data';
 import { flexContainer } from 'src/styles/mixins';
 import styled from 'styled-components'
 import {FiX} from "react-icons/fi";
@@ -14,7 +14,7 @@ interface IPointListItemProps {
 
 const PointListItem : FC<IPointListItemProps> = ({point,pointIndex,handleDelete}) => {
     const id = String(pointIndex).padStart(2,'0');
-    const puzzle : IPuzzleItem = PUZZLES.find(item => item.id === point.puzzleType) || PUZZLES[0];
+    const puzzle : IPuzzleItem = getPuzzleById(point.puzzleType);
     const PuzzleIcon = puzzle.Icon;
     const {setCurrentPoint} = useCreateTrackContext();
 
