@@ -79,6 +79,7 @@ const StyledIconInput = styled(StyledTextInput)`
         background: transparent;
         flex: 1;
         height: 100%;
+        color: ${({theme}) => theme.textBlue};
 
         &:focus {
             outline: none;
@@ -114,7 +115,7 @@ const Suggestions = styled.ul`
         padding: .4rem;
         
         &:hover {
-            background: ${({theme}) => theme.textBlue};
+            background: ${({theme}) => theme.decoration};
             color: ${({theme}) => theme.body};;
         }
     }

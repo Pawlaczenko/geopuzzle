@@ -105,7 +105,6 @@ const TagsInputWrapper = styled(StyledInput)`
     padding-top: 1rem;
     padding-bottom: 1rem;
     cursor: text;
-    
 `
 
 const StyledTagsInput = styled.input`
@@ -113,6 +112,7 @@ const StyledTagsInput = styled.input`
     border: none;
     padding: 0;
     flex: 1;
+    color: ${({theme}) => theme.textBlue};
 
     &:focus{
         outline: none;

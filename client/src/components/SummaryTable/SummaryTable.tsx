@@ -39,7 +39,7 @@ const StyledSummaryTable = styled.table`
 
 const StyledRow = styled.tr`
     &:nth-child(odd) {
-        background-color: var(--color-grey-light);
+        background-color: ${({theme}) => theme.input};
     }
 `
 

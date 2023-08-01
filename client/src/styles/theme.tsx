@@ -10,8 +10,8 @@ export interface ITheme {
     textBlue: string,
     header: string,
     primary: string,
-    grey: string,
-    input: string
+    input: string,
+    decoration: string
 }
 
 export const lightTheme : ITheme = {
@@ -21,17 +21,17 @@ export const lightTheme : ITheme = {
     textBlue: 'var(--color-dark)',
     header: 'var(--color-grey-light)',
     primary: 'var(--color-secondary)',
-    grey: 'var(--color-grey-light)',
-    input: 'var(--color-grey-light)'
+    input: 'var(--color-grey-light)',
+    decoration:'var(--color-grey)'
 };
 
 export const darkTheme : ITheme = {
     name: Themes.dark,
-    body: 'var(--color-black)',
+    body: 'var(--color-surface-100)',
     text: 'var(--color-white)',
     textBlue: 'var(--color-white)',
-    header: 'var(--color-dark)',
+    header: 'var(--color-surface-300)',
     primary: 'var(--color-primary)',
-    grey: 'var(--color-dark)',
-    input: 'var(--color-grey-dark)'
+    input: 'var(--color-surface-200)',
+    decoration:'var(--color-surface-400)'
 };

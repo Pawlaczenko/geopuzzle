@@ -44,7 +44,7 @@ const ViewTrack : FC = () => {
                 <StopWatch time={time}/>
             </InteractiveBar>
             <GameMap chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
-            <PuzzleWrapper puzzle={imagePuzzle} />
+            <PuzzleWrapper puzzle={textPuzzle} />
         </Page>
     )
 }
