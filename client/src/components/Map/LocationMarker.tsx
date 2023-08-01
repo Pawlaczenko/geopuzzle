@@ -39,7 +39,7 @@ const LocationMarker : FC<IMarkerProps> = ({chosenMarkerCoords,handleWaypointCha
     })
 
     return chosenMarkerCoords === undefined ? null : (
-        <Marker position={chosenMarkerCoords} icon={flagIcon}>
+        <Marker position={chosenMarkerCoords} icon={flagIcon} >
         </Marker>
     )
 }

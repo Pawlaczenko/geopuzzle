@@ -36,7 +36,7 @@ const PuzzleWrapperBar = styled.div`
     padding: 1rem 1.5rem;
     font-weight: bold;
 
-    background: var(--color-grey);
+    background:${({theme}) => theme.decoration};
     position: absolute;
     left: 50%;
     top: -2rem;

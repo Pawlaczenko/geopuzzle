@@ -39,7 +39,7 @@ const PointListItem : FC<IPointListItemProps> = ({point,pointIndex,handleDelete}
 }
 
 export const StyledPointsListItem = styled.li`
-    background: var(--color-grey-light);
+    background: ${({theme}) => theme.input};
     padding: 1rem 1.5rem;
     border-radius: .5rem 0 0 .5rem;
     font-family: var(--family-primary);
@@ -49,7 +49,7 @@ export const StyledPointsListItem = styled.li`
 
     &:hover {
         cursor: pointer;
-        background: var(--color-grey);
+        background: ${({theme}) => theme.decoration};
     }
 `;
 
@@ -59,7 +59,7 @@ const PointInfo = styled.div`
 
 const PuzzleType = styled.div`
     font-size: 1.6rem;
-    color: var(--color-dark);
+    color: ${({theme}) => theme.textBlue};
 
     ${flexContainer('flex-start','center')};
     gap: .5rem;

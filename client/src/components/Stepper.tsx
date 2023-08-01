@@ -48,7 +48,7 @@ const Stepper : FC = () => {
 }
 
 const StyledStepper = styled.ul`
-    background: var(--color-grey-light);
+    background: ${({theme}) => theme.header};
     padding: 2rem 15%;
     ${flexContainer('space-between','center')};
     gap: 3rem;
@@ -67,7 +67,7 @@ const ActiveStepperStyle = css`
 `
 
 const StyledStepperItem = styled.li<{$isVisited: boolean}>`
-    --step-background: var(--color-grey);
+    --step-background: ${({theme}) => theme.decoration};
     --step-color: var(--color-grey-dark);
     font-family: var(--family-primary);
     ${(props) => props.$isVisited && ActiveStepperStyle};
@@ -94,7 +94,7 @@ const StepperNumber = styled.figure`
 `
 
 const StyledLine = styled.hr<{$isVisited: boolean}>`
-    --hr-color: ${(props) => props.$isVisited ? 'var(--color-secondary)' : 'var(--color-grey)'};
+    --hr-color: ${(props) => props.$isVisited ? 'var(--color-secondary)' : props.theme.decoration};
     flex: 1;
     border: 1px solid var(--hr-color);
 `

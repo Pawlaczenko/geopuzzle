@@ -15,12 +15,12 @@ const AddNewPointButton : FC = () => {
 }
 
 const StyledAddNewPointButton = styled(StyledPointsListItem)`
-    background: white;
+    background: ${({theme}) => theme.body};
     border: var(--border-thin);
     font-family: var(--family-primary);
 
     &:hover {
-        background: var(--color-grey-light);
+        background: ${({theme}) => theme.input};
     }
 `;
 

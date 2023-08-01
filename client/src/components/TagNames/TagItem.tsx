@@ -17,12 +17,12 @@ const TagItem : FC<ITagItemProps> = (props) => {
 }
 
 export const StyledTagItem = styled.span`
-    background: var(--color-grey);
+    background: ${({theme}) => theme.decoration};
     padding: .5rem .8rem;
     border-radius: .5rem;
     cursor: pointer;
     font-size: var(--fs-paragraph);
-    color: var(--color-dark);
+    color: ${({theme}) => theme.textBlue};
 `;
 
 const StyledRemoveButton = styled.span`

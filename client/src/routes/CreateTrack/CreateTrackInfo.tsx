@@ -43,7 +43,7 @@ const StyledCreateTrackInfo = styled(Section)`
 
 const StyledTutorial = styled.aside`
     grid-area: tutorial;
-    background: ${(props) => props.theme.grey};
+    background: ${(props) => props.theme.input};
     border-radius: var(--radius);
     padding: 3rem;
     box-shadow: 0 0 0 .3rem var(--color-dark), 0 0 0 .8rem var(--color-grey-light);
