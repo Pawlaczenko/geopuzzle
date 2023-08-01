@@ -30,7 +30,6 @@ export const StyledInput = styled.input<{$error?: boolean}>`
 export const StyledLabel = styled.label`
     --input-width: 55rem;
     width: 100%;
-    margin-bottom: 2rem;
     position: relative;
 
     @media only screen and (${BREAKPOINTS.phone}){

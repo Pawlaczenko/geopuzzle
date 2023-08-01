@@ -22,9 +22,5 @@ const FormMap : FC<ICustomMapProps> = ({chosenMarkerCoords,handleWaypointChange}
     )
 }
 
-const StyledFormMap = styled.div`
-
-`;
-
 
 export default FormMap

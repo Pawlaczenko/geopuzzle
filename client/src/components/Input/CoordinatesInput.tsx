@@ -4,6 +4,9 @@ import { useFormikContext } from 'formik';
 import InputWrapper from './InputWrapper';
 import { IInputProps, coordSuggestion } from 'src/types/input.types';
 import { styled } from 'styled-components';
+import { StyledInput } from './Input.styled';
+import { flexContainer } from 'src/styles/mixins';
+import { MdTravelExplore } from 'react-icons/md';
 
 interface ICoordinatesInputProps extends IInputProps {
     handleChange: (query: string)=>void;
@@ -35,19 +38,23 @@ const CoordinatesInput : FC<ICoordinatesInputProps> = (props) => {
 
     return (
         <InputWrapper label={props.label} name={props.name}>
-            <StyledTextInput
-                autoComplete="off"
-                type={props.type || 'text'}
-                placeholder={props.placeholder}
-                id={props.name}
-                {...getFieldProps(props.name)}
-                onChange={(e)=>{
-                    props.handleChange(e.target.value);
-                    getFieldProps(props.name).onChange(e);
-                }}
-                onFocus={()=>{setIsFocused(true)}}
-                onBlur={handleBlur}
-            />
+            <StyledIconInput as="div">
+                <MdTravelExplore />
+                <input
+                    autoComplete="off"
+                    type={props.type || 'text'}
+                    placeholder={props.placeholder}
+                    id={props.name}
+                    {...getFieldProps(props.name)}
+                    onChange={(e)=>{
+                        props.handleChange(e.target.value);
+                        getFieldProps(props.name).onChange(e);
+                    }}
+                    onFocus={()=>{setIsFocused(true)}}
+                    onBlur={handleBlur}
+                />
+            </StyledIconInput>
+
             {
             props.suggestions && props.suggestions.length > 0 && isFocused && (
                 <Suggestions ref={suggestionsRef} tabIndex={0}>
@@ -62,6 +69,27 @@ const CoordinatesInput : FC<ICoordinatesInputProps> = (props) => {
         </InputWrapper>
     )
 }
+
+const StyledIconInput = styled(StyledTextInput)`
+    ${flexContainer('flex-start','center')};
+    gap: 1rem;
+
+    & > input {
+        border: none;
+        background: transparent;
+        flex: 1;
+        height: 100%;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    & > svg {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+`
 
 const Suggestions = styled.ul`
     position: absolute;

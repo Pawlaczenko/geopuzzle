@@ -14,6 +14,7 @@ import { BREAKPOINTS } from 'src/styles/variables';
 import ButtonIcon from '../Button/ButtonIcon';
 import StyledForm from '../Form.styled';
 import FormMap from '../Map/FormMap';
+import { StyledMap } from '../Map/Map';
 
 const FormNames = {
     point_name: "pointName",
@@ -92,7 +93,7 @@ const TrackWaypointForm : FC<{currentPoint: number}> = ({currentPoint}) => {
             {
                 formik => (
                     <StyledForm method="POST" onSubmit={formik.handleSubmit} key={`PointForm-${currentPoint}`}>
-                        <TextInput name={FormNames.point_name} label="Nazwa Punktu" placeholder='Podaj Nazwę Punktu'/>
+                        <TextInput name={FormNames.point_name} label="Nazwa Punktu" placeholder='Podaj Nazwę Punktu' helpMessage='Wpisz nazwę miejsca, na które wskazuje zagadka.'/>
                         <FormGroup>
                             <CoordinatesInput
                                 name={FormNames.point_direction} 
@@ -102,11 +103,11 @@ const TrackWaypointForm : FC<{currentPoint: number}> = ({currentPoint}) => {
                                 chosenWaypoint={mapWaypoint}
                                 handleWaypointChange={handleWaypointChange}
                                 suggestions={suggestions}/>
-                            <TextInput label={"Promień tolerancji"} name={FormNames.point_radius} type='number' />
+                            <TextInput label={"Promień tolerancji"} name={FormNames.point_radius} type='number' helpMessage='Obszar poprawnej odpowiedzi (w metrach)' />
+                            <FormMap chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
                         </FormGroup>
-                        <FormMap chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
                         <AddPuzzleLabel name={FormNames.point_puzzle_type} hadnelPuzzleTypeChange={setPuzzleType} />
-                        <TextArea label={'Objaśnienie Zagadki'} name={FormNames.puzzle_explanation} placeholder='Wpisz objaśnienie zagadki' />
+                        <TextArea label={'Objaśnienie Zagadki'} name={FormNames.puzzle_explanation} placeholder='Wpisz objaśnienie zagadki' helpMessage='Zostanie wyświetlone graczowi po próbie odgadnięcia zagadki.' />
                         <ButtonIcon btnType='yellow' type='submit' icon='create'>Zapisz Punkt</ButtonIcon>
                     </StyledForm>
                 )
@@ -120,9 +121,16 @@ const FormGroup = styled.div`
     grid-template-columns: 1.5fr 1fr;
     gap: 1.5rem;
     width: 100%;
+    border: var(--border-thin);
+    padding: 2rem 1rem;
+    border-radius: 1.5rem;
 
     @media only screen and (${BREAKPOINTS.phone}){
         grid-template-columns: 1fr;
+    }
+
+    & > ${StyledMap} {
+        grid-column: 1/-1;
     }
 `
 

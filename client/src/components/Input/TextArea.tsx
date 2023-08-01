@@ -8,7 +8,7 @@ import { IInputProps } from 'src/types/input.types';
 const TextArea : FC<IInputProps> = (props) => {
     const {getFieldProps} = useFormikContext();
     return (
-        <InputWrapper label={props.label} name={props.name}>
+        <InputWrapper label={props.label} name={props.name} helpMessage={props.helpMessage}>
             <StyledTextArea
                 as='textarea' 
                 placeholder={props.placeholder}
