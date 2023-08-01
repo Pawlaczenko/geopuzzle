@@ -4,7 +4,8 @@ export interface IInputProps {
     placeholder?: string,
     type?: React.HTMLInputTypeAttribute,
     label: string,
-    name: string
+    name: string,
+    helpMessage?: string
 }
 
 export type coordSuggestion = {

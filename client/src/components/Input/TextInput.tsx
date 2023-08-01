@@ -8,7 +8,7 @@ import { IInputProps } from 'src/types/input.types';
 const TextInput : FC<IInputProps> = (props) => {
     const {getFieldProps} = useFormikContext();
     return (
-        <InputWrapper label={props.label} name={props.name}>
+        <InputWrapper label={props.label} name={props.name} helpMessage={props.helpMessage}>
             <StyledTextInput
                 type={props.type || 'text'} 
                 placeholder={props.placeholder}
@@ -21,6 +21,5 @@ const TextInput : FC<IInputProps> = (props) => {
 export const StyledTextInput = styled(StyledInput)`
     height: var(--input-height);
 `;
-
 
 export default TextInput
