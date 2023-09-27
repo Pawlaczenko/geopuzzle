@@ -1,4 +1,3 @@
-//const dotenv = require("dotenv");
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import app from "./app.js"
@@ -17,9 +16,9 @@ dotenv.config({
 });
 
 const PORT = process.env.PORT;
-const DBConnectionStr = process.env.DB_URL.replace(
+const DBConnectionStr = process.env.DB_URL!.replace(
   '<password>',
-  process.env.DB_PASS
+  process.env.DB_PASS!
 );
 mongoose
   .connect(DBConnectionStr)
@@ -30,6 +29,7 @@ mongoose
     console.log('Geopuzzle app cannot connect database');
     console.error(error)
   });
+
 const server = app.listen(PORT, () => {
-  console.log(`Server GeoPuzzle running port: ${PORT} in ${process.env.NODE_ENV} mode`);
+  console.log(`Server GeoPuzzle is running on ${PORT}port in ${process.env.NODE_ENV} mode`);
 });

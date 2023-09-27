@@ -1,10 +1,17 @@
-import { Document } from "mongoose";
-export interface ITrack extends Document {
-    name: string,
-    author: string,
-    tags:string,
-    description: string,
-    thumbnail: string;
-    waypointsList: string,
-  
+import { Document, Types } from "mongoose";
+export enum TrackDiff {
+    easy = "łatwy",
+    medium = "średni",
+    hard = "trudny",
+
 }
+interface Track extends Document {
+    name: string,
+    description: string,
+    thumbnail: string,
+    waypoints: [Types.ObjectId],
+    difficulty: TrackDiff,
+    isActive: boolean
+
+}
+export default Track

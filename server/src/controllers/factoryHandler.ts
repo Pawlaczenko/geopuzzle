@@ -1,14 +1,13 @@
 import AppError from "../utils/appError.js";
-import { Document, Model} from "mongoose";
+import {  Model, Schema} from "mongoose";
 import { catchAsync } from "../utils/catchAsync.js";
 import { NextFunction, Request, Response } from "express";
 
 
-export const getAll = (model:Model<Document>) =>
+export const getAll = <T>(model:Model<T>) =>
   catchAsync(async (req:Request, res:Response) => {
     let query =  model.find();
     const doc = await query.select("-__v");
-
     res.status(200).json({
       status: "success",
       results: doc.length,
@@ -16,30 +15,26 @@ export const getAll = (model:Model<Document>) =>
     });
   });
 
-export const getOne = (model:Model<Document>, popOptions?: string | string[]) =>
+export const getOne = <T>(model:Model<T>, popOptions?: string | string[]) =>
   catchAsync(async (req:Request, res:Response, next:NextFunction) => {
     let query = model.findById(req.params.id).select("-__v");
     if (popOptions) query.populate(popOptions);
     const doc = await query;
-    if (!doc) return next(new AppError("Nie można znaleźć dokumentu o id", 404));
+    if (!doc) return next(new AppError(`Nie można znaleźć dokumentu o id: ${req.params.id}`, 404));
 
     res.status(200).json({
       status: "success",
       data: doc,
     });
   });
-  export const deleteOne = (model:Model<Document>) =>
+  export const deleteOne = <T>(model:Model<T>) =>
   catchAsync(async (req:Request, res:Response, next:NextFunction) => {
     const doc = await model.findByIdAndDelete(req.params.id);
-
-    if (!doc) return next(new AppError('Nie można znaleźć dokumentu o id', 404));
-
-    res.status(204).json({
-      status: 'success',
-      data: null,
-    });
+    if (!doc) return next(new AppError(`Nie można znaleźć dokumentu o id: ${req.params.id}`, 404));
+    res.status(204).send();
   });
-  export const addOne = (model:Model<Document>)=> catchAsync(async (req:Request, res:Response, next:NextFunction)=>{
+  export const addOne = <T>(model:Model<T>)=> catchAsync(async (req:Request, res:Response, next:NextFunction)=>{
+
     const doc = await model.create(req.body);
 
     res.status(201).json({
@@ -47,7 +42,7 @@ export const getOne = (model:Model<Document>, popOptions?: string | string[]) =>
       data:doc
     })
   })
-  export const updateOne = (model:Model<Document>) =>
+  export const updateOne = <T>(model:Model<T>) =>
   catchAsync(async (req:Request, res:Response, next:NextFunction) => {
     if (req.body.password || req.body.passwordConfirm)
       return next(new AppError("Nie możesz zmienić hasła tą scieżką", 403));
@@ -57,7 +52,7 @@ export const getOne = (model:Model<Document>, popOptions?: string | string[]) =>
       runValidators: true,
     });
 
-    if (!doc) return next(new AppError('Nie można znaleźć dokumentu o podanum id', 404));
+    if (!doc) return next(new AppError(`Nie można znaleźć dokumentu o id: ${req.params.id}`, 404));
 
     res.status(200).json({
       status: 'success',
