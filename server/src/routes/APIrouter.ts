@@ -1,17 +1,9 @@
-import express, { Router } from 'express';
-import * as trackController from './../controllers/trackController.js'
-
-const APIrouter:Router = express.Router();
+import express from 'express';
+import trackRouter from './trackRouter.js';
+const APIrouter = express.Router();
 
 //track routing
+APIrouter.use("/track", trackRouter)
 
-APIrouter.route(["/track", "/track/all"])
-.get(trackController.getAllTracks)
-APIrouter.route('/track')
-.post(trackController.addOneTrack)
-APIrouter.route('/track/:id')
-.get(trackController.getOneTrack)
-.patch(trackController.updateOneTrack)
-.delete(trackController.deleteOneTrack)
 
 export default APIrouter
