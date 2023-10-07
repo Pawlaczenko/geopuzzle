@@ -9,7 +9,7 @@ interface Track extends Document {
     name: string,
     description: string,
     thumbnail: string,
-    waypoints: [Types.ObjectId],
+    waypoints: [],
     difficulty: TrackDiff,
     isActive: boolean
 
