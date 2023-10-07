@@ -2,11 +2,11 @@ import {  NextFunction, Request, Response } from "express";
 import TrackModel from "../models/trackModel.js";
 import { catchAsync } from "../utils/catchAsync.js";
 import * as factoryHandler from "./factoryHandler.js";
-import WaypointModel from "../models/waypointsModel.js";
 import AppError from "../utils/appError.js";
-import multer, { DiskStorageOptions, FileFilterCallback, Multer } from "multer";
-import mongoose from "mongoose";
+import multer, {  FileFilterCallback,  } from "multer";
+import mongoose, { model } from "mongoose";
 import { deleteFile } from "../utils/deleteFile.js";
+import { ObjectId } from "mongodb";
 
 
 type DestinationCallback = (error: Error | null, destination: string) => void
@@ -44,36 +44,12 @@ const fileStorage = multer.diskStorage({
 
 const upload = multer({ storage: fileStorage, fileFilter: fileFilter } );
 
-export const getOneTrack = factoryHandler.getOne(TrackModel, "waypoints") 
+export const getOneTrack = factoryHandler.getOne(TrackModel, ["waypoints"]) 
 export const getAllTrack = factoryHandler.getAll(TrackModel) 
 export const addOneTrack = factoryHandler.addOne(TrackModel) 
 export const deleteOneTrack = factoryHandler.deleteOne(TrackModel) 
 export const updateOneTrack = factoryHandler.updateOne(TrackModel) 
-export const addWaypointToTrack = catchAsync(async (req: Request, res: Response, next: NextFunction)=>{
-    let query = await TrackModel.findById(req.params.id);
-    if(!query)
-        return next(new AppError(`Nie można znaleźć trasy o id: ${req.params.id}`, 400));
-    let waypoint = new WaypointModel(req.body);
-    query.waypoints?.push(waypoint._id);
 
-    await query.save();
-    await waypoint.save();
-    res.status(201).json({
-        status: "success",
-        data:query
-    })
-})
-export const deleteWaypointFromTrack = catchAsync(async (req: Request, res: Response, next: NextFunction)=>{
-    if(!req.body.id)
-        return next(new AppError(`Nie podano id punktu do usunięcia.`, 400));
-    await TrackModel.findByIdAndUpdate(req.params.id, {
-        $pull:{
-            waypoints: req.body.id
-        }
-    });
-    await WaypointModel.findByIdAndDelete(req.body.id);
-    res.status(204).send();
-})
 
 
 export const updateTrackThumbnail = catchAsync(async (req:Request, res:Response, next: NextFunction)=>{
@@ -121,6 +97,16 @@ export const deleteTrackThumbnail = catchAsync(async (req:Request, res:Response,
     await doc.save();
     res.status(204).send();
 });
-
+// export const returnTrackDetails = async (id:string )=> {
+//     if(!ObjectId.isValid(id))
+//         throw new Error("Id nie jest typu ObjectId")
+//     let doc = await TrackModel.findById(id);
+//     if(!doc)
+//         throw new Error(`Trasa od id ${id} nie istnieje`);
+//     if(doc.waypoints.length  < 1){
+//         throw new Error(`Podana trasa nie ma żadnych punktów na mapie, gra się nie może odbyć`);
+//     }
+//     return doc;
+// }
 
 export const uploadTrackThumbnail = upload.single('thumbnail');

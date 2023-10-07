@@ -1,1 +1,30 @@
-{}
+{
+  "scripts": {
+    "server": "cd server && npm run server",
+    "server-nodemon": "cd server && npx nodemon"
+  },
+  "name": "geopuzzle",
+  "version": "1.0.0",
+  "description": "Engineer's degree project",
+  "main": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pawlaczenko/geopuzzle.git"
+  },
+  "keywords": [
+    "game",
+    "maps",
+    "interactive",
+    "react.js",
+    "node.js",
+    "express.js",
+    "mongoDB"
+  ],
+  "author": "Bartłomiej Pawlak, Jakub Stapiński",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pawlaczenko/geopuzzle/issues"
+  },
+  "homepage": "https://github.com/Pawlaczenko/geopuzzle#readme"
+
+}

@@ -6,8 +6,9 @@ import { NextFunction, Request, Response } from "express";
 
 export const getAll = <T>(model:Model<T>) =>
   catchAsync(async (req:Request, res:Response) => {
-    let query =  model.find();
+    let query =  model.find()
     const doc = await query.select("-__v");
+    
     res.status(200).json({
       status: "success",
       results: doc.length,
@@ -17,14 +18,13 @@ export const getAll = <T>(model:Model<T>) =>
 
 export const getOne = <T>(model:Model<T>, popOptions?: string | string[]) =>
   catchAsync(async (req:Request, res:Response, next:NextFunction) => {
-    let query = model.findById(req.params.id).select("-__v");
+    let query = model.findById(req.params.id).select("-__v")
     if (popOptions) query.populate(popOptions);
     const doc = await query;
     if (!doc) return next(new AppError(`Nie można znaleźć dokumentu o id: ${req.params.id}`, 404));
-
     res.status(200).json({
       status: "success",
-      data: doc,
+      data: doc.toObject({virtuals: true, "depopulate": true}),
     });
   });
   export const deleteOne = <T>(model:Model<T>) =>

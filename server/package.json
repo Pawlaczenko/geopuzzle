@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "tsc",
+    "server": "ts-node-esm ./src/server.ts"
   },
   "author": "",
   "license": "ISC",
@@ -19,8 +20,7 @@
     "mongoose": "^7.5.3",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
-    "ts-node": "^10.9.1",
-    "typescript": "4.7",
+    "ws": "^8.14.2",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
@@ -32,6 +32,10 @@
     "@types/morgan": "^1.9.5",
     "@types/multer": "^1.4.7",
     "@types/node": "^20.6.5",
-    "nodemon": "^3.0.1"
+    "@types/ws": "^8.5.6",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "uninstall": "^0.0.0"
   }
 }
