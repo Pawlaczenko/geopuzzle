@@ -20,6 +20,7 @@ export const variables = css`
         --color-black: #3E3736;
         --color-grey-dark: #666666;
         --color-error: #ff7878;
+        --color-dark-100: #08090A;
 
         ///THEME COLORS
         

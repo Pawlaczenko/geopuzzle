@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import { trackInfoValidationSchema } from './TrackInfoForm.helper';
 import { CreateTrackFormData, useCreateTrackContext } from 'src/context/CreateTrackContext';
 import StyledForm from '../Form.styled';
+import { addOneTrack } from 'src/services/TrackService';
 
 const FormNames = {
     track_name: "trackName",
@@ -38,7 +39,7 @@ const TrackInfoForm : FC = () => {
         <Formik
             initialValues={initialValues}
             validationSchema={trackInfoValidationSchema}
-            onSubmit={(values) => {
+            onSubmit={async (values) => {
                 const data: CreateTrackFormData = {
                     ...formData,
                     trackName: values.trackName.trim(),
@@ -47,6 +48,7 @@ const TrackInfoForm : FC = () => {
                     trackThumbnail: values.trackThumbnail
                 };
                 setFormData(data);
+                await addOneTrack(data.trackName,data.trackDescription);
                 setActiveStepIndex(activeStepIndex + 1);
             }}
         >

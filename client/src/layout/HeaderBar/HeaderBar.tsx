@@ -31,8 +31,9 @@ export const StyledHeaderBar = styled.header<{$isOpen: boolean}>`
     width: ${(props) => props.$isOpen ? 'var(--navbar-size)' : '8rem'};
 
     padding:${(props) => props.$isOpen ? '2.3rem' : '2rem .8rem'};
-    border-right: 1px solid ${({theme}) => theme.input};
-    background-color: ${(props) => props.theme.header};
+    /* border-right: 1px solid ${({theme}) => theme.input}; */
+    background-color: var(--color-dark-100);
+    transition: width .2s ease-in-out;
 
     ${StyledHideHeaderButton} {
         @media only screen and (${BREAKPOINTS.phone}){

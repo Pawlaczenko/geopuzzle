@@ -120,7 +120,7 @@ const StyledTagsInput = styled.input`
 `;
 
 const TagsWrapper = styled.div`
-    line-height: 2;
+    /* line-height: 2; */
     ${flexContainer('flex-start','center')}
     flex-wrap: wrap;
     gap: 1rem;

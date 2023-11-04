@@ -35,7 +35,7 @@ const NavigationItem : FC<INavigationItem> = ({label, path, Icon}) => {
 }
 
 const StyledNavigationItem = styled(NavLink)<{$isCompact: boolean}>`
-    color: ${(props) => props.theme.textBlue};
+    color: var(--color-white);
     font-size: var(--fs-paragraph);
     border-radius: var(--radius);
 
