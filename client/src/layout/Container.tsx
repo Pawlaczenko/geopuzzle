@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const Container = styled.div`
     display: grid;
-    grid-template-columns: 1fr var(--website-width) 1fr;
+    grid-template-columns: 1fr min(90%, var(--website-width)) 1fr;
     & > * {
         grid-column: 2;
     }

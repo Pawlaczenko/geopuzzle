@@ -1,3 +1,4 @@
+import { BREAKPOINTS } from 'src/styles/variables';
 import styled, { css } from 'styled-components'
 
 export type ButtonType = 'outline' | 'regular' | 'danger';
@@ -68,6 +69,10 @@ const Button = styled.button<IButtonProps>`
         transform: translateY(.3rem);
         box-shadow: inset 0 .3rem 1.5rem rgba(141, 141, 141, 0.75);
         border-color: var(--button-color);
+    }
+
+    @media only screen and (${BREAKPOINTS.md}) {
+        font-size: 1.6rem;
     }
 `;
 

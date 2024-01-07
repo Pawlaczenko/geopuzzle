@@ -3,9 +3,11 @@ import { css } from "styled-components";
 
 export const BREAKPOINTS = {
     remToggle: "max-width:93.75em",
+    md: "max-width: 976px",
     big: "max-width: 910px",
-    phone: "max-width: 750px",
-    small: "max-width: 500px"
+    phone: "max-width: 768px",
+    small: "max-width: 500px",
+    xs: "max-width: 370px",
 }
 
 export const variables = css`

@@ -59,7 +59,7 @@ const TrackInfoForm : FC = () => {
                         <TextArea name={FormNames.track_description} label="Opis Trasy" placeholder='Podaj Opis Trasy' />
                         <FileInput  name={FormNames.track_thumbnail} label='Miniatura Trasy' />
                         <TagsInput name={FormNames.track_tags} label='Tagi' placeholder='Dodaj tagi' />
-                        <ButtonIcon btnType='white' icon='create' type="submit">Następny krok</ButtonIcon>
+                        <ButtonIcon btnType='regular' icon='create' type="submit">Następny krok</ButtonIcon>
                     </StyledInfoForm>
                 )
             }

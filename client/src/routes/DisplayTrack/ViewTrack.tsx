@@ -13,6 +13,7 @@ import GameMap from 'src/components/Map/GameMap';
 import { coordSuggestion } from 'src/types/input.types';
 import PuzzleWrapper from 'src/components/Puzzles/PuzzleWrapper';
 import { IPuzzleContent } from 'src/types/puzzle.types';
+import Container from 'src/layout/Container';
 
 const ViewTrack : FC = () => {
     const [isRunning, setIsRunning] = useState(false);
@@ -36,21 +37,25 @@ const ViewTrack : FC = () => {
     return (
         <Page>
             <TrackBanner background={BackgroundImage}>
-                <TrackInfoBox />
+                <Container>
+                    <TrackInfoBox />
+                </Container>
             </TrackBanner>
-            <InteractiveBar>
-                <TrackPointNavigation />
-                <ButtonIcon btnType='regular' icon='start'>Rozpocznij grę</ButtonIcon>
-                <StopWatch time={time}/>
-            </InteractiveBar>
-            <PuzzleWrapper puzzle={textPuzzle} />
-            <GameMap chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
+            <Container>
+                <InteractiveBar>
+                    <TrackPointNavigation />
+                    <ButtonIcon btnType='regular' icon='start'>Rozpocznij grę</ButtonIcon>
+                    <StopWatch time={time}/>
+                </InteractiveBar>
+                <PuzzleWrapper puzzle={textPuzzle} />
+                <GameMap chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
+            </Container>
         </Page>
     )
 }
 
 const TrackBanner = styled(StyledBanner)`
-    justify-content: flex-start;
+    display: block;
 `
 
 const InteractiveBar = styled.div`

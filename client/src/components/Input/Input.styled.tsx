@@ -10,6 +10,9 @@ export const StyledInput = styled.input<{$error?: boolean}>`
     border-radius: var(--radius);
 
     --input-height: 3.6rem;
+    @media only screen and (max-width: 768px) {
+        --input-height: 4.8rem;
+    }
 
     width: 100%;
     padding: 0 2.4rem;
