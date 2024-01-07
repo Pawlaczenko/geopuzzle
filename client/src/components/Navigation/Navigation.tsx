@@ -4,7 +4,6 @@ import NavigationItem, { INavigationItem } from './NavigationItem'
 import { NAV_ROUTES } from 'src/data/navigation.data'
 import { ICONS } from 'src/data/icons.data'
 import { BREAKPOINTS } from 'src/styles/variables'
-import { flexContainer } from 'src/styles/mixins'
 
 const Navigation : FC = () => {
     const navigationItems : INavigationItem[] = [
@@ -22,10 +21,18 @@ const Navigation : FC = () => {
 
 const StyledNavigation = styled.nav`
     margin-left: 2.4rem;
+    margin-right: auto;
     font-family: var(--family-primary);
     display: flex;
     align-items: center;
     justify-content: flex-start;
+
+    @media only screen and (${BREAKPOINTS.md}){
+        margin-left: 0;
+        flex-direction: column;
+        justify-content: center;
+        margin: 2rem;
+    }
 `;
 
 export default Navigation

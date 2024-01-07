@@ -16,8 +16,6 @@ export interface INavigationItem {
 }
 
 const NavigationItem : FC<INavigationItem> = ({label, path, Icon}) => {
-    // const isOpen = useSelector((state: RootState) => state.header);
-    // const isPhone = useMediaQuery(`(${BREAKPOINTS.phone})`);
 
     return (
         <StyledNavigationItem to={path}>
@@ -42,6 +40,11 @@ const StyledNavigationItem = styled(NavLink)`
     &:hover {
         background-color: var(--color-grey);
         color: var(--color-dark);
+    }
+
+    @media only screen and (${BREAKPOINTS.md}){
+        font-size: 1.6rem;
+        width: 100%;
     }
 `;
 

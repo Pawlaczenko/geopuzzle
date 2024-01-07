@@ -9,9 +9,9 @@ const GlobalStyles = createGlobalStyle`
     html {
         font-size: 62.5%;
 
-        @media only screen and (${BREAKPOINTS.remToggle}){
+        /* @media only screen and (${BREAKPOINTS.remToggle}){
             font-size: 50%;
-        }
+        } */
     }
 
     body {

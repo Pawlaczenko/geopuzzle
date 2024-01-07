@@ -16,7 +16,7 @@ const CreateTrackInfo : FC = () => {
             <Heading level='h3' withAccent $alignCenter>Informacje o trasie</Heading>
             <TrackInfoForm />
             <StyledTutorial>
-                <Logo logoType='compact' />
+                <Logo />
                 <Heading level='h5'>Witaj w kreatorze tras!</Heading>
                 <NumberedList items={tutorialList} />
             </StyledTutorial>

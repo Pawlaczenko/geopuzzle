@@ -24,7 +24,7 @@ const TrackInfoBox : FC = () => {
 }
 
 const TrackInfo = styled(BannerBox)`
-    width: auto;
+    width: fit-content;
     padding: 3rem;
 
     ${flexContainer()};
