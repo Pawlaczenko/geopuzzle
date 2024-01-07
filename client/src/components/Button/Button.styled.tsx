@@ -1,23 +1,22 @@
 import styled, { css } from 'styled-components'
 
-export type ButtonType = 'white' | 'blue' | 'yellow' | 'danger';
+export type ButtonType = 'outline' | 'regular' | 'danger';
 
 interface IButtonProps {
-    $btnType: ButtonType
+    variant: ButtonType,
+    pop?: Boolean
 }
 
-const getButtonStyles = (btnType: ButtonType = 'white') => {
-    switch(btnType){
-        case 'blue': return BlueButton;
-        case 'yellow': return YellowButton;
+const getButtonStyles = ({variant='regular'} : IButtonProps) => {
+    switch(variant){
         case 'danger': return DangerButton;
-        case 'white':
+        case 'regular':
         default:
-             return WhiteButton;
+             return OutlineButton;
     }
 }
 
-const WhiteButton = css`
+const OutlineButton = css`
     --button-color: var(--color-white);
     --button-text-color: var(--color-dark);
     --button-border-color: var(--color-secondary);
@@ -26,13 +25,13 @@ const WhiteButton = css`
 const BlueButton = css`
     --button-color: var(--color-secondary);
     --button-text-color: var(--color-white);
-    --button-border-color: var(--color-grey);
+    --button-border-color: var(--color-black);
 `
 
 const YellowButton = css`
     --button-color: var(--color-primary);
-    --button-text-color: var(--color-dark);
-    --button-border-color: var(--color-grey-dark);
+    --button-text-color: var(--color-black);
+    --button-border-color: var(--color-black);
 `
 
 const DangerButton = css`
@@ -42,28 +41,27 @@ const DangerButton = css`
 `
 
 const Button = styled.button<IButtonProps>`
-    ${(props) => getButtonStyles(props.$btnType)};
+    ${(props) => getButtonStyles({variant: props.variant})};
 
     font-family: var(--family-primary);
     letter-spacing: 1px;
     cursor: pointer;
-    font-size: var(--fs-paragraph);
-    font-weight: bold;
+    font-size: 1.4rem;
     
     width: fit-content;
-    padding: 1rem 2rem;
-    border-radius: 5.5rem;
+    padding: 0.8rem 1.6rem;
+    border-radius: 0.8rem;
 
     background: var(--button-color);
     border: 1px solid var(--button-border-color);
     color: var(--button-text-color);
     
-    --btn-shadow-offset: .3rem;
+    --btn-shadow-offset: .2rem;
     box-shadow: 0 var(--btn-shadow-offset) 0 0 var(--button-border-color);
 
     &:hover {
-        transform: translateY(-.3rem);
-        --btn-shadow-offset: .6rem;
+        transform: translateY(-.2rem);
+        --btn-shadow-offset: .4rem;
     }
 
     &:active {

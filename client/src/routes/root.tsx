@@ -15,7 +15,7 @@ const Root = () => {
                 <AppContainer>
                     <GlobalStyles />
                     <HeaderBar />
-                    <Outlet /> 
+                    <Outlet />
                 </AppContainer>
             </ThemeContext.Provider>
         </ThemeProvider>
@@ -23,14 +23,14 @@ const Root = () => {
 }
 
 const AppContainer  = styled.div`
-    height: 100vh;
-    display: grid;
+    /* height: 100vh; */
+    /* display: grid; */
     
-    grid-template-columns: min-content 1fr;
+    /* grid-template-columns: min-content 1fr; */
 
-    @media only screen and (${BREAKPOINTS.phone}){
-        grid-template-columns: 1fr;
-    }
+    /* @media only screen and (${BREAKPOINTS.phone}){ */
+        /* grid-template-columns: 1fr; */
+    /* } */
 `
 
 export default Root

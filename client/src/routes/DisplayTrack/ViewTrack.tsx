@@ -40,11 +40,11 @@ const ViewTrack : FC = () => {
             </TrackBanner>
             <InteractiveBar>
                 <TrackPointNavigation />
-                <ButtonIcon btnType='yellow' icon='start'>Rozpocznij grę</ButtonIcon>
+                <ButtonIcon btnType='regular' icon='start'>Rozpocznij grę</ButtonIcon>
                 <StopWatch time={time}/>
             </InteractiveBar>
-            <GameMap chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
             <PuzzleWrapper puzzle={textPuzzle} />
+            <GameMap chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
         </Page>
     )
 }

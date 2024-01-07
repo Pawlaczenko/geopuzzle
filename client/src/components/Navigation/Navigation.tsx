@@ -8,11 +8,8 @@ import { flexContainer } from 'src/styles/mixins'
 
 const Navigation : FC = () => {
     const navigationItems : INavigationItem[] = [
-        {label: "Strona Główna", path: NAV_ROUTES.home, Icon: ICONS.get('home')!},
         {label: "Eksploruj", path: NAV_ROUTES.displayTrack, Icon: ICONS.get('explore')!},
         {label: "Utwórz Trasę", path: NAV_ROUTES.createTrack, Icon: ICONS.get('create')!},
-        {label: "Zagadki", path: NAV_ROUTES.placeholder, Icon: ICONS.get('puzzle')!},
-        {label: "Zaloguj", path: NAV_ROUTES.placeholder, Icon: ICONS.get('login')!},
     ]
     return (
         <StyledNavigation>
@@ -24,15 +21,11 @@ const Navigation : FC = () => {
 }
 
 const StyledNavigation = styled.nav`
+    margin-left: 2.4rem;
     font-family: var(--family-primary);
-    margin-top: 2rem;
-    width: 100%;
-
-    @media only screen and (${BREAKPOINTS.phone}){
-        ${flexContainer('space-between', 'center')};
-        margin-top: 0;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 `;
-
 
 export default Navigation
