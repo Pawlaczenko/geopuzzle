@@ -75,13 +75,12 @@ export const StyledImage = styled(StyledInput)<{$selectedImg?: string}>`
         ${({$selectedImg: selectedImg}) => {
             if(selectedImg){
                 return `url(${selectedImg}) center/cover no-repeat` //show selected image
-            } else {
-                return `url(${InputImage}) bottom right/65% no-repeat` //show default image
             }
         }},
         ${({theme}) => theme.input};
     width: 100%;
     aspect-ratio: 1.65/1;
+    border: 2px dashed ${({theme}) => theme.primary};
 `
 
 export default FileInput

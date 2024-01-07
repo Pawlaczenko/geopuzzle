@@ -11,33 +11,19 @@ export const BREAKPOINTS = {
 export const variables = css`
     html {
         //COLORS
-        --color-primary: #FFE25F;
-        --color-secondary: #79AEA3;
-        --color-dark: #5A5766;
+        --color-primary: #B1EDE8;
+        --color-secondary: #0081AF;
+        --color-black: #28262C;
+        --color-white: #FFFCF9;
+        --color-dark: #011638;
+
         --color-grey: #E6E2E8;
         --color-grey-light: #F5F5F5;
         --color-white: #FFFBFF;
         --color-black: #3E3736;
         --color-grey-dark: #666666;
         --color-error: #ff7878;
-
-        ///THEME COLORS
-        
-        /** CSS DARK THEME PRIMARY COLORS */ 
-        --color-primary-100:  #79aea3;
-        --color-primary-200:  #88b7ad; 
-        --color-primary-300:  #97c0b7; 
-        --color-primary-400:  #a6c9c1;
-        --color-primary-500:  #b4d2cb;
-        --color-primary-600:  #c3dbd5;  
-        
-        /** CSS DARK THEME SURFACE COLORS */ 
-        --color-surface-100:  #171717;
-        --color-surface-200:  #2c2c2c;
-        --color-surface-300:  #434343;
-        --color-surface-400:  #5b5b5b;
-        --color-surface-500:  #747474;
-        --color-surface-600:  #8e8e8e;
+        --color-dark-100: #08090A;
 
         //GRADIENTS
         --color-incorrect:
@@ -85,8 +71,8 @@ export const variables = css`
         --family-primary: 'Montserrat', sans-serif;
         --family-secondary: 'Open Sans', sans-serif;
 
-        //SIZE        
-        --radius: 1rem;
+        //SIZE
+        --radius: 0.8rem;
         --navbar-size: 28rem;
         --mobile-topbar-size: 5.5rem;
         --input-height: 5.2rem;

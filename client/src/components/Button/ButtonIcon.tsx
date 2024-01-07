@@ -16,7 +16,7 @@ interface IButtonIconProps {
 const ButtonIcon : FC<IButtonIconProps> = (props) => {
     const Icon = ICONS.get(props.icon);
     return (
-        <StyledButtonIcon onClick={props.onClick} $btnType={props.btnType} type={props.type}>
+        <StyledButtonIcon onClick={props.onClick} variant={props.btnType} type={props.type}>
             {Icon && <Icon />}
             {props.children}
         </StyledButtonIcon>

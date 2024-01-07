@@ -6,7 +6,16 @@ import hpp from 'hpp';
 import errorHandler from "./controllers/errorController.js";
 import AppError from "./utils/appError.js";
 import ExpressMongoSanitize from "express-mongo-sanitize";
+import cors from "cors";
+
 const app = express();
+
+const corsOptions ={
+    origin:'*', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200,
+ }
+app.use(cors(corsOptions));
 if (process.env.NODE_ENV === 'development')
     app.use(morgan('dev'));
   
