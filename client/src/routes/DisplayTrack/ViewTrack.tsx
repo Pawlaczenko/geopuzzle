@@ -14,6 +14,8 @@ import { coordSuggestion } from 'src/types/input.types';
 import PuzzleWrapper from 'src/components/Puzzles/PuzzleWrapper';
 import { IPuzzleContent } from 'src/types/puzzle.types';
 import Container from 'src/layout/Container';
+import TrackItem, { ITrackItemProps } from 'src/components/TrackItem/TrackItem';
+import TrackSwiper from 'src/components/TrackSwiper';
 
 const ViewTrack : FC = () => {
     const [isRunning, setIsRunning] = useState(false);
@@ -62,6 +64,9 @@ const ViewTrack : FC = () => {
                     <GameMap chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
                 </Container>
             }
+            <Container>
+                <TrackSwiper />
+            </Container>
         </Page>
     )
 }
