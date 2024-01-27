@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, useState, useRef, useEffect } from 'react';
 import styled from 'styled-components'
-import InputImage from 'src/assets/image-placeholder.svg';
+import PhotoIcon from 'src/assets/icons/add-photo.svg';
 import Button from '../Button/Button.styled';
 import { StyledInput } from './Input.styled';
 import InputWrapper from './InputWrapper';
@@ -39,8 +39,8 @@ const FileInput : FC<IInputProps> = (props) => {
     return (
         <InputWrapper label={props.label} name={props.name}>
             <StyledFileWrapper>
-                <StyledImage as="figure" $selectedImg={selectedFile || undefined} />
-                {selectedFile && <Button type="button" $btnType='white' onClick={removePhoto}>X</Button>}
+                <StyledImage as="figure" $selectedImg={selectedFile || undefined} placeholder={PhotoIcon} />
+                {selectedFile && <Button type="button" variant='regular' onClick={removePhoto}>X</Button>}
                 <input
                     type='file'
                     id={props.name} 
@@ -66,18 +66,19 @@ const StyledFileWrapper = styled.div`
     & > button {
         position: absolute;
         top: -1rem;
-        left: -1rem;
+        right: -1rem;
     }
 `;
 
-export const StyledImage = styled(StyledInput)<{$selectedImg?: string}>`
+export const StyledImage = styled(StyledInput)<{$selectedImg?: string, placeholder: string}>`
     background:
-        ${({$selectedImg: selectedImg}) => {
+        ${({$selectedImg: selectedImg, placeholder}) => {
             if(selectedImg){
                 return `url(${selectedImg}) center/cover no-repeat` //show selected image
+            } else {
+                return `url(${placeholder}) center/10% no-repeat`
             }
-        }},
-        ${({theme}) => theme.input};
+        }};
     width: 100%;
     aspect-ratio: 1.65/1;
     border: 2px dashed ${({theme}) => theme.primary};

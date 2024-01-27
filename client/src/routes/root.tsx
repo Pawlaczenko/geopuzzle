@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import { ThemeContext } from 'src/context/ThemeContext'
 import { useCustomTheme } from 'src/hooks/useCustomTheme'
+import Footer from 'src/layout/Footer'
 import HeaderBar from 'src/layout/HeaderBar/HeaderBar'
 import GlobalStyles from 'src/styles/globalStyles'
 import { Themes } from 'src/styles/theme'
@@ -16,6 +17,7 @@ const Root = () => {
                     <GlobalStyles />
                     <HeaderBar />
                     <Outlet />
+                    <Footer />
                 </AppContainer>
             </ThemeContext.Provider>
         </ThemeProvider>
