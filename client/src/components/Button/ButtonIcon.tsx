@@ -10,13 +10,14 @@ interface IButtonIconProps {
     children: React.ReactNode,
     icon: IconName,
     type?: "submit" | "button" | "reset",
+    disabled?: Boolean,
     onClick?: ()=>void
 }
 
 const ButtonIcon : FC<IButtonIconProps> = (props) => {
     const Icon = ICONS.get(props.icon);
     return (
-        <StyledButtonIcon onClick={props.onClick} variant={props.btnType} type={props.type}>
+        <StyledButtonIcon onClick={props.onClick} variant={props.btnType} type={props.type} disabled={props.disabled ?? false}>
             {Icon && <Icon />}
             {props.children}
         </StyledButtonIcon>

@@ -5,7 +5,8 @@ export type ButtonType = 'outline' | 'regular' | 'danger';
 
 interface IButtonProps {
     variant: ButtonType,
-    pop?: Boolean
+    pop?: Boolean,
+    disabled?: Boolean
 }
 
 const getButtonStyles = ({variant='regular'} : IButtonProps) => {
@@ -59,6 +60,11 @@ const Button = styled.button<IButtonProps>`
     
     --btn-shadow-offset: .2rem;
     box-shadow: 0 var(--btn-shadow-offset) 0 0 var(--button-border-color);
+
+    &:disabled {
+        opacity: 0.6;
+        pointer-events: none;
+    }
 
     &:hover {
         transform: translateY(-.2rem);

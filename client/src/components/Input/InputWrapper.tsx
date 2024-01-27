@@ -5,7 +5,7 @@ import { FormikErrors, FormikTouched, useFormikContext } from 'formik';
 import InputMessage from './InputMessage';
 
 interface IInputWrapperProps {
-    label: string,
+    label?: string,
     name: string,
     children: React.ReactNode,
     helpMessage?: string

@@ -18,10 +18,19 @@ import Container from 'src/layout/Container';
 const ViewTrack : FC = () => {
     const [isRunning, setIsRunning] = useState(false);
     const time = useTimer(isRunning);
+    const [btnDisabled, setButtonDisabled] = useState(true);
+    const [currentPuzzle, setCurrentPuzzle] = useState(0);
+    const points = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
+
 
     const [mapWaypoint, setMapWaypoint] = useState<coordSuggestion | undefined>(undefined);
     const handleWaypointChange = (waypoint: coordSuggestion) => {
         setMapWaypoint(waypoint);
+        setButtonDisabled(false);
+    }
+
+    const startTrack = () => {
+        setIsRunning(true);
     }
 
     const textPuzzle : IPuzzleContent = {
@@ -38,18 +47,21 @@ const ViewTrack : FC = () => {
         <Page>
             <TrackBanner background={BackgroundImage}>
                 <Container>
-                    <TrackInfoBox />
+                    <TrackInfoBox handleStart={startTrack} />
                 </Container>
             </TrackBanner>
-            <Container>
-                <InteractiveBar>
-                    <TrackPointNavigation />
-                    <ButtonIcon btnType='regular' icon='start'>Rozpocznij grę</ButtonIcon>
-                    <StopWatch time={time}/>
-                </InteractiveBar>
-                <PuzzleWrapper puzzle={textPuzzle} />
-                <GameMap chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
-            </Container>
+            {
+                isRunning &&             
+                <Container>
+                    <InteractiveBar>
+                        <TrackPointNavigation currentIndex={currentPuzzle} points={points} />
+                        <ButtonIcon btnType='regular' icon='check' disabled={btnDisabled}>Sprawdź</ButtonIcon>
+                        <StopWatch time={time}/>
+                    </InteractiveBar>
+                    <PuzzleWrapper puzzle={textPuzzle} />
+                    <GameMap chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
+                </Container>
+            }
         </Page>
     )
 }

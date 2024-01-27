@@ -6,8 +6,9 @@ import TagNamesContainer from './TagNames/TagNamesContainer'
 import Heading from './Heading'
 import Paragraph from './Paragraph.styled'
 import React from 'react'
+import ButtonIcon from './Button/ButtonIcon'
 
-const TrackInfoBox : FC = () => {
+const TrackInfoBox : FC<{handleStart: ()=>void}> = ({handleStart}) => {
     return (
         <TrackInfo>
             <TagNamesContainer tagnames={['stolice','europa']} />
@@ -19,6 +20,7 @@ const TrackInfoBox : FC = () => {
                 <InfoText>Średnia ocen: <b>4/5</b></InfoText>
                 <InfoText>10 Zagadek</InfoText>
             </MetaInfo>
+            <ButtonIcon onClick={handleStart} btnType='regular' icon='start'>Rozpocznij trasę</ButtonIcon>
         </TrackInfo>
     )
 }

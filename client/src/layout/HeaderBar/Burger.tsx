@@ -9,7 +9,7 @@ interface IProps {
 
 const Burger : FC<IProps> = ({isOpen, handleClick}) => {
     return (
-        <StyledBurger isOpen={isOpen} onClick={handleClick}>
+        <StyledBurger $isOpen={isOpen} onClick={handleClick}>
             <div></div>
             <div></div>
             <div></div>
@@ -17,7 +17,7 @@ const Burger : FC<IProps> = ({isOpen, handleClick}) => {
     )
 }
 
-const StyledBurger = styled.button<{isOpen:boolean}>`
+const StyledBurger = styled.button<{$isOpen:boolean}>`
     --burger-gap: 5px;
     --burger-height: 3px;
     --burger-cross-width: 4.8rem;
@@ -49,19 +49,19 @@ const StyledBurger = styled.button<{isOpen:boolean}>`
         border-radius: 5px;
         
         &:nth-child(1){
-            ${props => props.isOpen && `
+            ${props => props.$isOpen && `
                 transform: translateY(250%) rotate(45deg);
             `};
         }
 
         &:nth-child(2){
-            ${props => props.isOpen && `
+            ${props => props.$isOpen && `
                 background-color: transparent; 
             `};
         }
 
         &:nth-child(3){
-            ${props => props.isOpen && `
+            ${props => props.$isOpen && `
                 transform: translateY(-250%) rotate(-45deg);
             `};
         }
