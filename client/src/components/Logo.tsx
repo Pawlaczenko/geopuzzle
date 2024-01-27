@@ -1,17 +1,13 @@
 import { FC } from 'react'
 import styled, { useTheme } from 'styled-components'
-import { Themes } from 'src/styles/theme';
 import { NavLink } from 'react-router-dom';
 import { NAV_ROUTES } from 'src/data/navigation.data';
 
-export type LogoType = 'filled' | 'compact'
+export type LogoType = 'primary' | 'white'
 
-const Logo: FC = () => {
-    const theme = useTheme();
-    const isDarkTheme = theme?.name === Themes.dark;
-
+const Logo: FC<{type?: LogoType}> = ({type}) => {
     return (
-        <StyledLogo to={NAV_ROUTES.home}>
+        <StyledLogo type={type} to={NAV_ROUTES.home}>
             <svg width="98" height="22" viewBox="0 0 98 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clipPath="url(#clip0_415_46)">
                     <path d="M15.2669 13.3411L17.1377 9.67276L18.1618 7.89709L12.2302 4.46907L8.79054 10.4331L12.5424 12.6016L15.2669 13.3411ZM11.5373 13.2416L8.26177 11.3494L2.35255 21.5849C2.20834 21.8379 1.88545 21.9248 1.63247 21.7801L0.263208 20.9891C0.141819 20.9187 0.0539333 20.8032 0.0180022 20.6677C-0.0184145 20.5317 0.00100772 20.3875 0.0709277 20.2652L10.0947 2.88955C10.0695 2.81866 10.0433 2.74486 10.0234 2.6696C9.87867 2.12335 9.95441 1.55282 10.2375 1.06192C10.5177 0.572483 10.9755 0.221912 11.5194 0.0747886C12.0661 -0.0733059 12.6332 1.30526e-05 13.1212 0.281635C13.6092 0.563743 13.9573 1.01919 14.1025 1.56544C14.2472 2.11169 14.171 2.68222 13.8884 3.17312C13.7286 3.45231 13.5155 3.67518 13.2698 3.84804L19.1513 7.2445C19.4043 7.38968 19.4898 7.71258 19.3426 7.96555L18.3113 9.7524L21.5869 11.6446C21.7486 11.7364 21.8457 11.9073 21.85 12.0937C21.8515 12.2812 21.7568 12.4555 21.5975 12.5536L18.003 14.7716L17.8811 18.9969C17.8763 19.1824 17.7709 19.3533 17.6097 19.4455C17.4451 19.5383 17.2465 19.5373 17.0872 19.4446L10.6993 15.7553C10.574 15.6825 10.488 15.5635 10.4536 15.4334C10.4186 15.3008 10.4346 15.1571 10.507 15.0309L11.5373 13.2416ZM11.5364 3.03619C12.0365 3.32801 12.6847 3.15273 12.9765 2.64678C13.1197 2.40109 13.1562 2.11606 13.0843 1.84464C13.012 1.57273 12.8362 1.34549 12.5939 1.20419C12.3516 1.06241 12.0666 1.02648 11.7947 1.10028C11.5228 1.1736 11.2965 1.34792 11.1537 1.59361C10.8707 2.0845 11.0484 2.75457 11.5364 3.03619ZM1.70968 20.5978L11.2309 4.08305L10.7779 3.82376L1.25568 20.3356L1.70968 20.5978Z" fill="currentColor" />
@@ -36,16 +32,16 @@ const Logo: FC = () => {
     )
 }
 
-export const StyledLogo = styled(NavLink)`
+export const StyledLogo = styled(NavLink)<{type?: LogoType}>`
     svg {
-        color: var(--color-secondary);
+        color: ${(props) => (props.type === 'white' ? 'white' : 'var(--color-secondary)')};
         width: 100%;
         height: 100%;
     }
 
     &:hover {
         svg {
-            color: var(--color-black);
+            color: ${(props) => (props.type === 'white' ? 'var(--color-secondary)' : 'var(--color-black)')};
         }
     }
 `;

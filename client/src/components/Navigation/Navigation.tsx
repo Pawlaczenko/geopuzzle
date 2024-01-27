@@ -1,38 +1,42 @@
 import { FC } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import NavigationItem, { INavigationItem } from './NavigationItem'
 import { NAV_ROUTES } from 'src/data/navigation.data'
 import { ICONS } from 'src/data/icons.data'
 import { BREAKPOINTS } from 'src/styles/variables'
 
-const Navigation : FC = () => {
+const Navigation : FC<{variant?: String}> = ({variant}) => {
     const navigationItems : INavigationItem[] = [
-        {label: "Eksploruj", path: NAV_ROUTES.displayTrack, Icon: ICONS.get('explore')!},
-        {label: "Utwórz Trasę", path: NAV_ROUTES.createTrack, Icon: ICONS.get('create')!},
+        {label: "Eksploruj", path: NAV_ROUTES.displayTrack},
+        {label: "Utwórz Trasę", path: NAV_ROUTES.createTrack},
     ]
     return (
-        <StyledNavigation>
+        <StyledNavigation variant={variant}>
             {
-                navigationItems.map((item,index) => <NavigationItem {...item} key={item.path+index} />)
+                navigationItems.map((item,index) => <NavigationItem variant={variant} {...item} key={item.path+index} />)
             }
         </StyledNavigation>
     )
 }
 
-const StyledNavigation = styled.nav`
-    margin-left: 2.4rem;
-    margin-right: auto;
-    font-family: var(--family-primary);
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-
+const mobileDesktop = css`
     @media only screen and (${BREAKPOINTS.md}){
         margin-left: 0;
         flex-direction: column;
         justify-content: center;
         margin: 2rem;
     }
+`
+
+const StyledNavigation = styled.nav<{variant?: String}>`
+    margin-left: 2.4rem;
+    margin-right: ${(props) => (props.variant === 'footer' ? '0' : 'auto')};
+    font-family: var(--family-primary);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    ${(props) => (props.variant === 'footer' ? '' : mobileDesktop)};
 `;
 
 export default Navigation

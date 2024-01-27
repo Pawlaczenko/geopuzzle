@@ -12,20 +12,20 @@ import { BREAKPOINTS } from '../../styles/variables';
 export interface INavigationItem {
     label: string,
     path: NAV_ROUTES,
-    Icon: IconType
+    variant?: String
 }
 
-const NavigationItem : FC<INavigationItem> = ({label, path, Icon}) => {
+const NavigationItem : FC<INavigationItem> = ({label, path, variant}) => {
 
     return (
-        <StyledNavigationItem to={path}>
+        <StyledNavigationItem variant={variant} to={path}>
             {label}
         </StyledNavigationItem>
     )
 }
 
-const StyledNavigationItem = styled(NavLink)`
-    color: var(--color-black);
+const StyledNavigationItem = styled(NavLink)<{variant?: String}>`
+    color: ${(props) => (props.variant === 'footer' ? 'white' : 'var(--color-black)')};
     font-size: 1.4rem;
     border-radius: var(--radius);
 
