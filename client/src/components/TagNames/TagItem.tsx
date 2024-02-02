@@ -27,7 +27,7 @@ export const StyledTagItem = styled.span`
 
 const StyledRemoveButton = styled.span`
     margin-left: 1rem;
-    color: var(--color-secondary);
+    color: var(--color-primary);
 `
 
 

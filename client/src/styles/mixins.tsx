@@ -49,7 +49,7 @@ export const myScrollBar = css`
     }
 
     &::-webkit-scrollbar-thumb {
-        background: var(--color-secondary);
+        background: var(--color-primary);
         border-radius: 1rem;
     }
 

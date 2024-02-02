@@ -20,7 +20,7 @@ const InputMessage : FC<IInputMessageProps> = ({message,type}) => {
 }
 
 const StyledInputMessage = styled.span<{type: inputMessageType}>`
-    color: ${(props) => props.type === 'error' ? 'var(--color-error)' : 'var(--color-secondary)'};
+    color: ${(props) => props.type === 'error' ? 'var(--color-error)' : 'var(--color-primary)'};
     ${flexContainer('flex-start','center')};
     gap: 1rem;
     & > svg {

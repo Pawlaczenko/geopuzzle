@@ -61,8 +61,8 @@ const StyledStepper = styled.ul`
 `;
 
 const ActiveStepperStyle = css`
-    --step-background: var(--color-secondary);
-    --step-color: var(--color-secondary);
+    --step-background: var(--color-primary);
+    --step-color: var(--color-primary);
     font-weight: bold;
 `
 
@@ -94,7 +94,7 @@ const StepperNumber = styled.figure`
 `
 
 const StyledLine = styled.hr<{$isVisited: boolean}>`
-    --hr-color: ${(props) => props.$isVisited ? 'var(--color-secondary)' : props.theme.decoration};
+    --hr-color: ${(props) => props.$isVisited ? 'var(--color-primary)' : props.theme.decoration};
     flex: 1;
     border: 1px solid var(--hr-color);
 `

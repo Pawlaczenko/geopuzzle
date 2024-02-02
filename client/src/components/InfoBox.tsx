@@ -31,7 +31,7 @@ const getInfoBoxStyles = (boxType: InfoBoxType = 'primary') => {
 
 const YellowBoxStyle = css`
     --box-background: var(--color-primary);
-    --box-color: black;
+    --box-color: white;
 `
 
 const DangerBoxStyle = css`

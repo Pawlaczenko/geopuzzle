@@ -21,11 +21,11 @@ const getButtonStyles = ({variant='regular'} : IButtonProps) => {
 const OutlineButton = css`
     --button-color: var(--color-white);
     --button-text-color: var(--color-dark);
-    --button-border-color: var(--color-secondary);
+    --button-border-color: var(--color-primary);
 `
 
 const BlueButton = css`
-    --button-color: var(--color-secondary);
+    --button-color: var(--color-primary);
     --button-text-color: var(--color-white);
     --button-border-color: var(--color-black);
 `

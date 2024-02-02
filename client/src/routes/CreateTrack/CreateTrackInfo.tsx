@@ -43,16 +43,18 @@ const StyledCreateTrackInfo = styled(Section)`
 
 const StyledTutorial = styled.aside`
     grid-area: tutorial;
-    background: ${(props) => props.theme.input};
+    background: white;
     border-radius: var(--radius);
     padding: 3rem;
-    box-shadow: 0 0 0 .3rem var(--color-dark), 0 0 0 .8rem var(--color-grey-light);
+    border: 1px solid var(--color-grey);
+    /* box-shadow: 0 0 0 .3rem var(--color-dark), 0 0 0 .8rem var(--color-grey-light); */
     height: min-content;
 
     ${flexContainer('flex-start','center','column')}
 
     & > ${Paragraph} {
         margin-top: 2rem;
+        font-size: 1.4rem;
     }
 `
 
