@@ -47,7 +47,7 @@ const InfoText = styled.span`
         display: inline-block;
         width: .8rem;
         height: .8rem;
-        background: var(--color-secondary);
+        background: var(--color-primary);
         border-radius: 50%;
         margin-left: 1rem;
     }

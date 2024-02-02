@@ -58,7 +58,7 @@ const SearchButton = styled.button`
 
     &:not(:disabled):hover {
         svg {
-            color: var(--color-secondary);
+            color: var(--color-primary);
         }
     }
 `

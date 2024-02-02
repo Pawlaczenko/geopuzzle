@@ -95,7 +95,7 @@ const ArrowButton = styled.button`
     background-color: var(--color-grey);
 
     &:hover {
-        background-color: var(--color-secondary);
+        background-color: var(--color-primary);
         svg {
             fill: white;
         }

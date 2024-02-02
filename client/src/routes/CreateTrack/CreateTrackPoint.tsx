@@ -31,7 +31,11 @@ const CreateTrackPoint : FC = () => {
             }
             <PointList pointsArray={formData.trackWaypoints} />
             {
-                formData.trackWaypoints.length > 1 && <ButtonIcon icon='puzzle' onClick={() => { setActiveStepIndex(activeStepIndex + 1); } } btnType={'outline'}>Zakończ dodawanie punktów</ButtonIcon>
+                formData.trackWaypoints.length > 1 && 
+                <ButtonIcon 
+                    icon='puzzle' 
+                    onClick={() => { setActiveStepIndex(activeStepIndex + 1); } } 
+                    btnType={'outline'}>Zakończ dodawanie punktów</ButtonIcon>
             }
         </StyledCreateTrackPoint>
     )

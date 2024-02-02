@@ -24,7 +24,7 @@ const StyledBurger = styled.button<{$isOpen:boolean}>`
     --burger-color: var(--color-dark);
 
     &:hover {
-        --burger-color: var(--color-secondary);
+        --burger-color: var(--color-primary);
     }
 
     display: none;

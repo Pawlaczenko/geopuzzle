@@ -61,7 +61,7 @@ const StyledKey = styled(StyledTD)`
 `
 
 const StyledHeader = styled(StyledKey)`
-    background: var(--color-secondary);
+    background: var(--color-primary);
     color: white;
 `
 

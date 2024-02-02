@@ -22,7 +22,7 @@ export const StyledBanner = styled.div<{background?: string}>`
     width: 100%;
     background: 
         url(${(props)=>props.background ? props.background : MapImage}) center / cover no-repeat,
-        var(--color-secondary);
+        var(--color-primary);
     ${flexContainer('center','center')};
     padding: 3rem;
 `;

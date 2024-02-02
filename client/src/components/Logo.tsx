@@ -34,14 +34,14 @@ const Logo: FC<{type?: LogoType}> = ({type}) => {
 
 export const StyledLogo = styled(NavLink)<{type?: LogoType}>`
     svg {
-        color: ${(props) => (props.type === 'white' ? 'white' : 'var(--color-secondary)')};
+        color: ${(props) => (props.type === 'white' ? 'white' : 'var(--color-primary)')};
         width: 100%;
         height: 100%;
     }
 
     &:hover {
         svg {
-            color: ${(props) => (props.type === 'white' ? 'var(--color-secondary)' : 'var(--color-black)')};
+            color: ${(props) => (props.type === 'white' ? 'var(--color-primary)' : 'var(--color-black)')};
         }
     }
 `;

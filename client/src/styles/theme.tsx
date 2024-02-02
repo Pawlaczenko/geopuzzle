@@ -20,7 +20,7 @@ export const lightTheme : ITheme = {
     text: 'var(--color-black)',
     textBlue: 'var(--color-dark)',
     header: 'var(--color-grey-light)',
-    primary: 'var(--color-secondary)',
+    primary: 'var(--color-primary)',
     input: 'var(--color-grey)',
     decoration:'var(--color-grey)'
 };

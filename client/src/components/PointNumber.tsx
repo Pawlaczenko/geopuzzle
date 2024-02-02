@@ -24,8 +24,8 @@ const pickPointNumberVariant = (variant: pointNumberVariant) => {
 }
 
 const ActiveVariant = css`
-    --background: var(--gradient-primary);
-    --color: black;
+    --background: var(--color-primary);
+    --color: white;
     box-shadow: var(--shadow-primary);
 `
 

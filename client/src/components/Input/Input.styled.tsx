@@ -20,7 +20,7 @@ export const StyledInput = styled.input<{$error?: boolean}>`
     &:focus,
     &:active,
     &:has(input:focus) {
-        outline: .1rem solid var(--color-secondary);
+        outline: .1rem solid var(--color-primary);
     }
 
     &::placeholder {
