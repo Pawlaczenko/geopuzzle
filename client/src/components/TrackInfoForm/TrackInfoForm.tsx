@@ -29,7 +29,7 @@ export interface TrackInfoFormValues {
 }
 
 const TrackInfoForm : FC = () => {
-    const {activeStepIndex,setActiveStepIndex,formData,setFormData} = useCreateTrackContext();
+    const {activeStepIndex,setActiveStepIndex,formData,setFormData,setTrackId} = useCreateTrackContext();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const initialValues : TrackInfoFormValues = {
@@ -51,7 +51,8 @@ const TrackInfoForm : FC = () => {
         setIsLoading(true);
         try {
             setError("");
-            await addOneTrack(data.trackName,data.trackDescription);
+            const trackId = await addOneTrack(data.trackName,data.trackDescription);
+            setTrackId(trackId as unknown as string);
             setIsLoading(false);
             setActiveStepIndex(activeStepIndex + 1);
         } catch(error : any) {

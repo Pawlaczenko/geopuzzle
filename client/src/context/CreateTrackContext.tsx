@@ -24,23 +24,27 @@ export type CreateTrackValues = {
     activeStepIndex: number,
     setActiveStepIndex: Dispatch<SetStateAction<number>>,
     currentPoint: number,
-    setCurrentPoint: Dispatch<React.SetStateAction<number>>,
+    setCurrentPoint: Dispatch<SetStateAction<number>>,
+    trackId: string,
+    setTrackId: Dispatch<SetStateAction<string>>,
     formData: CreateTrackFormData,
     setFormData: Dispatch<SetStateAction<CreateTrackFormData>>,
 }
 
 export const CreateTrackContext = createContext<CreateTrackValues>({
     activeStepIndex: 1,
-    setActiveStepIndex: ()=>{},
+    setActiveStepIndex: () => { },
     currentPoint: 0,
-    setCurrentPoint: ()=>{},
+    setCurrentPoint: () => { },
     formData: {
         trackName: "",
         trackDescription: "",
         trackTagNames: [],
         trackWaypoints: [],
     },
-    setFormData: ()=>{}
+    setFormData: () => {},
+    trackId: "",
+    setTrackId: () => {}
 });
 
 export const useCreateTrackContext = () => useContext(CreateTrackContext)

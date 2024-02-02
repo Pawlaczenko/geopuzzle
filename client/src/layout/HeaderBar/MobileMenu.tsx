@@ -12,7 +12,7 @@ interface IProps {
 
 const MobileMenu : FC<IProps> = ({isOpen}) => {
      return (
-        <StyledMobileMenu isOpen={isOpen}>
+        <StyledMobileMenu $isOpen={isOpen}>
             <div>
                 <Navigation />
                 <Button variant='outline'>Zaloguj</Button>
@@ -22,14 +22,14 @@ const MobileMenu : FC<IProps> = ({isOpen}) => {
     )
 }
 
-const StyledMobileMenu = styled(Container)<IProps>`
+const StyledMobileMenu = styled(Container)<{$isOpen: boolean}>`
     position: fixed;
     width: 100%;
     height: 100vh;
     top: 0;
     left: 0;
     background-color: var(--color-white);
-    transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(100%)')};
+    transform: ${({ $isOpen }) => ($isOpen ? 'translateX(0)' : 'translateX(100%)')};
     transition: transform 0.3s ease-in-out;
     padding-top: 14rem;
 

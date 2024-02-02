@@ -37,7 +37,7 @@ export interface WaypointFormValues {
 }
 
 const TrackWaypointForm : FC<{currentPoint: number}> = ({currentPoint}) => {
-    const {formData, setFormData} = useCreateTrackContext();
+    const {formData, setFormData, trackId} = useCreateTrackContext();
     const doesPointExist = typeof formData.trackWaypoints[currentPoint] !== 'undefined';
     const initialPoint: WaypointFormValues = {
         pointName: doesPointExist ? formData.trackWaypoints[currentPoint].pointName : '',
@@ -87,7 +87,7 @@ const TrackWaypointForm : FC<{currentPoint: number}> = ({currentPoint}) => {
         setIsLoading(true);
         try {
             setError("");
-            await addOneWaypoint(waypoint,"jjj");
+            await addOneWaypoint(waypoint,trackId);
             setIsLoading(false);
         } catch(error : any) {
             setIsLoading(false);
