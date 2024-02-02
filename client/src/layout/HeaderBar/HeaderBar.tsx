@@ -16,7 +16,6 @@ import MobileMenu from './MobileMenu';
 const HeaderBar : FC = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const isPhone = useMediaQuery(`(${BREAKPOINTS.phone})`);
-    const logoType : LogoType = isOpen ? 'filled' : 'compact';
 
     const toggleMobileMenu = () => {
         setIsOpen(!isOpen);
