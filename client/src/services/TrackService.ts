@@ -13,9 +13,10 @@ export async function addOneTrack(name: string, description: string): Promise<vo
   });
 
   if (response.ok) {
+    console.log(response);
     console.log('Track added successfully');
   } else {
-    const errorData = await response.json();    
+    const errorData = await response.json();
     throw new Error(errorData.message);
   }
 }

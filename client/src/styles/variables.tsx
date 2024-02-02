@@ -13,7 +13,7 @@ export const BREAKPOINTS = {
 export const variables = css`
     html {
         //COLORS
-        --color-primary: #B1EDE8;
+        --color-primary: #1f3d75;
         --color-secondary: #0081AF;
         --color-black: #28262C;
         --color-white: #FFFCF9;
