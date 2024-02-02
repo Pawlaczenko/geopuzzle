@@ -95,7 +95,7 @@ const StyledIconInput = styled(StyledTextInput)`
 const Suggestions = styled.ul`
     position: absolute;
     left: 0;
-    top: 105%;
+    top: 6.4rem;
     z-index: 2000;
     display: block;
     list-style-type: none;
