@@ -12,7 +12,7 @@ interface IButtonProps {
 const getButtonStyles = ({variant='regular'} : IButtonProps) => {
     switch(variant){
         case 'danger': return DangerButton;
-        case 'regular':
+        case 'regular': return BlueButton;
         default:
              return OutlineButton;
     }
@@ -27,7 +27,7 @@ const OutlineButton = css`
 const BlueButton = css`
     --button-color: var(--color-primary);
     --button-text-color: var(--color-white);
-    --button-border-color: var(--color-black);
+    --button-border-color: var(--color-white);
 `
 
 const YellowButton = css`

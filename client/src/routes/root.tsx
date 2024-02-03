@@ -5,7 +5,6 @@ import Footer from 'src/layout/Footer'
 import HeaderBar from 'src/layout/HeaderBar/HeaderBar'
 import GlobalStyles from 'src/styles/globalStyles'
 import { Themes } from 'src/styles/theme'
-import { BREAKPOINTS } from 'src/styles/variables'
 import { ThemeProvider, styled } from 'styled-components'
 
 const Root = () => {
@@ -25,14 +24,7 @@ const Root = () => {
 }
 
 const AppContainer  = styled.div`
-    /* height: 100vh; */
-    /* display: grid; */
-    
-    /* grid-template-columns: min-content 1fr; */
 
-    /* @media only screen and (${BREAKPOINTS.phone}){ */
-        /* grid-template-columns: 1fr; */
-    /* } */
 `
 
 export default Root

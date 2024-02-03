@@ -24,6 +24,7 @@ const MobileMenu : FC<IProps> = ({isOpen}) => {
 
 const StyledMobileMenu = styled(Container)<{$isOpen: boolean}>`
     position: fixed;
+    z-index: 10;
     width: 100%;
     height: 100vh;
     top: 0;

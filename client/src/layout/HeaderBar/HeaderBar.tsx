@@ -1,4 +1,4 @@
-import { FC, MouseEvent, useState } from 'react';
+import { FC, MouseEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/app/store';
 import Logo, { LogoType, StyledLogo } from "src/components/Logo"
@@ -12,10 +12,17 @@ import Searchbar, { StyledSearchbar } from 'src/components/Input/Searchbar';
 import Burger from './Burger';
 import useMediaQuery from 'src/hooks/useMediaQuery';
 import MobileMenu from './MobileMenu';
+import { Link, useLocation } from 'react-router-dom';
 
 const HeaderBar : FC = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const isPhone = useMediaQuery(`(${BREAKPOINTS.phone})`);
+
+    const location = useLocation();
+
+    useEffect(() => {
+      setIsOpen(false);
+    }, [location]);
 
     const toggleMobileMenu = () => {
         setIsOpen(!isOpen);
@@ -27,7 +34,7 @@ const HeaderBar : FC = () => {
                 <Logo />
                 {!isPhone && <Navigation />}
                 <Searchbar placeholder='Wyszukaj trasę' name={'search'}  />
-                {!isPhone && <Button variant='outline'>Zaloguj</Button>}
+                {!isPhone && <Link to="/login"><Button variant='outline'>Zaloguj</Button></Link>}
                 <Burger isOpen={isOpen} handleClick={toggleMobileMenu} />
             </StyledHeaderBar>
             <MobileMenu isOpen={isOpen} />
