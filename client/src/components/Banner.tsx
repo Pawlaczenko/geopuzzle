@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Heading from './Heading'
 import MapImage from 'src/assets/map.svg';
 import { flexContainer } from 'src/styles/mixins';
+import { BREAKPOINTS } from 'src/styles/variables';
 
 interface IBannerProps {
     text: string
@@ -34,6 +35,13 @@ export const BannerBox = styled.div`
     border-radius: 3rem;
     box-shadow: 0 .4rem 0 0 rgba(0,0,0,.25);
     line-height: 1;
+    max-width: 90vw;
+
+    @media only screen and (${BREAKPOINTS.phone}){
+        h1 {
+            font-size: 3.4rem;
+        }
+    }
 `
 
 export default Banner 

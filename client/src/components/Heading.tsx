@@ -24,6 +24,12 @@ const Heading : FC<IHeadingProps> = (props) => {
   )
 }
 
+const HeadingAccentImage = styled.figure`
+    background: url(${AccentImage}) center/contain no-repeat;
+    height: var(--heading-size);
+    margin-bottom: 0.8rem;
+`
+
 export const StyledHeading = styled.h1<{$alignCenter?:boolean}>`
     font-size: var(--heading-size);
     font-family: var(--family-primary);
@@ -32,11 +38,10 @@ export const StyledHeading = styled.h1<{$alignCenter?:boolean}>`
 
     color: ${({theme}) => theme.text};
     text-shadow: 0 4px rgba(121,174,163,.25);
-`;
 
-const HeadingAccentImage = styled.figure`
-    background: url(${AccentImage}) center/contain no-repeat;
-    height: var(--heading-size);
-`
+    ${HeadingAccentImage} {
+      ${(props) => !props.$alignCenter && "background-position: left;"};
+    }
+`;
 
 export default Heading
