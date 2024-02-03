@@ -36,7 +36,6 @@ const TrackItem : FC<ITrackItemProps> = (props) => {
 }
 
 const StyledTrackItem = styled.article`
-    /* width: 35rem; */
     figure {
         border-radius: 0.8rem;
         overflow: hidden;

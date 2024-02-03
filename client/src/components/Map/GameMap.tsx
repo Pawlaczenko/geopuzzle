@@ -5,6 +5,7 @@ import LocationMarker from './LocationMarker';
 import { styled } from 'styled-components';
 import { MdExpandMore } from 'react-icons/md';
 import { flexContainer } from 'src/styles/mixins';
+import { BREAKPOINTS } from 'src/styles/variables';
 
 const GameMap : FC<ICustomMapProps> = ({handleWaypointChange,chosenMarkerCoords}) => {
     return (
@@ -23,6 +24,11 @@ const StyledMapContainer = styled.div`
     & > ${StyledMap} {
         width: 100%;
         transition: height .2s ease-in-out;
+    }
+
+    @media only screen and (${BREAKPOINTS.lg}){
+        margin: 0;
+        margin-bottom: 2rem;
     }
 `
 

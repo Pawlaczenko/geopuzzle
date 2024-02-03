@@ -6,6 +6,7 @@ import Heading from './Heading';
 import ButtonIcon from './Button/ButtonIcon';
 import { ICONS } from 'src/data/icons.data';
 import { flexContainer } from 'src/styles/mixins';
+import { BREAKPOINTS } from 'src/styles/variables';
 
 const TrackSwiper: FC = () => {
     const sliderRef = useRef<Slider>(null);
@@ -14,7 +15,27 @@ const TrackSwiper: FC = () => {
         infinite: false,
         speed: 300,
         slidesToShow: 3,
-        slidesToScroll: 1
+        slidesToScroll: 1,
+        responsive: [
+            {
+                breakpoint: 800,
+                settings: {
+                  slidesToShow: 2,
+                }
+            },
+            {
+              breakpoint: 600,
+              settings: {
+                slidesToShow: 1.5,
+              }
+            },
+            {
+              breakpoint: 480,
+              settings: {
+                slidesToShow: 1.1,
+              }
+            }
+        ]
     };
     const trackItem : ITrackItemProps = {
         thumbnail: "siema",
@@ -57,7 +78,7 @@ const TrackSwiper: FC = () => {
             <Slider ref={sliderRef} {...settings}>
                 {
                   slides.map(slide => 
-                    <StyledSlide>
+                    <StyledSlide key={slide}>
                         <TrackItem {...trackItem} />
                     </StyledSlide>
                   )  
@@ -84,6 +105,10 @@ const StyledSlide = styled.div`
 const ArrowButtons = styled.div`
     ${flexContainer('flex-start','flex-start')};
     gap: 0.4rem;
+
+    @media only screen and (${BREAKPOINTS.small}){
+        display: none;
+    }
 `
 
 const ArrowButton = styled.button`
