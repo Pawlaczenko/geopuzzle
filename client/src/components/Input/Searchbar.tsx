@@ -2,8 +2,8 @@ import { FC, useState } from 'react'
 import styled from 'styled-components'
 import { StyledInput } from './Input.styled';
 import { IInputProps } from 'src/types/input.types';
-import { ICONS, IconName } from 'src/data/icons.data';
 import { BREAKPOINTS } from 'src/styles/variables';
+import { ICONS } from 'src/data/icons.data';
 
 const TextInput : FC<IInputProps> = (props) => {
     const SearchIcon = ICONS.get('explore');

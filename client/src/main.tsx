@@ -7,6 +7,8 @@ import { store } from 'src/app/store';
 import HomePage from 'src/routes/HomePage/HomePage.tsx'
 import { NAV_ROUTES } from 'src/data/navigation.data'
 import ViewTrack from './routes/DisplayTrack/ViewTrack'
+import LoginPage from './routes/Login/Login'
+import RegisterForm from './components/RegisterForm/RegisterForm'
 
 const router = createBrowserRouter([
     {
@@ -24,6 +26,14 @@ const router = createBrowserRouter([
             {
                 path: NAV_ROUTES.displayTrack,
                 element: <ViewTrack />,
+            },
+            {
+                path: NAV_ROUTES.login,
+                element: <LoginPage />,
+            },
+            {
+                path: NAV_ROUTES.register,
+                element: <RegisterForm />,
             }
         ]
     }
