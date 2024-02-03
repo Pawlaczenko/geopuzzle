@@ -1,7 +1,5 @@
-import { FC, MouseEvent, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/app/store';
-import Logo, { LogoType, StyledLogo } from "src/components/Logo"
+import { FC, useEffect, useState } from 'react';
+import Logo, { StyledLogo } from "src/components/Logo"
 import Navigation from "src/components/Navigation/Navigation"
 import { flexContainer } from "src/styles/mixins"
 import { BREAKPOINTS } from 'src/styles/variables';

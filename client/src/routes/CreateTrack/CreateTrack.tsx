@@ -19,12 +19,12 @@ const CreateTrack : FC = () => {
 
     useEffect(() => {
         if(pageRef.current) {
-            pageRef.current.scrollTo({
-                top: 0,
+            pageRef.current.scrollIntoView({
                 behavior: 'smooth',
+                block: 'start',
             });
         }
-    }, [activeStepIndex,formData.trackWaypoints]);
+    }, [activeStepIndex]);
 
     return (
     <CreateTrackContext.Provider value={{

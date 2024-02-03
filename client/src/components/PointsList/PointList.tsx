@@ -73,7 +73,7 @@ export const StyledPointList = styled.ul`
         align-self: center;
     }
 
-    @media only screen and (${BREAKPOINTS.phone}){
+    @media only screen and (${BREAKPOINTS.big}){
         position: relative;
         top: 0;
     }

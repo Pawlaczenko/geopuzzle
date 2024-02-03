@@ -33,6 +33,7 @@ const StyledButtonIcon = styled(Button)`
         fill: var(--button-border-color);
         width: 2.5rem;
         height: 2.5rem;
+        flex-shrink: 0;
     }
 `;
 

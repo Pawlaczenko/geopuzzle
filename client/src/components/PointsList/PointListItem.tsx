@@ -5,6 +5,7 @@ import { flexContainer } from 'src/styles/mixins';
 import styled from 'styled-components'
 import {FiX} from "react-icons/fi";
 import PointNumber from '../PointNumber';
+import { BREAKPOINTS } from 'src/styles/variables';
 
 interface IPointListItemProps {
     point: TrackWaypoint,
@@ -63,6 +64,10 @@ const PuzzleType = styled.div`
 
     ${flexContainer('flex-start','center')};
     gap: .5rem;
+
+    @media only screen and (${BREAKPOINTS.phone}){
+        font-size: 1.2rem;
+    }
 `
 const DeleteButton = styled.button`
     height: 100%;

@@ -79,8 +79,9 @@ const StyledStepperItem = styled.li<{$isVisited: boolean}>`
     cursor: ${(props) => props.$isVisited ? "pointer" : "unset"};
 
     @media only screen and (${BREAKPOINTS.phone}){
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         flex-direction: column;
+        text-align: center;
     }
 `
 
@@ -91,6 +92,12 @@ const StepperNumber = styled.figure`
     
     background: var(--step-background);
     color: white;
+
+    @media only screen and (${BREAKPOINTS.phone}){
+        font-size: 1.6rem;
+        width: 3rem;
+        height: 3rem;
+    }
 `
 
 const StyledLine = styled.hr<{$isVisited: boolean}>`

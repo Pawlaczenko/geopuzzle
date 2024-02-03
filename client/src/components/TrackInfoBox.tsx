@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import styled from 'styled-components'
 import { BannerBox } from './Banner'
 import { flexContainer } from 'src/styles/mixins'
@@ -7,20 +7,29 @@ import Heading from './Heading'
 import Paragraph from './Paragraph.styled'
 import React from 'react'
 import ButtonIcon from './Button/ButtonIcon'
+import { BREAKPOINTS } from 'src/styles/variables'
 
 const TrackInfoBox : FC<{handleStart: ()=>void}> = ({handleStart}) => {
+    const [showStartButton, setShopwStartButton] = useState<boolean>(true);
+
+    const handleTrackStart = () => {
+        handleStart();
+        setShopwStartButton(false);
+    }
     return (
         <TrackInfo>
             <TagNamesContainer tagnames={['stolice','europa']} />
             <Heading level='h4'>Stolice Państw Europejskich</Heading>
-            <Paragraph padding={false}>Can you name the words beginning with 'An-' that are missing from the titles of the given movies?</Paragraph>
+            <Paragraph $padding={false}>Can you name the words beginning with 'An-' that are missing from the titles of the given movies?</Paragraph>
             <MetaInfo>
                 <InfoText>Stworzona przez <b><u>Adam Driver</u></b></InfoText>
                 <InfoText>Rozegrana 123 razy</InfoText>
                 <InfoText>Średnia ocen: <b>4/5</b></InfoText>
                 <InfoText>10 Zagadek</InfoText>
             </MetaInfo>
-            <ButtonIcon onClick={handleStart} btnType='regular' icon='start'>Rozpocznij trasę</ButtonIcon>
+            {
+                showStartButton && <ButtonIcon onClick={handleTrackStart} btnType='regular' icon='start'>Rozpocznij trasę</ButtonIcon>
+            }
         </TrackInfo>
     )
 }
@@ -37,11 +46,19 @@ const TrackInfo = styled(BannerBox)`
         max-inline-size: 50ch;
         text-wrap: balance;
     }
+    
+    @media only screen and (${BREAKPOINTS.phone}){
+        padding: 0;
+        border-radius: 0;
+        box-shadow: none;
+        background-color: white;
+    }
 `
 const InfoText = styled.span`
     display: inline-block;
     margin-right: 1rem;
-    
+    margin-bottom: 1rem;
+
     &:not(:last-child):after {
         content: "";
         display: inline-block;

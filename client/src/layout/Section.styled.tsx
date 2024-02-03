@@ -7,7 +7,7 @@ const Section = styled.div`
     margin: 0 auto;
 
     @media only screen and (${BREAKPOINTS.phone}){
-        padding: 5rem 3.5rem;
+        padding: 5rem 2.5rem;
     }
 `;
 

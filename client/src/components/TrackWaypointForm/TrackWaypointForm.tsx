@@ -144,6 +144,11 @@ const FormGroup = styled.div`
     padding: 2rem 1rem;
     border-radius: 1.5rem;
 
+    @media only screen and (${BREAKPOINTS.big}){
+        padding: 2rem 0;
+        border: none;
+    }
+
     @media only screen and (${BREAKPOINTS.phone}){
         grid-template-columns: 1fr;
     }

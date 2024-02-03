@@ -36,8 +36,12 @@ const StyledCreateTrackInfo = styled(Section)`
     }
 
     @media only screen and (${BREAKPOINTS.big}){
-        grid-template-areas: "heading" "tutorial" "form";
+        grid-template-areas: "heading" "form" "tutorial";
         grid-template-columns: 1fr;
+
+        & > ${StyledHeading} {
+            margin-bottom: 0;
+        }
     }
 `;
 
@@ -47,7 +51,6 @@ const StyledTutorial = styled.aside`
     border-radius: var(--radius);
     padding: 3rem;
     border: 1px solid var(--color-grey);
-    /* box-shadow: 0 0 0 .3rem var(--color-dark), 0 0 0 .8rem var(--color-grey-light); */
     height: min-content;
 
     ${flexContainer('flex-start','center','column')}

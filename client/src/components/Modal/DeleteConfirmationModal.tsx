@@ -13,8 +13,8 @@ const DeleteConfirmationModal : FC<IModalProps & IDeleteModalProps> = (props) =>
         <Modal shouldShow={props.shouldShow} handleClose={props.handleClose} title="Potwierdzenie usunięcia">
             <InfoBox variant='danger' symbol='!'>Czy na pewno chcesz usunąć {props.itemLabel}?</InfoBox>
             <ModalFooter>
-                <Button $btnType='white' onClick={props.handleClose}>Anuluj</Button>
-                <Button $btnType='danger' onClick={props.onDelete}>Usuń</Button>
+                <Button variant='outline' onClick={props.handleClose}>Anuluj</Button>
+                <Button variant='outline' onClick={props.onDelete}>Usuń</Button>
             </ModalFooter>
         </Modal>
     )

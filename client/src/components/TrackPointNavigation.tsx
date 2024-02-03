@@ -27,7 +27,8 @@ const TrackPointNavigation : FC<ITrackPointNavigation> = ({currentIndex,points})
                     <PointNumber 
                         as="li" 
                         variant={getNumberVariant(state,currentIndex,index)} 
-                        size={'small'} 
+                        size={'small'}
+                        key={index + state}
                         lifted={currentIndex===index}>
                             {index+1}
                     </PointNumber>

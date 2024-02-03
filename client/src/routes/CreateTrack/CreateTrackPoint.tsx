@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import ButtonIcon from 'src/components/Button/ButtonIcon';
 import Heading, { StyledHeading } from 'src/components/Heading';
 import InfoBox, { StyledInfoBox } from 'src/components/InfoBox';
@@ -12,14 +12,22 @@ import styled from 'styled-components'
 const CreateTrackPoint : FC = () => {
     const {formData,activeStepIndex,setActiveStepIndex,currentPoint, setCurrentPoint} = useCreateTrackContext();
     const canAdd = currentPoint < 10;
+    const interactiveBarRef = useRef<HTMLSpanElement>(null);
 
     useEffect(()=>{
         setCurrentPoint(formData.trackWaypoints.length);
+        if (interactiveBarRef.current) {
+            interactiveBarRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+            });
+        }
     },[formData.trackWaypoints])
 
     return (
         <StyledCreateTrackPoint $isFull={!canAdd}>
             <Heading level='h3' withAccent $alignCenter>
+                <ScrollAnchor ref={interactiveBarRef}></ScrollAnchor>
                 {
                     canAdd ? `Punkt #${currentPoint+1}` : "Osiągnięto Limit"
                 }
@@ -40,6 +48,10 @@ const CreateTrackPoint : FC = () => {
         </StyledCreateTrackPoint>
     )
 }
+
+const ScrollAnchor = styled.span`
+    scroll-margin-top: 6.4rem;
+`;
 
 const StyledCreateTrackPoint = styled(Section)<{$isFull: boolean}>`
     display: grid;
@@ -68,9 +80,15 @@ const StyledCreateTrackPoint = styled(Section)<{$isFull: boolean}>`
     }
 
     @media only screen and (${BREAKPOINTS.big}){
-        grid-template-areas: "heading" "points" "form" "button";
+        grid-template-areas: "points" "heading" "form" "button";
         grid-template-rows: auto;
         grid-template-columns: 1fr;
+
+        & > ${StyledHeading} {
+            grid-area: heading;
+            margin-bottom: 2.4rem;
+            margin-top: 2.4rem;
+        }
     }
 `;
 
