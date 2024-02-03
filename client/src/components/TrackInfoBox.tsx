@@ -34,7 +34,7 @@ const TrackInfoBox : FC<{handleStart: ()=>void}> = ({handleStart}) => {
     )
 }
 
-const TrackInfo = styled(BannerBox)`
+export const TrackInfo = styled(BannerBox)`
     width: fit-content;
     padding: 3rem;
 
