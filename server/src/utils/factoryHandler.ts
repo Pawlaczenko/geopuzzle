@@ -47,13 +47,19 @@ export const getOne = <T>(model:Model<T>, popOptions?: string | string[]) =>
     if (req.body.password || req.body.passwordConfirm)
       return next(new AppError("Nie możesz zmienić hasła tą scieżką", 403));
 
-    const doc = await model.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
+    // const doc = await model.findByIdAndUpdate(req.params.id, req.body, {
+    //   new: true,
+    //   runValidators: true,
+    // });
+    const doc = await model.findById(req.params.id);
+    if (!doc) return next(new AppError(`Nie można znaleźć dokumentu o id: ${req.params.id}`, 404));
+    Object.keys(req.body).forEach((key) => {
+      // @ts-ignore
+      doc[key] = req.body[key];
     });
 
-    if (!doc) return next(new AppError(`Nie można znaleźć dokumentu o id: ${req.params.id}`, 404));
-
+    // Save the document
+    await doc.save();
     res.status(200).json({
       status: 'success',
       data: doc,
