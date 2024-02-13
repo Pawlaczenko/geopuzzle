@@ -5,6 +5,8 @@ import mongoose from "mongoose";
 
 //handling errors
 const handleCastError = (error:mongoose.CastError)=>{
+  const path = error.path.split(".");
+  console.log(path);
   return new AppError(`Parametr: ${error.path} z wartością ${error.value} nie jest wspierany przez obiekt ${error.kind}`, 400);
 }
 

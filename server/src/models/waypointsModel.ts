@@ -1,11 +1,4 @@
-import { NextFunction } from 'express';
-import mongoose, { ObjectId, Schema, Types, model} from "mongoose";
-import { waypointType } from "../types/waypointsDiff.js";
-import { Waypoint } from "../interfaces/IWaypoint.js";
-import TrackModel from "./trackModel.js";
-
-
-
+import mongoose, { InferSchemaType, ObjectId, Schema, model} from "mongoose";
 export const waypointSchema = new Schema({ 
     name: {
         type: String,
@@ -15,21 +8,26 @@ export const waypointSchema = new Schema({
     },
     type:{
         type: String,
-        enum: waypointType,
-        default: waypointType.text
+        enum: ["Text", "Graphic"],
+        required: [true, "Trasa musi mieć swój typ"],
+        immutable: true
     },
     coords: {
         label: {
             type: String,
             required: [true, `Punkt nie posiada etykiety`]
         },
-        lat: {
+        long: {
            type: Number,
-           required: [true, "Punkt nie posiada szerokości geograficznej"] 
+           required: [true, "Punkt nie posiada szerokości geograficznej"] ,
+           min: [0, "Szerokość geograficzna nie może wynosić poniżej 0 stopni"],
+           max: [360, "Szerokość geogrficzna nie moze wynosić więcej niz 360 stopni"]
         },
-        att: {
+        latt: {
             type: Number,
-            required: [true, `Punkt nie posiada wysokości geograficznej`] ,
+            required: [true, `Punkt nie posiada długość geograficznej`] ,
+            min: [-90,"Długość geograficzna nie może mieć mniej niż -90 stopni"],
+            max: [90, "Długość geograficzna nie może miec wiecej niz 90 stopni"]
             
          },
          radius: {
@@ -47,27 +45,15 @@ export const waypointSchema = new Schema({
     explenation: {
         type: String,
         required: [true, "Nie podano wyjaśnienia zagadki"],
-        select: false,
         max: [500, `Wyjasnienie  przekroczyło maksymalna ilośc znaków. (500)}`],
-    },
-    trackId: {
-        type: mongoose.Types.ObjectId,
-        ref: "Tracks",
-        required: [true,"Nie podano id ścieżki do której chcesz dodać punkt"],
-        immutable: [true, "Nie można zmienić id ścieżki przy edycji punktu"],
-        validate: {
-            validator: async function(v:ObjectId){
-                const doc = await TrackModel.findById(v);
-                if(!doc)
-                    return false
-            },
-            message: "Podana trasa nie istnieje"
-        }, 
-    }    
+    },    
 })
-// waypointSchema.path("trackId", function(v:ObjectId){
-
+//TODO: 
+// waypointSchema.post("validate", async (doc)=>{
+//     const query =  await WaypointModel.find({trackId: doc.trackId })
+//     if(query.length >= 5)
+//         doc.errors = new mongoose.Error.ValidationError()
 // })
-
-const WaypointModel = model('Waypoints', waypointSchema);
-export default WaypointModel; 
+export type TWaypoint = InferSchemaType<typeof waypointSchema>
+const waypointModel = model('Waypoints', waypointSchema);
+export default waypointModel; 

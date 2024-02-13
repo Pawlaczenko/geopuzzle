@@ -1,13 +1,16 @@
 import {  NextFunction, Request, Response } from "express";
-import TrackModel from "../models/trackModel.js";
+import trackModel from "../models/trackModel.js";
 import { catchAsync } from "../utils/catchAsync.js";
-import * as factoryHandler from "./factoryHandler.js";
-import AppError from "../utils/appError.js";
+import * as factoryHandler from "../utils/factoryHandler.js";
 import multer, {  FileFilterCallback,  } from "multer";
-import mongoose, { model } from "mongoose";
+import AppError from "../utils/appError.js";
 import { deleteFile } from "../utils/deleteFile.js";
+import { unlink } from "fs";
 import { ObjectId } from "mongodb";
 
+//
+// file upload for tracks
+//
 
 type DestinationCallback = (error: Error | null, destination: string) => void
 type FileNameCallback = (error: Error | null, filename: string) => void
@@ -22,14 +25,13 @@ export const fileFilter = (
     cb(null, false)
     
 }
-
 const fileStorage = multer.diskStorage({
     destination: (
         req: Request,
         file: Express.Multer.File,
         cb: DestinationCallback
     ): void => {
-        cb(null, "public/tracks/")
+        cb(null, process.env.TRACK_THUMBNAILS_FOLDER!)
     },
 
     filename: (
@@ -44,69 +46,64 @@ const fileStorage = multer.diskStorage({
 
 const upload = multer({ storage: fileStorage, fileFilter: fileFilter } );
 
-export const getOneTrack = factoryHandler.getOne(TrackModel, ["waypoints"]) 
-export const getAllTrack = factoryHandler.getAll(TrackModel) 
-export const addOneTrack = factoryHandler.addOne(TrackModel) 
-export const deleteOneTrack = factoryHandler.deleteOne(TrackModel) 
-export const updateOneTrack = factoryHandler.updateOne(TrackModel) 
 
+//
+//crud
+//
+export const getOneTrack = factoryHandler.getOne(trackModel) 
+export const getAllTrack = factoryHandler.getAll(trackModel) 
+export const addOneTrack = factoryHandler.addOne(trackModel) 
+export const deleteOneTrack = factoryHandler.deleteOne(trackModel) 
+export const updateOneTrack = factoryHandler.updateOne(trackModel) 
+
+//
+//thumbanails
+//
 
 
 export const updateTrackThumbnail = catchAsync(async (req:Request, res:Response, next: NextFunction)=>{
-    if(!req.file)
-        return next(new AppError(`Nie przesłano miniaturki trasy`,400));
-    if(!mongoose.Types.ObjectId.isValid(req.params.id))
-    {
-        await deleteFile(req.file.path, next);
-        return next(new AppError(`Nie poprawne id`,400));
-    }
-        
-    let doc = await TrackModel.findById(req.params.id);
-    if(!doc)
-    {
-        await deleteFile(req.file.path, next);
-        return next(new AppError(`Trasa o id ${req.params.id} nie istnieje `,400));
-    }
-
-    if(doc.thumbnail !== process.env.TRACK_DEFAULT_THUMBNAIL)
-        await deleteFile(`public\\${doc.thumbnail}`, next);
+        if(!req.file)
+            return next(new AppError("Nie przesano miniaturki", 400));
+        if(!ObjectId.isValid(req.params.id))
+            {
+                await unlink(req.file.path, (err)=>{});
+                return next(new AppError("Id trasy nie prawidlowe", 400));
+            }
+            let doc = await trackModel.findById(req.params.id);
+        if(!doc)
+            {
+                await unlink(req.file.path, (err)=>{});
+                return next(new AppError("Nie znaleziono trasy o takim id", 400));
+            }
+        if(!doc.thumbnail.includes(process.env.TRACK_DEFAULT_THUMBNAIL!))
+            await unlink(`${process.env.TRACK_THUMBNAILS_FOLDER!}${doc.thumbnail}`, (err)=>{});
+        doc.thumbnail = req.file.filename;
+        await doc.save()
+        res.status(200).json({
+            status:"success",
+            data:{
+                message: doc
+            }           
+        })    
     
-        
-    doc.thumbnail = req.file.path.replace("public\\", "");
+    
+});
+export const deleteTrackThumbnail = catchAsync(async (req:Request, res:Response, next: NextFunction)=>{
+  
+    const doc  = await trackModel.findById(req.params.id);
+    if(!doc)
+        return next(new AppError("Nie znaleziono trasy o takim id", 400));
+           
+    if(!doc?.thumbnail.includes(process.env.TRACK_DEFAULT_THUMBNAIL!))
+        await unlink(`${process.env.TRACK_THUMBNAILS_FOLDER}${doc?.thumbnail}`, (err)=>{}) 
+    doc.thumbnail = process.env.TRACK_DEFAULT_THUMBNAIL!;
     await doc.save();
+   
     res.status(200).json({
         status:"success",
         data:{
             message: doc
         }           
-    })
-});
-
-//TODO: move remove functionality to track model
-export const deleteTrackThumbnail = catchAsync(async (req:Request, res:Response, next: NextFunction)=>{
-    let doc = await TrackModel.findById(req.params.id);
-    if(!doc)
-        return next(new AppError(`Trasa o id ${req.params.id} nie istnieje `,400));
-    if(doc.thumbnail !== process.env.TRACK_DEFAULT_THUMBNAIL)
-        await deleteFile(`public/${doc.thumbnail}`, next);
-    let defaultThumbnail = "tracks/default.png"
-    if(process.env.TRACK_DEFAULT_THUMBNAIL)
-        defaultThumbnail = process.env.TRACK_DEFAULT_THUMBNAIL;
-
-    doc.thumbnail = defaultThumbnail
-    await doc.save();
-    res.status(204).send();
-});
-// export const returnTrackDetails = async (id:string )=> {
-//     if(!ObjectId.isValid(id))
-//         throw new Error("Id nie jest typu ObjectId")
-//     let doc = await TrackModel.findById(id);
-//     if(!doc)
-//         throw new Error(`Trasa od id ${id} nie istnieje`);
-//     if(doc.waypoints.length  < 1){
-//         throw new Error(`Podana trasa nie ma żadnych punktów na mapie, gra się nie może odbyć`);
-//     }
-//     return doc;
-// }
-
+    })   
+ });
 export const uploadTrackThumbnail = upload.single('thumbnail');

@@ -1,9 +1,8 @@
-import mongoose, {  Schema, model} from "mongoose";
-import Track, { TrackDiff } from "../interfaces/ITrack.js";
+import mongoose, {  InferSchemaType, Query, QueryWithHelpers, Schema, UpdateQuery, model} from "mongoose";
 import { NextFunction } from "express";
-import WaypointModel, { waypointSchema } from "./waypointsModel.js";
 import AppError from "../utils/appError.js";
 import { deleteFile } from "../utils/deleteFile.js";
+import { waypointSchema } from "./waypointsModel.js";
 
 
 export const trackSchema = new Schema({
@@ -17,42 +16,65 @@ export const trackSchema = new Schema({
     description: {
         type: String,
         required: [true, "Trasa musi posiadać swój opis"],
-        min: [5, "Opis trasy musi mieć przynajmniej 5 znaków"],
-        max: [500, `Opis przekroczył maksymalny ilośc znaków. (500)}`],
+        minlength: [5, "Opis trasy musi mieć przynajmniej 5 znaków"],
+        maxlength: [500, `Opis przekroczył maksymalny ilośc znaków. (500)}`],
     },
     thumbnail: {
         type:String,
-        default: "/tracks/default.png"
+        default: process.env.TRACK_DEFAULT_THUMBNAIL!
+    },
+    waypoints: {
+        type: [waypointSchema]
+    
+    },
+    tags: {
+        type: [Schema.Types.ObjectId],
+        ref: "tag"
+        
     },
     isActive: {
         type: Boolean,
-        default: false,
+        default: false,    
     },
+}, {timestamps: true})
 
-})
 
-trackSchema.virtual("waypoints", {
-    ref: "Waypoints",
-    localField: "_id",
-    foreignField: "trackId"
 
+
+type TTrack = InferSchemaType<typeof trackSchema>
+
+// TODO: when delete track delete thumbnail if not default
+// trackSchema.pre("findOneAndDelete", async function(next){
     
-})
-//TODO: 
-// flag cannot be set when no waypoints
-// track cannot have more then 5 waupoints
-// FIXME:
+//     next()
+// });
+trackSchema.pre("save", async function(this, next){
 
-
-
-trackSchema.post('findOneAndDelete', async function(doc, next){
-    
-    // if(doc.waypoints)
-    //     await WaypointModel.deleteMany({_id: doc.waypoints});
-    if(doc.thumbnail !== process.env.TRACK_DEFAULT_THUMBNAIL)
-        await deleteFile(`public/${doc.thumbnail}`, next);
+    if(this.waypoints.length === 0 || this.tags.length === 0)
+    {
+        this.isActive = false;
+    }
     next();
-});
+})
 
-const TrackModel = model('Tracks', trackSchema);
-export default TrackModel; 
+///
+trackSchema.pre("save", function(this, next){
+    if(!this.isModified("isActive"))
+        next();
+    try {
+        const mess = "Trasa nie moze zostac edytowana poniewaz nie ma dodanych";
+        if(this.waypoints.length === 0)
+            throw new Error(`${mess} puntów na mapie`)
+        if(this.tags.length === 0)
+            throw new Error(`${mess} tagów`)
+    } catch (error) {
+        if( error instanceof Error)
+            next(new AppError(error.message, 400))
+    }
+    
+    next();
+})
+// trackSchema.pre("")
+
+const trackModel = model<TTrack>('Tracks', trackSchema);
+export default trackModel; 
