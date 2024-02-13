@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import styled from 'styled-components'
 import Paragraph from './Paragraph.styled'
+import { addStrongTags } from 'src/helpers/typography.helper'
 
 export interface NumberedListItem {
     label: string,
@@ -14,7 +15,7 @@ const NumberedList : FC<{items: NumberedListItem[]}> = ({items}) => {
                 items.map((item,index) => (
                     <ListItem key={'numberedlist-'+index}>
                         <ListItemLabel>{index+1}. {item.label}</ListItemLabel>
-                        <Paragraph>{item.description}</Paragraph>
+                        <Paragraph dangerouslySetInnerHTML={{ __html: addStrongTags(item.description) }} />
                     </ListItem>
                 ))
             }
@@ -29,15 +30,19 @@ const StyledNumberedList = styled.ol`
 `;
 
 const ListItem = styled.li`
-    margin-bottom: 2rem;
+    margin-bottom: 1.6rem;
+
+    p {
+        font-size: 1.4rem;
+    }
 `
 
 const ListItemLabel = styled.span`
     font-weight: bold;
     font-family: var(--family-primary);
     display: inline-block;
-    margin-bottom: .5rem;
-    font-size: 1.8rem;
+    margin-bottom: .3rem;
+    font-size: 1.6rem;
     color: ${(props) => props.theme.primary};
 `
 

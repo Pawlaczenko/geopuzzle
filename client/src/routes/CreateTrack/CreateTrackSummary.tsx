@@ -25,7 +25,7 @@ const CreateTrackSummary : FC = () => {
             <SummaryTable summaryData={tableContent} />
             <PointsTable pointsArray={formData.trackWaypoints} />
             <SummaryOptions>
-                <ButtonIcon btnType='yellow' icon='create'>Zakończ tworzenie trasy</ButtonIcon>
+                <ButtonIcon btnType='outline' icon='create'>Zakończ tworzenie trasy</ButtonIcon>
             </SummaryOptions>
         </StyledCreateTrackSummary>
     )

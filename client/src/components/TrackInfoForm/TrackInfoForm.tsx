@@ -1,5 +1,5 @@
 import { Formik } from 'formik';
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import ButtonIcon from 'src/components/Button/ButtonIcon';
 import FileInput from 'src/components/Input/FileInput';
 import TagsInput from 'src/components/Input/TagsInput/TagsInput';
@@ -10,6 +10,9 @@ import styled from 'styled-components'
 import { trackInfoValidationSchema } from './TrackInfoForm.helper';
 import { CreateTrackFormData, useCreateTrackContext } from 'src/context/CreateTrackContext';
 import StyledForm from '../Form.styled';
+import { addOneTrack } from 'src/services/TrackService';
+import LoaderSpinner from '../LoaderSpinner';
+import { set } from 'lodash';
 
 const FormNames = {
     track_name: "trackName",
@@ -26,7 +29,9 @@ export interface TrackInfoFormValues {
 }
 
 const TrackInfoForm : FC = () => {
-    const {activeStepIndex,setActiveStepIndex,formData,setFormData} = useCreateTrackContext();
+    const {activeStepIndex,setActiveStepIndex,formData,setFormData,setTrackId} = useCreateTrackContext();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
     const initialValues : TrackInfoFormValues = {
         trackName: formData.trackName, 
         trackDescription: formData.trackDescription, 
@@ -34,21 +39,35 @@ const TrackInfoForm : FC = () => {
         trackThumbnail: formData.trackThumbnail || undefined
     };
 
+    const handleSubmit = async (values: any) => {
+        const data: CreateTrackFormData = {
+            ...formData,
+            trackName: values.trackName.trim(),
+            trackDescription: values.trackDescription.trim(),
+            trackTagNames: values.trackTagNames.split(" "),
+            trackThumbnail: values.trackThumbnail
+        };
+        setFormData(data);
+        setIsLoading(true);
+        try {
+            setError("");
+            const trackId = await addOneTrack(data.trackName,data.trackDescription);
+            setTrackId(trackId as unknown as string);
+            setIsLoading(false);
+            setActiveStepIndex(activeStepIndex + 1);
+        } catch(error : any) {
+            setIsLoading(false);
+            setError(error.message as string);
+        } 
+    }
+
     return (
+        <>
+        {isLoading && <LoaderSpinner />}
         <Formik
             initialValues={initialValues}
             validationSchema={trackInfoValidationSchema}
-            onSubmit={(values) => {
-                const data: CreateTrackFormData = {
-                    ...formData,
-                    trackName: values.trackName.trim(),
-                    trackDescription: values.trackDescription.trim(),
-                    trackTagNames: values.trackTagNames.split(" "),
-                    trackThumbnail: values.trackThumbnail
-                };
-                setFormData(data);
-                setActiveStepIndex(activeStepIndex + 1);
-            }}
+            onSubmit={handleSubmit}
         >
             {
                 formik => (
@@ -57,11 +76,13 @@ const TrackInfoForm : FC = () => {
                         <TextArea name={FormNames.track_description} label="Opis Trasy" placeholder='Podaj Opis Trasy' />
                         <FileInput  name={FormNames.track_thumbnail} label='Miniatura Trasy' />
                         <TagsInput name={FormNames.track_tags} label='Tagi' placeholder='Dodaj tagi' />
-                        <ButtonIcon btnType='white' icon='create' type="submit">Następny krok</ButtonIcon>
+                        <ButtonIcon btnType='regular' icon='create' type="submit">Następny krok</ButtonIcon>
+                        {error && <p>{error}</p>}
                     </StyledInfoForm>
                 )
             }
         </Formik>
+        </>
     )
 }
 

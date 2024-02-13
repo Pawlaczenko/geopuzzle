@@ -41,6 +41,7 @@ const PointsTable : FC<{pointsArray: TrackWaypoint[],}> = ({pointsArray}) => {
 
 const StyledPointsTable = styled.div`
     margin-top: 2rem;
+    overflow-x: scroll;
 `;
 
 

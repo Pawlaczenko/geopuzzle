@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { createCircle } from 'src/styles/mixins'
+import { BREAKPOINTS } from 'src/styles/variables';
 import styled, { css } from 'styled-components'
 
 type InfoBoxType = 'primary' | 'secondary' | 'danger';
@@ -31,7 +32,7 @@ const getInfoBoxStyles = (boxType: InfoBoxType = 'primary') => {
 
 const YellowBoxStyle = css`
     --box-background: var(--color-primary);
-    --box-color: black;
+    --box-color: white;
 `
 
 const DangerBoxStyle = css`
@@ -59,6 +60,12 @@ export const StyledInfoBox = styled.div<{variant: InfoBoxType}>`
         font-family: var(--family-primary);
         font-size: 1.6rem;
     }
+
+    @media only screen and (${BREAKPOINTS.phone}){
+        & > p {
+            width: 95%;
+        }
+    }
 `;
 
 const InfoBoxSymbol = styled.span`
@@ -75,6 +82,13 @@ const InfoBoxSymbol = styled.span`
 
     font-weight: 700;
     font-size: 3rem;
+
+    @media only screen and (${BREAKPOINTS.big}){
+        box-shadow: none;
+        width: 2rem;
+        height: 2rem;
+        font-size: 1.4rem;
+    }
 `
 
 export default InfoBox

@@ -9,6 +9,7 @@ const CreateTrack : FC = () => {
     const pageRef : RefObject<HTMLDivElement> = useRef(null);
     const [activeStepIndex, setActiveStepIndex] = useState<number>(1);
     const [currentPoint, setCurrentPoint] = useState<number>(0);
+    const [trackId, setTrackId] = useState<string>("");
     const [formData, setFormData] = useState<CreateTrackFormData>({
         trackDescription: "",
         trackName: "",
@@ -18,15 +19,17 @@ const CreateTrack : FC = () => {
 
     useEffect(() => {
         if(pageRef.current) {
-            pageRef.current.scrollTo({
-                top: 0,
+            pageRef.current.scrollIntoView({
                 behavior: 'smooth',
+                block: 'start',
             });
         }
-    }, [activeStepIndex,formData.trackWaypoints]);
+    }, [activeStepIndex]);
 
     return (
-    <CreateTrackContext.Provider value={{activeStepIndex,setActiveStepIndex,currentPoint,setCurrentPoint,formData,setFormData}}>
+    <CreateTrackContext.Provider value={{
+        activeStepIndex,setActiveStepIndex,currentPoint,setCurrentPoint,formData,setFormData,trackId,setTrackId
+        }}>
         <Page ref={pageRef}>
             <Banner text="Stwórz Trasę" />
             <Stepper />

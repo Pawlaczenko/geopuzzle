@@ -2,7 +2,7 @@ import { createCircle } from 'src/styles/mixins';
 import styled, { css } from 'styled-components'
 
 const activeStyle = css`
-    background-color: var(--color-secondary);
+    background-color: var(--color-primary);
     color: white;
 `
 

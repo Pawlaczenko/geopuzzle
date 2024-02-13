@@ -16,7 +16,7 @@ const CreateTrackInfo : FC = () => {
             <Heading level='h3' withAccent $alignCenter>Informacje o trasie</Heading>
             <TrackInfoForm />
             <StyledTutorial>
-                <Logo logoType='compact' />
+                <Logo />
                 <Heading level='h5'>Witaj w kreatorze tras!</Heading>
                 <NumberedList items={tutorialList} />
             </StyledTutorial>
@@ -36,23 +36,28 @@ const StyledCreateTrackInfo = styled(Section)`
     }
 
     @media only screen and (${BREAKPOINTS.big}){
-        grid-template-areas: "heading" "tutorial" "form";
+        grid-template-areas: "heading" "form" "tutorial";
         grid-template-columns: 1fr;
+
+        & > ${StyledHeading} {
+            margin-bottom: 0;
+        }
     }
 `;
 
 const StyledTutorial = styled.aside`
     grid-area: tutorial;
-    background: ${(props) => props.theme.input};
+    background: white;
     border-radius: var(--radius);
     padding: 3rem;
-    box-shadow: 0 0 0 .3rem var(--color-dark), 0 0 0 .8rem var(--color-grey-light);
+    border: 1px solid var(--color-grey);
     height: min-content;
 
     ${flexContainer('flex-start','center','column')}
 
     & > ${Paragraph} {
         margin-top: 2rem;
+        font-size: 1.4rem;
     }
 `
 

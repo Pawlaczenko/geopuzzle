@@ -2,24 +2,25 @@ import { BREAKPOINTS } from "src/styles/variables";
 import { styled } from "styled-components";
 
 export const StyledInput = styled.input<{$error?: boolean}>`
-    font-size: var(--fs-paragraph);
+    font-size: 1.4rem;
     font-family: var(--family-primary);
     
-    background: ${({theme}) => theme.input};
     color: ${({theme}) => theme.textBlue};
-    box-shadow: 0 .3rem ${(props) => props.$error ? 'var(--color-error)' : 'var(--color-secondary)'};
-    border: none;
+    border: 1px solid ${({theme}) => theme.input};
     border-radius: var(--radius);
 
-    --input-height: 4.5rem;
+    --input-height: 3.6rem;
+    @media only screen and (max-width: 768px) {
+        --input-height: 4.8rem;
+    }
 
     width: 100%;
-    padding: 0 3rem;
+    padding: 0 2.4rem;
 
     &:focus,
     &:active,
     &:has(input:focus) {
-        outline: .2rem solid var(--color-secondary);
+        outline: .1rem solid var(--color-primary);
     }
 
     &::placeholder {
@@ -39,10 +40,11 @@ export const StyledLabel = styled.label`
 
 export const StyledLabelText = styled.span`
     display: block;
+    position: relative;
 
-    font-weight: bold;
     text-align: left;
     font-family: var(--family-primary);
-    margin-bottom: 1.5rem;
-    padding-left: 3rem;
+    margin-bottom: 0.8rem;
+    padding-left: 1.6rem;
+    font-size: 1.4rem;
 `

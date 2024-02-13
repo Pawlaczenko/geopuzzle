@@ -5,6 +5,7 @@ import { IPuzzleContent } from 'src/types/puzzle.types';
 import { getPuzzleById } from 'src/data/puzzleItems.data';
 import { flexContainer } from 'src/styles/mixins';
 import { getPuzzleContent } from './puzzle.helper';
+import { BREAKPOINTS } from 'src/styles/variables';
 
 const PuzzleWrapper : FC<{puzzle: IPuzzleContent}> = ({puzzle}) => {
     const puzzleItem = getPuzzleById(puzzle.type);
@@ -26,7 +27,13 @@ const StyledPuzzleWrapper = styled(BannerBox)`
     margin: 6rem auto;
     position: relative;
 
-    padding: 5rem 0 4rem 0;
+    padding: 5rem 1rem 4rem 1rem;
+
+    @media only screen and (${BREAKPOINTS.lg}){
+        width: 100%;
+        padding: 5rem 1rem 2rem 1rem;
+        margin: 6rem auto 3rem auto;
+    }
 `;
 
 const PuzzleWrapperBar = styled.div`
@@ -47,6 +54,12 @@ const PuzzleWrapperBar = styled.div`
     &>svg {
         width: 3rem;
         height: 3rem;
+    }
+
+    @media only screen and (${BREAKPOINTS.phone}){
+        font-size: var(--fs-paragraph);
+        left: 1.6rem;
+        transform: none;
     }
 `;
 

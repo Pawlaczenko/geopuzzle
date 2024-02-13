@@ -4,10 +4,11 @@ import { flexContainer } from 'src/styles/mixins';
 import PointNumber, { pointNumberVariant } from './PointNumber';
 import React from 'react';
 
-const TrackPointNavigation : FC = () => {
-    const points = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
-    const currentIndex = -1;
-
+interface ITrackPointNavigation {
+    currentIndex: number,
+    points: number[]
+}
+const TrackPointNavigation : FC<ITrackPointNavigation> = ({currentIndex,points}) => {
     const getNumberVariant = (state: number, currentIndex: number, index: number) : pointNumberVariant => {
         switch(state){
             case 0: return 'incorrect';
@@ -26,7 +27,8 @@ const TrackPointNavigation : FC = () => {
                     <PointNumber 
                         as="li" 
                         variant={getNumberVariant(state,currentIndex,index)} 
-                        size={'small'} 
+                        size={'small'}
+                        key={index + state}
                         lifted={currentIndex===index}>
                             {index+1}
                     </PointNumber>

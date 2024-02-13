@@ -1,80 +1,78 @@
-import { FC } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/app/store';
-import HideHeaderButton, { StyledHideHeaderButton } from "src/components/HideHeaderButton"
-import Logo, { LogoType, StyledLogo } from "src/components/Logo"
+import { FC, useEffect, useState } from 'react';
+import Logo, { StyledLogo } from "src/components/Logo"
 import Navigation from "src/components/Navigation/Navigation"
-import PopMenu from 'src/components/PopMenu';
-import SettingsButton from 'src/components/SettingsButton';
 import { flexContainer } from "src/styles/mixins"
 import { BREAKPOINTS } from 'src/styles/variables';
 import { styled } from "styled-components"
+import Container from '../Container';
+import Button from 'src/components/Button/Button.styled';
+import Searchbar, { StyledSearchbar } from 'src/components/Input/Searchbar';
+import Burger from './Burger';
+import useMediaQuery from 'src/hooks/useMediaQuery';
+import MobileMenu from './MobileMenu';
+import { Link, useLocation } from 'react-router-dom';
 
 const HeaderBar : FC = () => {
-    const isOpen = useSelector((state: RootState) => state.header);
-    const logoType : LogoType = isOpen ? 'filled' : 'compact';
-     return ( 
-        <StyledHeaderBar $isOpen={isOpen}>
-            <Logo logoType={logoType} />
-            <Navigation />
-            <ButtonsContainer $isOpen={isOpen}>
-                <SettingsButton />
-                <HideHeaderButton />
-                <PopMenu />
-            </ButtonsContainer>
-        </StyledHeaderBar>
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const isPhone = useMediaQuery(`(${BREAKPOINTS.phone})`);
+
+    const location = useLocation();
+
+    useEffect(() => {
+      setIsOpen(false);
+    }, [location]);
+
+    const toggleMobileMenu = () => {
+        setIsOpen(!isOpen);
+    }
+
+     return (
+        <Container>
+            <StyledHeaderBar $isOpen={isOpen}>
+                <Logo />
+                {!isPhone && <Navigation />}
+                <Searchbar placeholder='Wyszukaj trasę' name={'search'}  />
+                {!isPhone && <Link to="/login"><Button variant='outline'>Zaloguj</Button></Link>}
+                <Burger isOpen={isOpen} handleClick={toggleMobileMenu} />
+            </StyledHeaderBar>
+            <MobileMenu isOpen={isOpen} />
+        </Container>
     )
 }
 
 export const StyledHeaderBar = styled.header<{$isOpen: boolean}>`
-    ${flexContainer('flex-start','center','column')};
-    width: ${(props) => props.$isOpen ? 'var(--navbar-size)' : '8rem'};
+    ${flexContainer('space-between','center','row')};
+    gap: 0.8rem;
+    padding: 1.4rem 0;
+    z-index: 100;
 
-    padding:${(props) => props.$isOpen ? '2.3rem' : '2rem .8rem'};
-    border-right: 1px solid ${({theme}) => theme.input};
-    background-color: ${(props) => props.theme.header};
-
-    ${StyledHideHeaderButton} {
+    ${StyledLogo} {
+        width: 12rem;
+        flex-shrink: 0;
         @media only screen and (${BREAKPOINTS.phone}){
-            display: none;
+            margin-right: auto;
         }
     }
 
-    & > ${StyledLogo} {
-        width: 60%;
-    }
+    ${StyledSearchbar} {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 32.5rem;
 
-    @media only screen and (${BREAKPOINTS.phone}){
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        padding: .8rem;
-        z-index: 10000;
+        @media only screen and (max-width: 1150px){
+            position: relative;
+            transform: none;
+            left: unset;
+        }
 
-        ${StyledLogo} {
+        @media only screen and (max-width: 870px){
+            width: auto;
+        }
+
+        @media only screen and (max-width: 768px){
             display: none;
         }
-    }
-`
-
-const ButtonsContainer = styled.div<{$isOpen: boolean}>`
-    margin-top: auto;
-    position: relative;
-    
-    width: 100%;
-    ${(props) => flexContainer(props.$isOpen ? 'space-between' : 'center','center')};
-    gap: 1rem;
-    flex-wrap: wrap;
-
-    @media only screen and (${BREAKPOINTS.phone}){
-        position: fixed;
-        top: 0;
-        left: 0;
-
-        padding: 1rem 2rem; 
-        justify-content: flex-end;
-        background: ${(props) => props.theme.body};
     }
 `
 

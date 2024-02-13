@@ -12,58 +12,39 @@ import { BREAKPOINTS } from '../../styles/variables';
 export interface INavigationItem {
     label: string,
     path: NAV_ROUTES,
-    Icon: IconType
+    variant?: String
 }
 
-const NavigationItem : FC<INavigationItem> = ({label, path, Icon}) => {
-    const isOpen = useSelector((state: RootState) => state.header);
-    const isPhone = useMediaQuery(`(${BREAKPOINTS.phone})`);
-    const isCompact =
-    (isPhone && !isOpen) ? false :
-    (isPhone && isOpen) ? false :
-    (!isPhone && isOpen) ? true :
-    false;
+const NavigationItem : FC<INavigationItem> = ({label, path, variant}) => {
 
     return (
-        <StyledNavigationItem to={path} $isCompact={isCompact}>
-            <NavigationItemIcon>
-                {<Icon />}
-            </NavigationItemIcon>
-            {isCompact && label}
+        <StyledNavigationItem variant={variant} to={path}>
+            {label}
         </StyledNavigationItem>
     )
 }
 
-const StyledNavigationItem = styled(NavLink)<{$isCompact: boolean}>`
-    color: ${(props) => props.theme.textBlue};
-    font-size: var(--fs-paragraph);
+const StyledNavigationItem = styled(NavLink)<{variant?: String}>`
+    color: ${(props) => (props.variant === 'footer' ? 'white' : 'var(--color-black)')};
+    font-size: 1.4rem;
     border-radius: var(--radius);
 
-    ${(props) => flexContainer(props.$isCompact ? 'flex-start' : 'center','center')}
+    ${flexContainer('center','center')}
     gap: 1.8rem;
     padding: 1rem;
 
     &.active {
         color: ${(props) => props.theme.primary};
-        font-weight: bold;
     }
 
     &:hover {
         background-color: var(--color-grey);
         color: var(--color-dark);
     }
-`;
 
-const NavigationItemIcon = styled.figure`
-    & > svg {
-        --icon-size: 2.5rem;
-        width: var(--icon-size);
-        height: var(--icon-size);
-        fill: currentColor;
-
-        @media only screen and (${BREAKPOINTS.phone}){
-            --icon-size: 3rem;
-        }
+    @media only screen and (${BREAKPOINTS.md}){
+        font-size: 1.6rem;
+        width: 100%;
     }
 `;
 

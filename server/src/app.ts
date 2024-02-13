@@ -8,10 +8,19 @@ import ExpressMongoSanitize from "express-mongo-sanitize";
 import cors from "cors";
 import trackRouter from "./routes/trackRouter.js";
 const app = express();
-app.use(cors());
 
 app.options("*", cors())
 if (process.env.NODE_ENV === "development") 
+    app.use(morgan("tiny"));
+
+const corsOptions = {
+    origin:'*', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200,
+ }
+
+app.use(cors(corsOptions));
+if (process.env.NODE_ENV === 'development')
     app.use(morgan('dev'));
 
 //Body parser

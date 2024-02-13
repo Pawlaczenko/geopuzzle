@@ -15,6 +15,8 @@ import ButtonIcon from '../Button/ButtonIcon';
 import StyledForm from '../Form.styled';
 import FormMap from '../Map/FormMap';
 import { StyledMap } from '../Map/Map';
+import LoaderSpinner from '../LoaderSpinner';
+import { addOneWaypoint } from 'src/services/WaypointService';
 
 const FormNames = {
     point_name: "pointName",
@@ -35,7 +37,7 @@ export interface WaypointFormValues {
 }
 
 const TrackWaypointForm : FC<{currentPoint: number}> = ({currentPoint}) => {
-    const {formData, setFormData} = useCreateTrackContext();
+    const {formData, setFormData, trackId} = useCreateTrackContext();
     const doesPointExist = typeof formData.trackWaypoints[currentPoint] !== 'undefined';
     const initialPoint: WaypointFormValues = {
         pointName: doesPointExist ? formData.trackWaypoints[currentPoint].pointName : '',
@@ -48,6 +50,8 @@ const TrackWaypointForm : FC<{currentPoint: number}> = ({currentPoint}) => {
     const [mapWaypoint, setMapWaypoint] = useState<coordSuggestion | undefined>(undefined);
     const {suggestions, handleLocationSearch,resetSuggestions} = useLocationSearch();
     const [puzzleType, setPuzzleType] = useState<puzzleID>(initialPoint.puzzleType);
+    const [isLoading,setIsLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleWaypointChange = (waypoint: coordSuggestion) => {
         setMapWaypoint(waypoint);
@@ -61,34 +65,48 @@ const TrackWaypointForm : FC<{currentPoint: number}> = ({currentPoint}) => {
         }
     },[currentPoint])
 
+    async function handleSubmit(values: WaypointFormValues, resetForm: ()=>void) {
+        const waypoint : TrackWaypoint = {
+            pointName: values.pointName,
+            puzzleType: values.puzzleType,
+            puzzleCoords: mapWaypoint!,
+            puzzleContent: values.puzzleContent,
+            pointRadius: values.pointRadius,
+            puzzleExplanation: values.puzzleExplanation
+        }
+        const waypointsArray = [...formData.trackWaypoints];
+        if(doesPointExist){
+            waypointsArray[currentPoint] = waypoint;
+        } else {
+            waypointsArray.push(waypoint);
+        }
+        setFormData({
+            ...formData,
+            trackWaypoints: waypointsArray
+        });
+        setIsLoading(true);
+        try {
+            setError("");
+            await addOneWaypoint(waypoint,trackId);
+            setIsLoading(false);
+        } catch(error : any) {
+            setIsLoading(false);
+            setError(error.message as string);
+        }
+
+        resetForm();
+        setMapWaypoint(undefined);
+        setPuzzleType('text');
+    }
+
     return (
+        <>
+        {isLoading && <LoaderSpinner />}
         <Formik
             initialValues={initialPoint}
             validationSchema={useCallback(()=>getTrackWaypointValidationSchema(puzzleType,mapWaypoint),[puzzleType,mapWaypoint])}
             enableReinitialize={true}
-            onSubmit={(values,{resetForm}) => {
-                const waypoint : TrackWaypoint = {
-                    pointName: values.pointName,
-                    puzzleType: values.puzzleType,
-                    puzzleCoords: mapWaypoint!,
-                    puzzleContent: values.puzzleContent,
-                    pointRadius: values.pointRadius,
-                    puzzleExplanation: values.puzzleExplanation
-                }
-                const waypointsArray = [...formData.trackWaypoints];
-                if(doesPointExist){
-                    waypointsArray[currentPoint] = waypoint;
-                } else {
-                    waypointsArray.push(waypoint);
-                }
-                setFormData({
-                    ...formData,
-                    trackWaypoints: waypointsArray
-                });
-                resetForm();
-                setMapWaypoint(undefined);
-                setPuzzleType('text');
-            }}
+            onSubmit={(values,{resetForm}) => handleSubmit(values,resetForm)}
         >
             {
                 formik => (
@@ -108,11 +126,12 @@ const TrackWaypointForm : FC<{currentPoint: number}> = ({currentPoint}) => {
                         </FormGroup>
                         <AddPuzzleLabel name={FormNames.point_puzzle_type} hadnelPuzzleTypeChange={setPuzzleType} />
                         <TextArea label={'Objaśnienie Zagadki'} name={FormNames.puzzle_explanation} placeholder='Wpisz objaśnienie zagadki' helpMessage='Zostanie wyświetlone graczowi po próbie odgadnięcia zagadki.' />
-                        <ButtonIcon btnType='yellow' type='submit' icon='create'>Zapisz Punkt</ButtonIcon>
+                        <ButtonIcon type='submit' icon='create' btnType={'outline'}>Zapisz Punkt</ButtonIcon>
                     </StyledForm>
                 )
             }
         </Formik>
+        </>
     )
 }
 
@@ -124,6 +143,11 @@ const FormGroup = styled.div`
     border: var(--border-thin);
     padding: 2rem 1rem;
     border-radius: 1.5rem;
+
+    @media only screen and (${BREAKPOINTS.big}){
+        padding: 2rem 0;
+        border: none;
+    }
 
     @media only screen and (${BREAKPOINTS.phone}){
         grid-template-columns: 1fr;

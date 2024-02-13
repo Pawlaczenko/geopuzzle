@@ -3,7 +3,7 @@ import { LatLngExpression } from "leaflet"
 export interface IInputProps {
     placeholder?: string,
     type?: React.HTMLInputTypeAttribute,
-    label: string,
+    label?: string,
     name: string,
     helpMessage?: string
 }

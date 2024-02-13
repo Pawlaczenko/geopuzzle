@@ -4,6 +4,7 @@ import { FiX } from "react-icons/fi";
 import Heading from '../Heading';
 import { useDetectOutside } from 'src/hooks/useDetectOutside';
 import { flexContainer, myScrollBar } from 'src/styles/mixins';
+import { BREAKPOINTS } from 'src/styles/variables';
 
 export interface IModalProps {
     shouldShow: boolean,
@@ -55,6 +56,10 @@ const StyledModal = styled.dialog`
     }
 
     ${myScrollBar};
+
+    @media only screen and (${BREAKPOINTS.phone}){
+        padding: 1.8rem;
+    }
 `;
 
 const ModalBar = styled.div`

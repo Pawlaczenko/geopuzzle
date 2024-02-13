@@ -26,7 +26,7 @@ const StyledToggleThemeButton = styled.button<{$isChecked: boolean}>`
 `;
 
 const Toggler = styled.div`
-    background: var(--color-secondary);
+    background: var(--color-primary);
     ${createCircle('2rem')};
 `
 
