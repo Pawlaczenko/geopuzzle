@@ -7,6 +7,7 @@ import AppError from "./utils/appError.js";
 import ExpressMongoSanitize from "express-mongo-sanitize";
 import cors from "cors";
 import trackRouter from "./routes/trackRouter.js";
+import tagRouter from "./routes/tagRouter.js";
 const app = express();
 
 app.options("*", cors())
@@ -40,6 +41,7 @@ app.use(ExpressMongoSanitize());
 app.use(express.static('public'));
 //Routers
 app.use("/api/track", trackRouter);
+app.use("/api/tags", tagRouter);
 // Handling 404 routers
 app.all("*", (req:Request, res:Response, next:NextFunction) => {
  return next(new AppError("Geopuzzle nie znalazło takiej podstrony", 404));

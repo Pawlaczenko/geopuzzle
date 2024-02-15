@@ -29,7 +29,8 @@ export const trackSchema = new Schema({
     },
     tags: {
         type: [Schema.Types.ObjectId],
-        ref: "tag"
+        ref: "Tags",
+        unique: [true, "Tasa posiada dwa takie same tagi"]
         
     },
     isActive: {
@@ -48,33 +49,34 @@ type TTrack = InferSchemaType<typeof trackSchema>
     
 //     next()
 // });
-trackSchema.pre("save", async function(this, next){
+// trackSchema.pre("save", async function(this, next){
 
-    if(this.waypoints.length === 0 || this.tags.length === 0)
-    {
-        this.isActive = false;
-    }
-    next();
-})
+//     if(this.waypoints.length === 0 || this.tags.length === 0)
+//     {
+//         this.isActive = false;
+//     }
+//     next();
+// })
 
-///
+// ///
+
 trackSchema.pre("save", function(this, next){
-    if(!this.isModified("isActive"))
-        next();
-    try {
-        const mess = "Trasa nie moze zostac edytowana poniewaz nie ma dodanych";
-        if(this.waypoints.length === 0)
-            throw new Error(`${mess} puntów na mapie`)
-        if(this.tags.length === 0)
-            throw new Error(`${mess} tagów`)
-    } catch (error) {
-        if( error instanceof Error)
-            next(new AppError(error.message, 400))
+
+    if(this.getChanges().$set.isActive === true)
+    {   
+         try {
+            const mess = "Trasa nie moze zostac aktywowana poniewaz nie ma dodanych";
+            if(this.waypoints.length === 0)
+                throw new Error(`${mess} puntów na mapie`)
+            if(this.tags.length === 0)
+                throw new Error(`${mess} tagów`)
+        } catch (error) {
+            if( error instanceof Error)
+                next(new AppError(error.message, 400))
+        }
     }
-    
     next();
 })
-// trackSchema.pre("")
 
 const trackModel = model<TTrack>('Tracks', trackSchema);
 export default trackModel; 
