@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import AppError from "../utils/appError.js";
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
+import { MongoServerError } from "mongodb";
 
 
 //handling errors
 const handleCastError = (error:mongoose.CastError)=>{
   const path = error.path.split(".");
-  console.log(path);
   return new AppError(`Parametr: ${error.path} z wartością ${error.value} nie jest wspierany przez obiekt ${error.kind}`, 400);
 }
 
@@ -21,7 +21,9 @@ const handleValidationError = ( error : mongoose.Error.ValidationError)=>{
 
   return new AppError(message, 400);
 }
-
+const hadnleMongoDuplicateErr = (err : MongoServerError)=>{
+  return new AppError(`${Object.values(err.keyValue)[0]} jest zduplikowany`, 400)
+}
 
 
 
@@ -61,6 +63,12 @@ const sendErrorProd = (err:AppError, res:Response) => {
     error = handleSyntaxError(err);
   if (err instanceof mongoose.Error.CastError )
     error = handleCastError(err);
+  if(err instanceof MongoServerError)
+    {
+      console.log("yo")
+      if(err.code === 11000)
+        error = hadnleMongoDuplicateErr(err);
+    }
   
 
 

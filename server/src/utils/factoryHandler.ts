@@ -4,9 +4,10 @@ import { catchAsync } from "../utils/catchAsync.js";
 import { NextFunction, Request, Response } from "express";
 
 
-export const getAll = <T>(model:Model<T>) =>
+export const getAll = <T>(model:Model<T>, popOptions?: string | string[]) =>
   catchAsync(async (req:Request, res:Response) => {
     let query =  model.find()
+    if (popOptions) query.populate(popOptions);
     const doc = await query.select("-__v");
     
     res.status(200).json({

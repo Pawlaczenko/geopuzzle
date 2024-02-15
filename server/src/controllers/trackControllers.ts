@@ -50,8 +50,8 @@ const upload = multer({ storage: fileStorage, fileFilter: fileFilter } );
 //
 //crud
 //
-export const getOneTrack = factoryHandler.getOne(trackModel) 
-export const getAllTrack = factoryHandler.getAll(trackModel) 
+export const getOneTrack = factoryHandler.getOne(trackModel, "tags") 
+export const getAllTrack = factoryHandler.getAll(trackModel, "tags") 
 export const addOneTrack = factoryHandler.addOne(trackModel) 
 export const deleteOneTrack = factoryHandler.deleteOne(trackModel) 
 export const updateOneTrack = factoryHandler.updateOne(trackModel) 
