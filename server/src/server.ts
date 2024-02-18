@@ -2,7 +2,8 @@ import "dotenv/config"
 
 import mongoose from "mongoose";
 import app from "./app.js";
-// console.log(process.env)
+import gameWebsocket from "./websockets/game.js";
+
 process.on("uncaughtException", (err) => {
   console.log(err, "\n");
   console.log(err.name, err.message);
@@ -28,4 +29,4 @@ const server = app.listen(PORT, () => {
   console.log(`Server GeoPuzzle is running on ${PORT} port in ${process.env.NODE_ENV} mode`);
 });
 // game websocket upgrade
-// gameWebsocket(server);
+gameWebsocket(server);
