@@ -19,15 +19,15 @@ export const waypointSchema = new Schema({
         },
         long: {
            type: Number,
-           required: [true, "Punkt nie posiada szerokości geograficznej"] ,
-           min: [0, "Szerokość geograficzna nie może wynosić poniżej 0 stopni"],
-           max: [360, "Szerokość geogrficzna nie moze wynosić więcej niz 360 stopni"]
+           required: [true, "Punkt nie posiada długości geograficznej"] ,
+           min: [-180, "Długość geograficzna nie może wynosić poniżej -180 stopni"],
+           max: [180, "Długość geogrficzna nie moze wynosić więcej niz 180 stopni"]
         },
-        latt: {
+        lat: {
             type: Number,
-            required: [true, `Punkt nie posiada długość geograficznej`] ,
-            min: [-90,"Długość geograficzna nie może mieć mniej niż -90 stopni"],
-            max: [90, "Długość geograficzna nie może miec wiecej niz 90 stopni"]
+            required: [true, `Punkt nie posiada szerokości  geograficznej`] ,
+            min: [-180,"Szerokość geograficzna nie może mieć mniej niż -180 stopni"],
+            max: [180, "Szerokość geograficzna nie może miec wiecej niz 180 stopni"]
             
          },
          radius: {

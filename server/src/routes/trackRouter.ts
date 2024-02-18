@@ -17,7 +17,6 @@ trackRouter.route("/:id")
     .get( trackController.getOneTrack)
     .patch(trackController.updateOneTrack)
     .delete(trackController.deleteOneTrack);
-
     
 trackRouter.route("/thumbnail/:id")
     .post(trackController.uploadTrackThumbnail, trackController.updateTrackThumbnail)

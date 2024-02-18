@@ -1,12 +1,17 @@
-// import { TTrack } from "../../models/trackModel.js"
+import { TTrack } from "../models/trackModel.js"
+import { TWaypoint } from "../models/waypointsModel.js"
 
 export default interface GameSession {
-    startedAt: null | Date,
-    // data: TTrack,
-    index: number,
+    stageStart: null | Date,
+    details: TTrack | null,
+    isStarted: boolean,
+    currentStage: number,
     gameScore: {
-      score: [number] | [],
-      timeMs?: number
-    },
-    checkWaypointsCoords: (alt: number, long: number)=> false | number
+      score: Array<number>,
+      timeMs: Array<number>
+    }
 }
+// export interface GameResponse {
+//   waypoint: TWaypoint,
+//   score: string,
+// }

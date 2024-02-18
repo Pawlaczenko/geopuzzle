@@ -22,7 +22,7 @@ const handleValidationError = ( error : mongoose.Error.ValidationError)=>{
   return new AppError(message, 400);
 }
 const hadnleMongoDuplicateErr = (err : MongoServerError)=>{
-  return new AppError(`${Object.values(err.keyValue)[0]} jest zduplikowany`, 400)
+  return new AppError(`${Object.values(err.keyValue)[0] } jest zduplikowany`, 400)
 }
 
 
@@ -65,7 +65,6 @@ const sendErrorProd = (err:AppError, res:Response) => {
     error = handleCastError(err);
   if(err instanceof MongoServerError)
     {
-      console.log("yo")
       if(err.code === 11000)
         error = hadnleMongoDuplicateErr(err);
     }

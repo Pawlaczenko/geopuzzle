@@ -5,7 +5,6 @@ export const tagSchema = new Schema({
         required: [true, "Nazwa tagu jest pusta"],
         minlength: [3, "Tag musi posiadać przynajmniej 3 znaki"],
         maxlength: [12, "Tag może posiadać maksimum 12 naków"],
-        unique: [true, "Tag już istnieje"]
 
     }
 })
