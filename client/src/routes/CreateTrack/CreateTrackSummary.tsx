@@ -9,9 +9,10 @@ import { getImageFromObject } from 'src/helpers/files.helper';
 import Section from 'src/layout/Section.styled';
 import { flexContainer } from 'src/styles/mixins';
 import styled from 'styled-components'
+import {activateTrack} from 'src/services/TrackService';
 
 const CreateTrackSummary : FC = () => {
-    const {formData} = useCreateTrackContext();
+    const {formData, trackId, setActiveStepIndex, activeStepIndex} = useCreateTrackContext();
     const tableContent = new Map<string,React.ReactNode>([
         ['Nazwa Trasy: ',formData.trackName],
         ['Opis Trasy: ',formData.trackDescription],
@@ -19,13 +20,28 @@ const CreateTrackSummary : FC = () => {
         ['Miniatura Trasy: ',getImageFromObject(formData.trackThumbnail)]
     ]);
 
+    async function handleTrackSave() {
+        try {
+            const res = await activateTrack(trackId);
+            if(res) {
+                
+                setActiveStepIndex(activeStepIndex+1);
+            }
+        } catch(err) {
+            console.log(err);
+        }
+    }
+
     return (
         <StyledCreateTrackSummary>
             <Heading level='h3' withAccent $alignCenter>Podsumowanie</Heading>
             <SummaryTable summaryData={tableContent} />
             <PointsTable pointsArray={formData.trackWaypoints} />
             <SummaryOptions>
-                <ButtonIcon btnType='outline' icon='create'>Zakończ tworzenie trasy</ButtonIcon>
+                <ButtonIcon 
+                    onClick={handleTrackSave}
+                    btnType='outline' 
+                    icon='create'>Zakończ tworzenie trasy</ButtonIcon>
             </SummaryOptions>
         </StyledCreateTrackSummary>
     )

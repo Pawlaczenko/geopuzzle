@@ -32,7 +32,9 @@ const CreateTrack : FC = () => {
         }}>
         <Page ref={pageRef}>
             <Banner text="Stwórz Trasę" />
-            <Stepper />
+            {
+                activeStepIndex < 4 && <Stepper />
+            }
             <Step />
         </Page>
     </CreateTrackContext.Provider>
