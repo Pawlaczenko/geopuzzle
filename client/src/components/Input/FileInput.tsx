@@ -65,8 +65,8 @@ const StyledFileWrapper = styled.div`
 
     & > button {
         position: absolute;
-        top: -1rem;
-        right: -1rem;
+        top: 1rem;
+        right: 1rem;
     }
 `;
 

@@ -28,6 +28,7 @@ const ViewTrack : FC = () => {
 
     const [mapWaypoint, setMapWaypoint] = useState<coordSuggestion | undefined>(undefined);
     const handleWaypointChange = (waypoint: coordSuggestion) => {
+        console.log(waypoint);
         setMapWaypoint(waypoint);
         setButtonDisabled(false);
     }
