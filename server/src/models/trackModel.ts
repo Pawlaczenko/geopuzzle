@@ -1,8 +1,8 @@
-import mongoose, {  InferSchemaType, Query, QueryWithHelpers, Schema, UpdateQuery, model} from "mongoose";
-import { NextFunction } from "express";
+import {  InferSchemaType, Schema, model} from "mongoose";;
 import AppError from "../utils/appError.js";
-import { deleteFile } from "../utils/deleteFile.js";
 import { waypointSchema } from "./waypointsModel.js";
+import scoreboardModel from "./scoreboardModel.js";
+import { unlink } from "fs";
 
 
 export const trackSchema = new Schema({
@@ -28,38 +28,31 @@ export const trackSchema = new Schema({
     
     },
     tags: {
-        type: [Schema.Types.ObjectId],
-        ref: "Tags",
-        unique: [true, "Tasa posiada dwa takie same tagi"]
+        type: [String],
+        unique: true
         
     },
     isActive: {
         type: Boolean,
         default: false,    
     },
-}, {timestamps: true})
+}, {timestamps: true,})
 
 
 
 
 type TTrack = InferSchemaType<typeof trackSchema>
 
-// TODO: when delete track delete thumbnail if not default
-// trackSchema.pre("findOneAndDelete", async function(next){
-    
-//     next()
-// });
-// trackSchema.pre("save", async function(this, next){
 
-//     if(this.waypoints.length === 0 || this.tags.length === 0)
-//     {
-//         this.isActive = false;
-//     }
-//     next();
-// })
-
-// ///
-
+trackSchema.pre("findOneAndDelete", async function(next) {
+    const doc = await trackModel.findById(this.getQuery()._id);
+    if(!doc)
+        return next();
+    await scoreboardModel.deleteMany({trackId: doc._id});
+    if(!doc.thumbnail.includes(process.env.TRACK_DEFAULT_THUMBNAIL!))
+        await unlink(`public${doc.thumbnail}`, err=>{});
+    next();
+});
 trackSchema.pre("save", function(this, next){
 
     if(this.getChanges().$set.isActive === true)
