@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import ButtonIcon from 'src/components/Button/ButtonIcon';
 import Heading from 'src/components/Heading';
 import PointsTable from 'src/components/SummaryTable/PointsTable';
@@ -9,10 +9,11 @@ import { getImageFromObject } from 'src/helpers/files.helper';
 import Section from 'src/layout/Section.styled';
 import { flexContainer } from 'src/styles/mixins';
 import styled from 'styled-components'
-import {activateTrack} from 'src/services/TrackService';
+import {activateTrack, uploadTrackThumbnail} from 'src/services/TrackService';
 
 const CreateTrackSummary : FC = () => {
     const {formData, trackId, setActiveStepIndex, activeStepIndex} = useCreateTrackContext();
+    const [error, setError] = useState("");
     const tableContent = new Map<string,React.ReactNode>([
         ['Nazwa Trasy: ',formData.trackName],
         ['Opis Trasy: ',formData.trackDescription],
@@ -22,13 +23,17 @@ const CreateTrackSummary : FC = () => {
 
     async function handleTrackSave() {
         try {
+            if(formData.trackThumbnail){
+                await uploadTrackThumbnail(trackId,formData.trackThumbnail);
+            }
+            console.log(formData);
             const res = await activateTrack(trackId);
             if(res) {
-                
                 setActiveStepIndex(activeStepIndex+1);
             }
         } catch(err) {
             console.log(err);
+            setError(err.message);
         }
     }
 
@@ -43,6 +48,9 @@ const CreateTrackSummary : FC = () => {
                     btnType='outline' 
                     icon='create'>Zakończ tworzenie trasy</ButtonIcon>
             </SummaryOptions>
+            {
+                error && <p>{error}</p>
+            }
         </StyledCreateTrackSummary>
     )
 }

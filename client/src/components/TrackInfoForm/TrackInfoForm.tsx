@@ -10,7 +10,7 @@ import styled from 'styled-components'
 import { trackInfoValidationSchema } from './TrackInfoForm.helper';
 import { CreateTrackFormData, useCreateTrackContext } from 'src/context/CreateTrackContext';
 import StyledForm from '../Form.styled';
-import { addOneTrack } from 'src/services/TrackService';
+import { addOneTrack, updateOneTrack, addTags } from 'src/services/TrackService';
 import LoaderSpinner from '../LoaderSpinner';
 import { set } from 'lodash';
 
@@ -29,7 +29,7 @@ export interface TrackInfoFormValues {
 }
 
 const TrackInfoForm : FC = () => {
-    const {activeStepIndex,setActiveStepIndex,formData,setFormData,setTrackId} = useCreateTrackContext();
+    const {activeStepIndex,setActiveStepIndex,formData,setFormData,setTrackId,trackId,editFlag,setEditFlag} = useCreateTrackContext();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const initialValues : TrackInfoFormValues = {
@@ -51,8 +51,16 @@ const TrackInfoForm : FC = () => {
         setIsLoading(true);
         try {
             setError("");
-            const trackId = await addOneTrack(data.trackName,data.trackDescription);
-            setTrackId(trackId as unknown as string);
+            let newTrackId = "";
+            if(editFlag){
+                await updateOneTrack(trackId, data.trackName,data.trackDescription);
+            } else {
+                newTrackId = await addOneTrack(data.trackName,data.trackDescription);
+            }
+
+            // await addTags(trackId,data.trackTagNames);
+            setTrackId(newTrackId as unknown as string);
+            setEditFlag(true);
             setIsLoading(false);
             setActiveStepIndex(activeStepIndex + 1);
         } catch(error : any) {

@@ -3,7 +3,6 @@ import { NextFunction } from "express";
 import AppError from "../utils/appError.js";
 import { deleteFile } from "../utils/deleteFile.js";
 import { waypointSchema } from "./waypointsModel.js";
-import { tagModel, tagSchema } from "./tagModel.js";
 
 
 export const trackSchema = new Schema({
@@ -29,8 +28,9 @@ export const trackSchema = new Schema({
     
     },
     tags: {
-        type: [tagSchema],
-        unique: true
+        type: [Schema.Types.ObjectId],
+        ref: "Tags",
+        unique: [true, "Tasa posiada dwa takie same tagi"]
         
     },
     isActive: {
@@ -42,7 +42,7 @@ export const trackSchema = new Schema({
 
 
 
-export type TTrack = InferSchemaType<typeof trackSchema>
+type TTrack = InferSchemaType<typeof trackSchema>
 
 // TODO: when delete track delete thumbnail if not default
 // trackSchema.pre("findOneAndDelete", async function(next){

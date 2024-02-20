@@ -40,7 +40,7 @@ const CreateTrackPoint : FC = () => {
             <PointList pointsArray={formData.trackWaypoints} />
             {
                 formData.trackWaypoints.length > 1 && 
-                <ButtonIcon 
+                <ButtonIcon
                     icon='puzzle' 
                     onClick={() => { setActiveStepIndex(activeStepIndex + 1); } } 
                     btnType={'outline'}>Zakończ dodawanie punktów</ButtonIcon>
