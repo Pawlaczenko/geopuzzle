@@ -74,29 +74,31 @@ const TrackWaypointForm : FC<{currentPoint: number}> = ({currentPoint}) => {
             pointRadius: values.pointRadius,
             puzzleExplanation: values.puzzleExplanation
         }
-        const waypointsArray = [...formData.trackWaypoints];
-        if(doesPointExist){
-            waypointsArray[currentPoint] = waypoint;
-        } else {
-            waypointsArray.push(waypoint);
-        }
-        setFormData({
-            ...formData,
-            trackWaypoints: waypointsArray
-        });
         setIsLoading(true);
         try {
             setError("");
-            await addOneWaypoint(waypoint,trackId);
+            const point_id = await addOneWaypoint(waypoint,trackId);
+            waypoint.id = point_id;
+            const waypointsArray = [...formData.trackWaypoints];
+            if(doesPointExist){
+                waypointsArray[currentPoint] = waypoint;
+            } else {
+                waypointsArray.push(waypoint);
+            }
+            setFormData({
+                ...formData,
+                trackWaypoints: waypointsArray
+            });
+
+            resetForm();
+            setMapWaypoint(undefined);
+            setPuzzleType('text');
+
             setIsLoading(false);
         } catch(error : any) {
-            setIsLoading(false);
             setError(error.message as string);
+            setIsLoading(false);
         }
-
-        resetForm();
-        setMapWaypoint(undefined);
-        setPuzzleType('text');
     }
 
     return (
@@ -127,6 +129,9 @@ const TrackWaypointForm : FC<{currentPoint: number}> = ({currentPoint}) => {
                         <AddPuzzleLabel name={FormNames.point_puzzle_type} hadnelPuzzleTypeChange={setPuzzleType} />
                         <TextArea label={'Objaśnienie Zagadki'} name={FormNames.puzzle_explanation} placeholder='Wpisz objaśnienie zagadki' helpMessage='Zostanie wyświetlone graczowi po próbie odgadnięcia zagadki.' />
                         <ButtonIcon type='submit' icon='create' btnType={'outline'}>Zapisz Punkt</ButtonIcon>
+                        {
+                            error && <p>{error}</p>
+                        }
                     </StyledForm>
                 )
             }
