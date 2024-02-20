@@ -1,7 +1,6 @@
 import { NextFunction , Request, Response} from "express";
 import { catchAsync } from "../utils/catchAsync.js";
 import AppError from "../utils/appError.js";
-import waypointModel from "../models/waypointsModel.js";
 import trackModel from "../models/trackModel.js";
 
 
