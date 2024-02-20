@@ -7,7 +7,6 @@ declare global {
       DB_URL: string,
       DB_PASS: string,
       TRACK_DEFAULT_THUMBNAIL:string,
-      TRACK_THUMBNAILS_FOLDER: string
     }
   }
 }
