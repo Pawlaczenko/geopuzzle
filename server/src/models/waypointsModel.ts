@@ -13,10 +13,6 @@ export const waypointSchema = new Schema({
         immutable: true
     },
     coords: {
-        label: {
-            type: String,
-            required: [true, `Punkt nie posiada etykiety`]
-        },
         long: {
            type: Number,
            required: [true, "Punkt nie posiada długości geograficznej"] ,

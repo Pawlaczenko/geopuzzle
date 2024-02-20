@@ -27,8 +27,7 @@ export const trackSchema = new Schema({
         type: [waypointSchema]
     },
     tags: {
-        type: [String],
-        unique: true
+        type: [String]        
     },
     isActive: {
         type: Boolean,
@@ -47,8 +46,8 @@ trackSchema.pre("findOneAndDelete", async function(next) {
         await unlink(`public${doc.thumbnail}`, err=>{});
     next();
 });
-trackSchema.pre("save", function(this, next){
 
+trackSchema.pre("save", function(this, next){
     if(this.getChanges().$set.isActive === true)
     {   
          try {
@@ -64,6 +63,11 @@ trackSchema.pre("save", function(this, next){
     }
     next();
 })
-
+trackSchema.pre("save", async function(this,next){
+    const doc = await scoreboardModel.find({trackId: this._id});
+    if(doc.length > 0)
+        next(new AppError("Nie mozna edytować trasy która ma wyniki", 400))
+    next();
+})
 const trackModel = model<TTrack>('Tracks', trackSchema);
 export default trackModel; 
