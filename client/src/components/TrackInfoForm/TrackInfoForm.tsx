@@ -58,7 +58,7 @@ const TrackInfoForm : FC = () => {
                 newTrackId = await addOneTrack(data.trackName,data.trackDescription);
             }
 
-            // await addTags(trackId,data.trackTagNames);
+            await addTags(newTrackId,data.trackTagNames);
             setTrackId(newTrackId as unknown as string);
             setEditFlag(true);
             setIsLoading(false);

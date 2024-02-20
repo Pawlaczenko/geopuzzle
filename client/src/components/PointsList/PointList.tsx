@@ -8,27 +8,32 @@ import { flexContainer } from 'src/styles/mixins';
 import { BREAKPOINTS } from 'src/styles/variables';
 import DeleteConfirmationModal from '../Modal/DeleteConfirmationModal';
 import AddNewPointButton from './AddNewPointButton';
+import { deleteWaypoint } from 'src/services/WaypointService';
 
 interface IPointListProps {
     pointsArray: TrackWaypoint[],
 }
 
 const PointList : FC<IPointListProps> = ({pointsArray}) => {
-    const {setFormData} = useCreateTrackContext();
+    const {setFormData, trackId} = useCreateTrackContext();
     const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
     const [pointToDelete, setPointToDelete] = useState<number>();
 
-    const handleDeletePoint = (index: number) => {
+    const handleDeletePoint = async (index: number) => {
         setIsModalOpen(false);
-        setFormData((prevState) => {
-            const newArray = [...prevState.trackWaypoints];
-            newArray.splice(index,1);
-
-            return {
-                ...prevState,
-                trackWaypoints: newArray
-            }
-        })
+        console.log(pointsArray);
+        const res = await deleteWaypoint(pointsArray[index].id, trackId);
+        if(res){
+            setFormData((prevState) => {
+                const newArray = [...prevState.trackWaypoints];
+                newArray.splice(index,1);
+    
+                return {
+                    ...prevState,
+                    trackWaypoints: newArray
+                }
+            })
+        }
     }
 
     const handleOpenModal = (index: number) => {

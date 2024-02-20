@@ -77,8 +77,8 @@ const TrackWaypointForm : FC<{currentPoint: number}> = ({currentPoint}) => {
         setIsLoading(true);
         try {
             setError("");
-            const res = await addOneWaypoint(waypoint,trackId);
-
+            const point_id = await addOneWaypoint(waypoint,trackId);
+            waypoint.id = point_id;
             const waypointsArray = [...formData.trackWaypoints];
             if(doesPointExist){
                 waypointsArray[currentPoint] = waypoint;

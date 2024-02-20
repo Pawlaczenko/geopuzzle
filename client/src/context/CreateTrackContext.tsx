@@ -4,6 +4,7 @@ import { coordSuggestion } from "src/types/input.types";
 import { puzzleID } from "src/types/puzzle.types";
 
 export type TrackWaypoint = {
+    pointId?: string,
     pointName: string,
     puzzleType: puzzleID
     puzzleCoords: coordSuggestion,

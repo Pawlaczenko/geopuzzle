@@ -25,12 +25,10 @@ export const trackSchema = new Schema({
     },
     waypoints: {
         type: [waypointSchema]
-    
     },
     tags: {
         type: [String],
         unique: true
-        
     },
     isActive: {
         type: Boolean,
@@ -38,11 +36,7 @@ export const trackSchema = new Schema({
     },
 }, {timestamps: true,})
 
-
-
-
 type TTrack = InferSchemaType<typeof trackSchema>
-
 
 trackSchema.pre("findOneAndDelete", async function(next) {
     const doc = await trackModel.findById(this.getQuery()._id);

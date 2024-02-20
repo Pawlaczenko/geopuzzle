@@ -17,15 +17,17 @@ const CreateTrackEndScreen : FC = () => {
     },[]);
 
     return (
-        <StyledCreateTrackEndScreen>
-            <Heading level='h3' withAccent $alignCenter>Twoja trasa "{formData.trackName}" <br />dodana pomyślnie</Heading>
-            <ButtonIcon icon='start'>
-                Zagraj
-            </ButtonIcon>
+        <>
+            <StyledCreateTrackEndScreen>
+                <Heading level='h3' withAccent $alignCenter>Twoja trasa "{formData.trackName}" <br />dodana pomyślnie</Heading>
+                <ButtonIcon icon='start'>
+                    Zagraj
+                </ButtonIcon>
+            </StyledCreateTrackEndScreen>
             <Container>
                 <TrackSwiper />
             </Container>
-        </StyledCreateTrackEndScreen>
+        </>
     )
 }
 

@@ -25,7 +25,7 @@ const PointListItem : FC<IPointListItemProps> = ({point,pointIndex,handleDelete}
     }
 
     return (
-        <StyledPointsListItem onClick={()=>{setCurrentPoint(pointIndex-1)}}>
+        <StyledPointsListItem>
             <PointNumber variant='active'>{id}</PointNumber>
             <PointInfo>
                 {point.pointName}
@@ -48,18 +48,14 @@ export const StyledPointsListItem = styled.li`
     ${flexContainer('flex-start','center')};
     gap: 2rem;
 
-    &:hover {
-        cursor: pointer;
-        background: ${({theme}) => theme.decoration};
-    }
 `;
 
 const PointInfo = styled.div`
-    font-size: 2.1rem;
+    font-size: 1.8rem;
 `
 
 const PuzzleType = styled.div`
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     color: ${({theme}) => theme.textBlue};
 
     ${flexContainer('flex-start','center')};
