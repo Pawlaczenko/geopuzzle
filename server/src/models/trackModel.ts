@@ -37,7 +37,7 @@ export const trackSchema = new Schema({
         type: Boolean,
         default: false,    
     },
-}, {timestamps: true})
+}, {timestamps: true,})
 
 
 

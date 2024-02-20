@@ -3,9 +3,6 @@ import {  RawData, WebSocket, WebSocketServer } from "ws";
 import * as gameController from "../controllers/gameControllers.js";
 import GameSession from "../types/IGameSession.js";
 import { ObjectId } from "mongodb";
-import { wsError } from "../utils/wsError.js";
-
-
 
   
 const gameWebsocket = async (expressServer: Server) => {
@@ -41,9 +38,6 @@ const gameWebsocket = async (expressServer: Server) => {
     return websocketServer;
   }; 
 /////
-interface ISelect { 
-  id: ObjectId
-}
 
 const handleMessages = async (data: RawData, ws: WebSocket, gameInfo: GameSession) => {
   try {

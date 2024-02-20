@@ -3,6 +3,8 @@ import trackModel from "../models/trackModel.js";
 import { TWaypoint } from "../models/waypointsModel.js";
 import GameSession from "../types/IGameSession.js";
 import { WebSocket } from "ws";
+import scoreboardModel, { TScroboeard } from "../models/scoreboardModel.js";
+
 
 type TStage = Pick<TWaypoint, "type" | "payload"> 
 type TAnswer = {
@@ -16,20 +18,29 @@ const calcPoints = (wp: TWaypoint, answer : {long : number, latt: number}) : num
 }
 const sendStage = (ws: WebSocket, game:GameSession) => {
     game.stageStart = new Date();
-    const wp = game.details?.waypoints[game.currentStage];
+    const wp = game.details?.data.waypoints[game.currentStage];
     const res : TStage = {
         type: wp?.type!,
         payload: wp?.payload!
     }
     ws.send(JSON.stringify(res));
   }
-const finishGame = (ws: WebSocket, game:GameSession) => {
-
+const finishGame = async  (ws: WebSocket, game:GameSession) => {
+    if(!game.details)
+      throw new Error("Nie znaleziono gry");
     const res = {
       totalScore: game.gameScore.score.reduce((sum, num) => sum + num, 0) / game.gameScore.score.length,
       time: game.gameScore.timeMs.reduce((sum, num)=> sum+num, 0)
     }
+    const docToSave = {
+      timeMs: res.time,
+      score: res.totalScore,
+      userId: "placeholder",
+      trackId: game.details.id
+    }
+    const doc = await scoreboardModel.create(docToSave);
     ws.send(JSON.stringify(res));
+
 }
 export const handleGameSelection = async (ws: WebSocket, game: GameSession, msg : any)=>{
     const {id} = msg;
@@ -44,7 +55,12 @@ export const handleGameSelection = async (ws: WebSocket, game: GameSession, msg 
         throw new Error(`Trasa od id ${id} nie istnieje`);
     if(!doc.isActive)
       throw new Error("Trasa jest nie aktywna")
-    game.details = doc;
+    
+    game.details = {
+      id: doc.id,
+      data: doc
+    }
+
     ws.send(`Gra o id ${id} została wybrana`);
 }
 
@@ -70,13 +86,13 @@ export const handleGameAnswer = async (ws: WebSocket, game: GameSession, msg: an
       throw new Error("Dane wejściowe nie są typu number")
     const currentDate = new Date();
         const timeScore = currentDate.getTime() - game.stageStart?.getTime()!;
-    const pointScore = (calcPoints(game.details.waypoints[game.currentStage], {long:long,latt:lat}));
+    const pointScore = (calcPoints(game.details.data.waypoints[game.currentStage], {long:long,latt:lat}));
     game.gameScore.score.push(pointScore);
     game.gameScore.timeMs.push(timeScore);
     const res : TAnswer = {
       score: pointScore,
       timeMs: timeScore,
-      wp: game.details.waypoints[game.currentStage]
+      wp: game.details.data.waypoints[game.currentStage]
 
     }
     ws.send(JSON.stringify(res));
@@ -86,7 +102,7 @@ export const handleGameAnswer = async (ws: WebSocket, game: GameSession, msg: an
       throw new Error("Najpierw musisz zacząć grę");
     if(!game.details)
       throw new Error("Najpierw wybierz grę");
-    if(game.currentStage === game.details.waypoints.length -1)
+    if(game.currentStage === game.details.data.waypoints.length -1)
       return finishGame(ws, game);
     if((game.currentStage === game.gameScore.score.length) ||
       (game.currentStage === game.gameScore.timeMs.length)

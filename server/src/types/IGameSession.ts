@@ -1,9 +1,11 @@
+import mongoose, { ObjectId } from "mongoose"
 import { TTrack } from "../models/trackModel.js"
-import { TWaypoint } from "../models/waypointsModel.js"
-
 export default interface GameSession {
     stageStart: null | Date,
-    details: TTrack | null,
+    details: {
+      id: ObjectId,
+      data: TTrack,
+    } | null,
     isStarted: boolean,
     currentStage: number,
     gameScore: {
@@ -11,7 +13,3 @@ export default interface GameSession {
       timeMs: Array<number>
     }
 }
-// export interface GameResponse {
-//   waypoint: TWaypoint,
-//   score: string,
-// }
