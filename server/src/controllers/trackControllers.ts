@@ -31,7 +31,7 @@ const fileStorage = multer.diskStorage({
         file: Express.Multer.File,
         cb: DestinationCallback
     ): void => {
-        cb(null, process.env.TRACK_THUMBNAILS_FOLDER!)
+        cb(null, "public/tracks/")
     },
 
     filename: (
@@ -76,8 +76,8 @@ export const updateTrackThumbnail = catchAsync(async (req:Request, res:Response,
                 return next(new AppError("Nie znaleziono trasy o takim id", 400));
             }
         if(!doc.thumbnail.includes(process.env.TRACK_DEFAULT_THUMBNAIL!))
-            await unlink(`${process.env.TRACK_THUMBNAILS_FOLDER!}${doc.thumbnail}`, (err)=>{});
-        doc.thumbnail = req.file.filename;
+            await unlink(`public/${doc.thumbnail}`, (err)=>{});
+        doc.thumbnail = `/tracks/${req.file.filename}`;
         await doc.save()
         res.status(200).json({
             status:"success",
@@ -95,7 +95,7 @@ export const deleteTrackThumbnail = catchAsync(async (req:Request, res:Response,
         return next(new AppError("Nie znaleziono trasy o takim id", 400));
            
     if(!doc?.thumbnail.includes(process.env.TRACK_DEFAULT_THUMBNAIL!))
-        await unlink(`${process.env.TRACK_THUMBNAILS_FOLDER}${doc?.thumbnail}`, (err)=>{}) 
+        await unlink(`public/${doc.thumbnail}`, (err)=>{}) 
     doc.thumbnail = process.env.TRACK_DEFAULT_THUMBNAIL!;
     await doc.save();
    
