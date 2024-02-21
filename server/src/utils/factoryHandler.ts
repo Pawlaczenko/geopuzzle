@@ -1,15 +1,15 @@
 import AppError from "../utils/appError.js";
-import {  Model, Schema} from "mongoose";
+import {  Document, HydratedDocument, Model, Query, Schema} from "mongoose";
 import { catchAsync } from "../utils/catchAsync.js";
 import { NextFunction, Request, Response } from "express";
+import APIfeatures from "./APIFeatures.js";
 
 
-export const getAll = <T>(model:Model<T>, popOptions?: string | string[]) =>
+export const getAll = (model:Model<any>, popOptions?: string | string[]) =>
   catchAsync(async (req:Request, res:Response) => {
-    let query =  model.find()
-    if (popOptions) query.populate(popOptions);
-    const doc = await query.select("-__v");
-    
+    const query = model.find();
+    const features = await new APIfeatures(query, req.query).filter().sort().limitFields().paginate();
+    const doc = await features.query;
     res.status(200).json({
       status: "success",
       results: doc.length,

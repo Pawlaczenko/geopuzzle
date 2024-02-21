@@ -35,7 +35,7 @@ export const trackSchema = new Schema({
     },
 }, {timestamps: true,})
 
-type TTrack = InferSchemaType<typeof trackSchema>
+export type TTrack = InferSchemaType<typeof trackSchema>
 
 trackSchema.pre("findOneAndDelete", async function(next) {
     const doc = await trackModel.findById(this.getQuery()._id);
