@@ -24,7 +24,7 @@ const router = createBrowserRouter([
                 element: <CreateTrack />,
             },
             {
-                path: NAV_ROUTES.displayTrack,
+                path: NAV_ROUTES.displayTrack + '/:track_id',
                 element: <ViewTrack />,
             },
             {

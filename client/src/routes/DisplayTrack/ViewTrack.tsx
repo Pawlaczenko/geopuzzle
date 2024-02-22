@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react'
+import { FC, useRef, useState, useEffect } from 'react'
 import { StyledBanner } from 'src/components/Banner';
 import Page from 'src/layout/Page.styled';
 import BackgroundImage from 'src/assets/dev/7cDoyzS.jpg'
@@ -12,76 +12,158 @@ import ButtonIcon from 'src/components/Button/ButtonIcon';
 import GameMap from 'src/components/Map/GameMap';
 import { coordSuggestion } from 'src/types/input.types';
 import PuzzleWrapper from 'src/components/Puzzles/PuzzleWrapper';
-import { IPuzzleContent } from 'src/types/puzzle.types';
+import { IPuzzle, IPuzzleContent } from 'src/types/puzzle.types';
 import Container from 'src/layout/Container';
 import TrackItem, { ITrackItemProps } from 'src/components/TrackItem/TrackItem';
 import TrackSwiper from 'src/components/TrackSwiper';
 import { BREAKPOINTS } from 'src/styles/variables';
+import { getOneTrack } from 'src/services/TrackService';
+import { Routes, Route, useParams } from 'react-router-dom';
+import { ITrackInfoBox } from 'src/components/TrackInfoBox';
+import useWebSocket, { ReadyState } from "react-use-websocket"
 
 const ViewTrack : FC = () => {
+    const WS_URL = "ws://127.0.0.1:3000/game"
+    const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
+        WS_URL,
+        {
+            share: true,
+            shouldReconnect: () => true,
+        },
+    );
+
+    useEffect(() => {
+        console.log(readyState);
+        if (readyState === ReadyState.OPEN) {
+            sendJsonMessage({
+                "command": "select",// select, start, answer, next, exit 
+                "content": {
+                    "id": "65d4ffcd08d6a00d0ccd4927" //select, id trasy
+                }
+            })
+        }
+      }, [readyState]);
+
+      useEffect(() => {
+        if(lastJsonMessage && Object.keys(lastJsonMessage).length > 0 && !isRunning){
+            setcurrentPuzzle(lastJsonMessage);
+            setCurrentPuzzleIndex(0);
+            setIsRunning(true);
+    
+            if (interactiveBarRef.current) {
+                interactiveBarRef.current.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                });
+            }
+        } else if(isRunning) {
+            console.log(lastJsonMessage);
+        }
+        console.log(lastJsonMessage);
+      }, [lastJsonMessage]);
+
     const [isRunning, setIsRunning] = useState(false);
-    const time = useTimer(isRunning);
+    // const time = useTimer(isRunning);
     const [btnDisabled, setButtonDisabled] = useState(true);
-    const [currentPuzzle, setCurrentPuzzle] = useState(0);
-    const points = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
+    const [currentTrack, setCurrentTrack] = useState<ITrackInfoBox | null>(null);
+    const [currentPuzzle, setcurrentPuzzle] = useState<IPuzzleContent | null>(null);
+    const [currentPuzzleIndex, setCurrentPuzzleIndex] = useState(0);
+    const [points, setPoints] = useState([]);
+    // const points = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
+    
     const interactiveBarRef = useRef<HTMLDivElement>(null);
+    let {track_id} = useParams();
+    
+    const [thumbnailUrl, setThumbnailUrl] = useState("");
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const [mapWaypoint, setMapWaypoint] = useState<coordSuggestion | undefined>(undefined);
     const handleWaypointChange = (waypoint: coordSuggestion) => {
-        console.log(waypoint);
         setMapWaypoint(waypoint);
         setButtonDisabled(false);
     }
 
-    const startTrack = () => {
-        setIsRunning(true);
-
-        // Scroll into view when starting the track
-        if (interactiveBarRef.current) {
-            interactiveBarRef.current.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
+    const startTrack = async () => {
+        if (readyState === ReadyState.OPEN) {
+            await sendJsonMessage({
+                "command": "start",
+                "content": {
+                }
             });
         }
     }
 
+    const checkAnswer = () => {
+        console.log(mapWaypoint.coords.lng);
+        console.log(mapWaypoint.coords.lat);
+        sendJsonMessage({
+            "command": "answer",
+            "content": {
+                "long": mapWaypoint.coords.lng,
+                "lat": mapWaypoint.coords.lat
+            }
+        });
+    }
+
     const textPuzzle : IPuzzleContent = {
         type: 'text',
-        content: 'Państwo o tej stolicy zostało zaatakowane przez III Rzeszę 1 września 1939, co zapoczątkowało II Wojnę Światową.'
+        payload: 'Państwo o tej stolicy zostało zaatakowane przez III Rzeszę 1 września 1939, co zapoczątkowało II Wojnę Światową.'
     }
 
-    const imagePuzzle : IPuzzleContent = {
-        type: 'image',
-        content: 'https://fajnepodroze.pl/wp-content/uploads/2023/03/luk-triumfalny.jpg'
-    }
+    useEffect(() => {
+        async function fetchTrack() {
+            setIsLoading(true);
+            const trackData = await getOneTrack(track_id);
+
+            const infoBox : ITrackInfoBox = {
+                id: trackData.id,
+                name: trackData.name,
+                description: trackData.description,
+                tags: trackData.tags,
+                puzzleCount: trackData.waypoints.length,
+                thumbnail: trackData.thumbnail
+            }
+
+            setPoints(Array(trackData.waypoints.length).fill(-1));
+            setCurrentTrack(infoBox);
+            setThumbnailUrl('http://localhost:3000'+trackData.thumbnail);
+            setIsLoading(false);
+        }
+        fetchTrack();
+    },[]);
 
     return (
-        <Page>
-            <StyledThumbnail>
-                <img src={BackgroundImage} />
-            </StyledThumbnail>
-            <TrackBanner background={BackgroundImage}>
+        <>
+        {
+            !isLoading && 
+            <Page>
+                <StyledThumbnail>
+                    <img src={thumbnailUrl} />
+                </StyledThumbnail>
+                <TrackBanner background={thumbnailUrl}>
+                    <Container>
+                        <TrackInfoBox track={currentTrack} handleStart={startTrack} />
+                    </Container>
+                </TrackBanner>
+                <ScrollAnchor ref={interactiveBarRef}></ScrollAnchor>
+                {
+                    isRunning &&             
+                    <Container>
+                        <InteractiveBar>
+                            <TrackPointNavigation currentIndex={currentPuzzleIndex} points={points} />
+                            <ButtonIcon btnType='regular' icon='check' disabled={btnDisabled} onClick={checkAnswer} >Sprawdź</ButtonIcon>
+                            {/* <StopWatch time={time}/> */}
+                        </InteractiveBar>
+                        <PuzzleWrapper puzzle={currentPuzzle} />
+                        <GameMap chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
+                    </Container>
+                }
                 <Container>
-                    <TrackInfoBox handleStart={startTrack} />
+                    <TrackSwiper />
                 </Container>
-            </TrackBanner>
-            <ScrollAnchor ref={interactiveBarRef}></ScrollAnchor>
-            {
-                isRunning &&             
-                <Container>
-                    <InteractiveBar>
-                        <TrackPointNavigation currentIndex={currentPuzzle} points={points} />
-                        <ButtonIcon btnType='regular' icon='check' disabled={btnDisabled}>Sprawdź</ButtonIcon>
-                        <StopWatch time={time}/>
-                    </InteractiveBar>
-                    <PuzzleWrapper puzzle={textPuzzle} />
-                    <GameMap chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
-                </Container>
-            }
-            <Container>
-                <TrackSwiper />
-            </Container>
-        </Page>
+            </Page>
+        }
+        </>
     )
 }
 

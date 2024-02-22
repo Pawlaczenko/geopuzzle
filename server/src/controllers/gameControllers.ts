@@ -82,8 +82,8 @@ export const handleGameAnswer = async (ws: WebSocket, game: GameSession, msg: an
     const {long, lat} = msg;
     if(!long || !lat)
       throw new Error("Brak danych opisujących punkt na mapie")
-    if(!Number.isSafeInteger(long) || !Number.isSafeInteger(lat))
-      throw new Error("Dane wejściowe nie są typu number")
+    if (!Number.isFinite(long) || !Number.isFinite(lat))
+      throw new Error("Dane wejściowe nie są liczbami");
     const currentDate = new Date();
         const timeScore = currentDate.getTime() - game.stageStart?.getTime()!;
     const pointScore = (calcPoints(game.details.data.waypoints[game.currentStage], {long:long,latt:lat}));
