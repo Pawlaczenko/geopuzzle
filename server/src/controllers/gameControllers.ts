@@ -6,22 +6,29 @@ import { WebSocket } from "ws";
 import scoreboardModel, { TScroboeard } from "../models/scoreboardModel.js";
 
 
-type TStage = Pick<TWaypoint, "type" | "payload"> 
+type TStage = {
+  type: string,
+  payload: string,
+  event: string
+}
+//Pick<TWaypoint, "type" | "payload"> 
 type TAnswer = {
   score: number,
   timeMs: number,
-  wp : TWaypoint
+  wp : TWaypoint,
+  event: string
 }
 const calcPoints = (wp: TWaypoint, answer : {long : number, latt: number}) : number =>{
     return 100;
 
 }
-const sendStage = (ws: WebSocket, game:GameSession) => {
+const sendStage = (ws: WebSocket, game:GameSession, event: string) => {
     game.stageStart = new Date();
     const wp = game.details?.data.waypoints[game.currentStage];
     const res : TStage = {
         type: wp?.type!,
-        payload: wp?.payload!
+        payload: wp?.payload!,
+        event: event,
     }
     ws.send(JSON.stringify(res));
   }
@@ -30,7 +37,8 @@ const finishGame = async  (ws: WebSocket, game:GameSession) => {
       throw new Error("Nie znaleziono gry");
     const res = {
       totalScore: game.gameScore.score.reduce((sum, num) => sum + num, 0) / game.gameScore.score.length,
-      time: game.gameScore.timeMs.reduce((sum, num)=> sum+num, 0)
+      time: game.gameScore.timeMs.reduce((sum, num)=> sum+num, 0),
+      event: 'finish',
     }
     const docToSave = {
       timeMs: res.time,
@@ -61,14 +69,17 @@ export const handleGameSelection = async (ws: WebSocket, game: GameSession, msg 
       data: doc
     }
 
-    ws.send(`Gra o id ${id} została wybrana`);
+    ws.send(JSON.stringify({
+      event: 'select',
+      message: `Gra o id ${id} została wybrana`
+    }));
 }
 
 export const handleGameStart = async (ws:WebSocket, game:GameSession)=>{
     if(!game.details)
       throw new Error("Najpierw wybierz grę")    
     game.isStarted  = true;
-    sendStage(ws, game);
+    sendStage(ws, game, 'start');
   } 
 export const handleGameAnswer = async (ws: WebSocket, game: GameSession, msg: any)=>{
     if(!game.isStarted)
@@ -92,8 +103,8 @@ export const handleGameAnswer = async (ws: WebSocket, game: GameSession, msg: an
     const res : TAnswer = {
       score: pointScore,
       timeMs: timeScore,
-      wp: game.details.data.waypoints[game.currentStage]
-
+      wp: game.details.data.waypoints[game.currentStage],
+      event: 'answer'
     }
     ws.send(JSON.stringify(res));
   }
@@ -109,6 +120,6 @@ export const handleGameAnswer = async (ws: WebSocket, game: GameSession, msg: an
       )
       throw new Error("Odpowiedz zanim przejdziesz dalej")
     game.currentStage++;
-    sendStage(ws, game);
+    sendStage(ws, game, 'next');
   }
  

@@ -21,6 +21,13 @@ import { getOneTrack } from 'src/services/TrackService';
 import { Routes, Route, useParams } from 'react-router-dom';
 import { ITrackInfoBox } from 'src/components/TrackInfoBox';
 import useWebSocket, { ReadyState } from "react-use-websocket"
+import { LatLngExpression } from 'leaflet';
+import WaypointSummary, { IWaypointSummary } from 'src/components/Game/WaypointSummary';
+
+export interface ICorrectAnswerMarker {
+    coords: LatLngExpression,
+    radius: number
+}
 
 const ViewTrack : FC = () => {
     const WS_URL = "ws://127.0.0.1:3000/game"
@@ -38,38 +45,84 @@ const ViewTrack : FC = () => {
             sendJsonMessage({
                 "command": "select",// select, start, answer, next, exit 
                 "content": {
-                    "id": "65d4ffcd08d6a00d0ccd4927" //select, id trasy
+                    "id": "65d7bd30a99da3eff336c6cd" //select, id trasy
                 }
             })
         }
       }, [readyState]);
 
       useEffect(() => {
-        if(lastJsonMessage && Object.keys(lastJsonMessage).length > 0 && !isRunning){
-            setcurrentPuzzle(lastJsonMessage);
-            setCurrentPuzzleIndex(0);
-            setIsRunning(true);
-    
-            if (interactiveBarRef.current) {
-                interactiveBarRef.current.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start',
-                });
-            }
-        } else if(isRunning) {
-            console.log(lastJsonMessage);
-        }
         console.log(lastJsonMessage);
+        if(!lastJsonMessage) return;
+
+        const event = lastJsonMessage.event;
+        switch(event) {
+            case 'start':
+                setcurrentPuzzle(lastJsonMessage);
+                setCurrentPuzzleIndex(0);
+                setIsRunning(true);
+        
+                if (interactiveBarRef.current) {
+                    interactiveBarRef.current.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',
+                    });
+                }
+            break;
+            case 'answer':
+                /// Set coords on map
+                const correctCoords : ICorrectAnswerMarker = {
+                    coords: {
+                        lat: lastJsonMessage.wp.coords.lat,
+                        lng: lastJsonMessage.wp.coords.long,
+                    },
+                    radius: lastJsonMessage.wp.coords.radius
+                }
+                setCorrectAnswerMarker(correctCoords);
+
+                if (interactiveBarRef.current) {
+                    interactiveBarRef.current.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',
+                    });
+                }
+
+                ///set summary in table
+                const summary : IWaypointSummary = {
+                    answer: lastJsonMessage.wp.name,
+                    points: lastJsonMessage.score,
+                    explanation: lastJsonMessage.explenation,
+                    handleNext: nextQuestion
+                }
+                setWaypointSummary(summary);
+
+                setIsPaused(true);
+            break;
+            case 'next': 
+                setIsPaused(false);
+
+                setButtonDisabled(true);
+                setCorrectAnswerMarker(null);
+                setMapWaypoint(null);
+                setWaypointSummary(null);
+                setcurrentPuzzle(lastJsonMessage);
+            break;
+            default:
+            break;
+        }
       }, [lastJsonMessage]);
 
     const [isRunning, setIsRunning] = useState(false);
+    const [isPaused, setIsPaused] = useState(false);
+    
     // const time = useTimer(isRunning);
     const [btnDisabled, setButtonDisabled] = useState(true);
     const [currentTrack, setCurrentTrack] = useState<ITrackInfoBox | null>(null);
     const [currentPuzzle, setcurrentPuzzle] = useState<IPuzzleContent | null>(null);
+    const [correctAnswerMarker, setCorrectAnswerMarker] = useState<ICorrectAnswerMarker | null>(null);
+    const [waypointSummary, setWaypointSummary] = useState<IWaypointSummary | null>(null);
     const [currentPuzzleIndex, setCurrentPuzzleIndex] = useState(0);
     const [points, setPoints] = useState([]);
-    // const points = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
     
     const interactiveBarRef = useRef<HTMLDivElement>(null);
     let {track_id} = useParams();
@@ -77,7 +130,7 @@ const ViewTrack : FC = () => {
     const [thumbnailUrl, setThumbnailUrl] = useState("");
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    const [mapWaypoint, setMapWaypoint] = useState<coordSuggestion | undefined>(undefined);
+    const [mapWaypoint, setMapWaypoint] = useState<coordSuggestion | null>(null);
     const handleWaypointChange = (waypoint: coordSuggestion) => {
         setMapWaypoint(waypoint);
         setButtonDisabled(false);
@@ -94,13 +147,24 @@ const ViewTrack : FC = () => {
     }
 
     const checkAnswer = () => {
-        console.log(mapWaypoint.coords.lng);
-        console.log(mapWaypoint.coords.lat);
         sendJsonMessage({
             "command": "answer",
             "content": {
                 "long": mapWaypoint.coords.lng,
                 "lat": mapWaypoint.coords.lat
+            }
+        });
+    }
+
+    const nextQuestion = () => {
+        const oldPoints = [...points];
+        oldPoints[currentPuzzleIndex] = 1;
+        setPoints(oldPoints);
+        setCurrentPuzzleIndex(index => index + 1);
+    
+        sendJsonMessage({
+            "command": "next",
+            "content": {
             }
         });
     }
@@ -151,11 +215,21 @@ const ViewTrack : FC = () => {
                     <Container>
                         <InteractiveBar>
                             <TrackPointNavigation currentIndex={currentPuzzleIndex} points={points} />
-                            <ButtonIcon btnType='regular' icon='check' disabled={btnDisabled} onClick={checkAnswer} >Sprawdź</ButtonIcon>
+
+                            {
+                                isPaused
+                                ? <ButtonIcon btnType='outline' icon='start' onClick={nextQuestion} >Następne pytanie</ButtonIcon>
+                                : <ButtonIcon btnType='regular' icon='check' disabled={btnDisabled} onClick={checkAnswer} >Sprawdź</ButtonIcon>
+                            }
+                            
                             {/* <StopWatch time={time}/> */}
                         </InteractiveBar>
                         <PuzzleWrapper puzzle={currentPuzzle} />
-                        <GameMap chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
+                        {
+                            isPaused &&
+                            <WaypointSummary summary={waypointSummary} />
+                        }
+                        <GameMap correctMarkerCoords={correctAnswerMarker} chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
                     </Container>
                 }
                 <Container>
