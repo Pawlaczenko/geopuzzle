@@ -15,5 +15,5 @@ export interface IImagePuzzle extends IPuzzle {
 
 export interface IPuzzleContent {
     type: puzzleID;
-    content: unknown;
+    payload: unknown;
 }

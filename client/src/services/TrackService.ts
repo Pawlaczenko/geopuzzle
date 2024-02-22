@@ -25,6 +25,25 @@ export async function addOneTrack(
   	}
 }
 
+export async function getOneTrack(
+	id: string,
+  ): Promise<void> {
+		const apiUrl = "http://127.0.0.1:3000/api/track/"+id;
+  
+	  try {
+		  const response = await axios.get( apiUrl );
+		  return response.data.data;
+		} catch (error: any) {
+		  if (error.response) {
+			  throw new Error(error.response.data.message);
+		  } else if (error.request) {
+			  throw new Error("No response received from the server");
+		  } else {
+			  throw new Error("Error in request setup: " + error.message);
+		  }
+		}
+}
+
 export async function updateOneTrack(
 	track_id: string,
 	name: string,

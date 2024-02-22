@@ -6,7 +6,7 @@ import { BREAKPOINTS } from 'src/styles/variables'
 
 const Navigation : FC<{variant?: String}> = ({variant}) => {
     const navigationItems : INavigationItem[] = [
-        {label: "Eksploruj", path: NAV_ROUTES.displayTrack},
+        {label: "Eksploruj", path: NAV_ROUTES.displayTrack + '/65d4ffcd08d6a00d0ccd4927'},
         {label: "Utwórz Trasę", path: NAV_ROUTES.createTrack},
     ]
     return (
