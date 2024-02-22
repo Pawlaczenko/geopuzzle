@@ -1,17 +1,30 @@
-import { FC, useState } from 'react'
+import { FC, useState, useEffect } from 'react'
 import { ICustomMapProps } from 'src/types/input.types';
 import Map, { StyledMap } from './Map';
+import { Polyline } from 'react-leaflet';
+import { LatLngExpression } from 'leaflet';
 import LocationMarker from './LocationMarker';
+import CorrectMarker from './CorrectMarker';
 import { styled } from 'styled-components';
 import { MdExpandMore } from 'react-icons/md';
 import { flexContainer } from 'src/styles/mixins';
 import { BREAKPOINTS } from 'src/styles/variables';
 
-const GameMap : FC<ICustomMapProps> = ({handleWaypointChange,chosenMarkerCoords}) => {
+const GameMap : FC<ICustomMapProps> = ({handleWaypointChange,chosenMarkerCoords,correctMarkerCoords}) => {
+    const lineCoords: LatLngExpression[] = [
+        chosenMarkerCoords,
+        correctMarkerCoords?.coords // Using optional chaining in case correctMarkerCoords is undefined
+      ].filter(Boolean); // Remove any undefined values from the array
     return (
         <StyledMapContainer>
             <Map center={chosenMarkerCoords}>
                 <LocationMarker handleWaypointChange={handleWaypointChange} chosenMarkerCoords={chosenMarkerCoords} />
+                {
+                    correctMarkerCoords && <CorrectMarker radius={correctMarkerCoords.radius} chosenMarkerCoords={correctMarkerCoords.coords} />   
+                }
+                {lineCoords.length === 2 && (
+                    <Polyline positions={lineCoords} color="#0081AF" dashArray={[10, 5]} /> // Adjust color as needed
+                )}
             </Map>
         </StyledMapContainer>
     )
