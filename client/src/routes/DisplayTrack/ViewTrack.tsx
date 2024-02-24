@@ -1,13 +1,11 @@
 import { FC, useRef, useState, useEffect } from 'react'
 import { StyledBanner } from 'src/components/Banner';
 import Page from 'src/layout/Page.styled';
-import BackgroundImage from 'src/assets/dev/7cDoyzS.jpg'
 import TrackInfoBox from 'src/components/TrackInfoBox';
 import { styled } from 'styled-components';
 import { flexContainer } from 'src/styles/mixins';
 import TrackPointNavigation, { StyledTrackPointNavigation } from 'src/components/TrackPointNavigation';
 import StopWatch from 'src/components/StopWatch';
-import useTimer from 'src/hooks/useTimer';
 import ButtonIcon from 'src/components/Button/ButtonIcon';
 import GameMap from 'src/components/Map/GameMap';
 import { coordSuggestion } from 'src/types/input.types';
@@ -23,6 +21,7 @@ import { ITrackInfoBox } from 'src/components/TrackInfoBox';
 import useWebSocket, { ReadyState } from "react-use-websocket"
 import { LatLngExpression } from 'leaflet';
 import WaypointSummary, { IWaypointSummary } from 'src/components/Game/WaypointSummary';
+import GameSummary, { IGameSummary } from 'src/components/Game/GameSummary';
 
 export interface ICorrectAnswerMarker {
     coords: LatLngExpression,
@@ -31,7 +30,7 @@ export interface ICorrectAnswerMarker {
 
 const ViewTrack : FC = () => {
     const WS_URL = "ws://127.0.0.1:3000/game"
-    const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
+    const { sendJsonMessage, lastJsonMessage, readyState } : { sendJsonMessage: Function, lastJsonMessage: any, readyState: number } = useWebSocket(
         WS_URL,
         {
             share: true,
@@ -40,7 +39,6 @@ const ViewTrack : FC = () => {
     );
 
     useEffect(() => {
-        console.log(readyState);
         if (readyState === ReadyState.OPEN) {
             sendJsonMessage({
                 "command": "select",// select, start, answer, next, exit 
@@ -52,7 +50,6 @@ const ViewTrack : FC = () => {
       }, [readyState]);
 
       useEffect(() => {
-        console.log(lastJsonMessage);
         if(!lastJsonMessage) return;
 
         const event = lastJsonMessage.event;
@@ -62,12 +59,7 @@ const ViewTrack : FC = () => {
                 setCurrentPuzzleIndex(0);
                 setIsRunning(true);
         
-                if (interactiveBarRef.current) {
-                    interactiveBarRef.current.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start',
-                    });
-                }
+                scrollToBar();
             break;
             case 'answer':
                 /// Set coords on map
@@ -80,18 +72,11 @@ const ViewTrack : FC = () => {
                 }
                 setCorrectAnswerMarker(correctCoords);
 
-                if (interactiveBarRef.current) {
-                    interactiveBarRef.current.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start',
-                    });
-                }
-
                 ///set summary in table
                 const summary : IWaypointSummary = {
                     answer: lastJsonMessage.wp.name,
                     points: lastJsonMessage.score,
-                    explanation: lastJsonMessage.explenation,
+                    explanation: lastJsonMessage.wp.explenation,
                     handleNext: nextQuestion
                 }
                 setWaypointSummary(summary);
@@ -107,33 +92,49 @@ const ViewTrack : FC = () => {
                 setWaypointSummary(null);
                 setcurrentPuzzle(lastJsonMessage);
             break;
+            case 'finish':
+                setIsFinished(true);
+                setIsPaused(true);
+                setIsRunning(false);
+
+                const gSummary : IGameSummary = {
+                    score: lastJsonMessage.totalScore,
+                    time: lastJsonMessage.time
+                }
+                setGameSummary(gSummary);
+            break;
             default:
             break;
         }
-      }, [lastJsonMessage]);
+        console.log(lastJsonMessage);
+    }, [lastJsonMessage]);
 
     const [isRunning, setIsRunning] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
     
-    // const time = useTimer(isRunning);
     const [btnDisabled, setButtonDisabled] = useState(true);
     const [currentTrack, setCurrentTrack] = useState<ITrackInfoBox | null>(null);
     const [currentPuzzle, setcurrentPuzzle] = useState<IPuzzleContent | null>(null);
     const [correctAnswerMarker, setCorrectAnswerMarker] = useState<ICorrectAnswerMarker | null>(null);
     const [waypointSummary, setWaypointSummary] = useState<IWaypointSummary | null>(null);
+    const [gameSummary, setGameSummary] = useState<IGameSummary | null>(null);
     const [currentPuzzleIndex, setCurrentPuzzleIndex] = useState(0);
-    const [points, setPoints] = useState([]);
+    const [points, setPoints] = useState<number[]>([]);
     
     const interactiveBarRef = useRef<HTMLDivElement>(null);
+    const mapRef = useRef<HTMLDivElement>(null);
     let {track_id} = useParams();
     
     const [thumbnailUrl, setThumbnailUrl] = useState("");
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isFinished, setIsFinished] = useState<boolean>(false);
 
     const [mapWaypoint, setMapWaypoint] = useState<coordSuggestion | null>(null);
     const handleWaypointChange = (waypoint: coordSuggestion) => {
-        setMapWaypoint(waypoint);
-        setButtonDisabled(false);
+        if(!isPaused){
+            setMapWaypoint(waypoint);
+            setButtonDisabled(false);
+        }
     }
 
     const startTrack = async () => {
@@ -147,20 +148,22 @@ const ViewTrack : FC = () => {
     }
 
     const checkAnswer = () => {
+        scrollToMap();
         sendJsonMessage({
             "command": "answer",
             "content": {
-                "long": mapWaypoint.coords.lng,
-                "lat": mapWaypoint.coords.lat
+                "long": mapWaypoint?.coords.lng,
+                "lat": mapWaypoint?.coords.lat
             }
         });
     }
 
     const nextQuestion = () => {
-        const oldPoints = [...points];
+        const oldPoints : number[] = [...points];
         oldPoints[currentPuzzleIndex] = 1;
         setPoints(oldPoints);
         setCurrentPuzzleIndex(index => index + 1);
+        scrollToBar();
     
         sendJsonMessage({
             "command": "next",
@@ -169,6 +172,24 @@ const ViewTrack : FC = () => {
         });
     }
 
+    const scrollToMap = () => {
+        if (mapRef.current) {
+            mapRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+            });
+        }
+    }
+
+    const scrollToBar = () => {
+        if (interactiveBarRef.current) {
+            interactiveBarRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+            });
+        }
+    }
+    
     const textPuzzle : IPuzzleContent = {
         type: 'text',
         payload: 'Państwo o tej stolicy zostało zaatakowane przez III Rzeszę 1 września 1939, co zapoczątkowało II Wojnę Światową.'
@@ -177,7 +198,8 @@ const ViewTrack : FC = () => {
     useEffect(() => {
         async function fetchTrack() {
             setIsLoading(true);
-            const trackData = await getOneTrack(track_id);
+            if(!track_id) return;
+            const trackData : any = await getOneTrack(track_id);
 
             const infoBox : ITrackInfoBox = {
                 id: trackData.id,
@@ -222,14 +244,29 @@ const ViewTrack : FC = () => {
                                 : <ButtonIcon btnType='regular' icon='check' disabled={btnDisabled} onClick={checkAnswer} >Sprawdź</ButtonIcon>
                             }
                             
-                            {/* <StopWatch time={time}/> */}
+                            <StopWatch isRunning={isRunning && !isPaused}/>
                         </InteractiveBar>
-                        <PuzzleWrapper puzzle={currentPuzzle} />
-                        {
-                            isPaused &&
+                        {currentPuzzle && <PuzzleWrapper puzzle={currentPuzzle} handleScroll={scrollToMap} />}
+                        <ScrollAnchor ref={mapRef}></ScrollAnchor>
+                        <GameMap
+                            correctMarkerCoords={correctAnswerMarker} 
+                            chosenMarkerCoords={mapWaypoint?.coords} 
+                            handleWaypointChange={handleWaypointChange} />
+                                                    {
+                            isPaused && waypointSummary &&
                             <WaypointSummary summary={waypointSummary} />
                         }
-                        <GameMap correctMarkerCoords={correctAnswerMarker} chosenMarkerCoords={mapWaypoint?.coords} handleWaypointChange={handleWaypointChange} />
+                        <ButtonsWrapper>
+                            {
+                                !isPaused && <ButtonIcon btnType='regular' icon='check' disabled={btnDisabled} onClick={checkAnswer} >Sprawdź</ButtonIcon>
+                            }
+                        </ButtonsWrapper>
+                    </Container>
+                }
+                {
+                    isFinished && gameSummary &&
+                    <Container>
+                        <GameSummary summary={gameSummary} />
                     </Container>
                 }
                 <Container>
@@ -292,6 +329,10 @@ const StyledThumbnail = styled.figure`
     @media only screen and (${BREAKPOINTS.phone}){
         display: block;
     }
+`;
+
+const ButtonsWrapper = styled.div`
+    margin: auto;
 `;
 
 export default ViewTrack

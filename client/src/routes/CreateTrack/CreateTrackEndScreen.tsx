@@ -1,7 +1,6 @@
 import { FC, useEffect } from 'react'
 import ButtonIcon from 'src/components/Button/ButtonIcon';
 import Heading from 'src/components/Heading';
-import TagNamesContainer from 'src/components/TagNames/TagNamesContainer';
 import { useCreateTrackContext } from 'src/context/CreateTrackContext'
 import Section from 'src/layout/Section.styled';
 import Container from "src/layout/Container";
@@ -20,7 +19,7 @@ const CreateTrackEndScreen : FC = () => {
         <>
             <StyledCreateTrackEndScreen>
                 <Heading level='h3' withAccent $alignCenter>Twoja trasa "{formData.trackName}" <br />dodana pomyślnie</Heading>
-                <ButtonIcon icon='start'>
+                <ButtonIcon btnType='regular' icon='start'>
                     Zagraj
                 </ButtonIcon>
             </StyledCreateTrackEndScreen>

@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import { FC } from "react";
+import useTimer from 'src/hooks/useTimer';
 
-const StopWatch : FC<{time: number[]}> = ({time}) => {
+const StopWatch : FC<{isRunning: boolean}> = ({isRunning}) => {
+
+    const time = useTimer(isRunning);
     if (time === undefined) {
         return <StyledStopWatch data-testid="timer">00:00</StyledStopWatch>;
     }
