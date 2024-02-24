@@ -25,7 +25,6 @@ const WaypointSummary : FC<{summary: IWaypointSummary}> = ({summary}) => {
 }
 
 const StyledWaypointSummary = styled.div`
-    width: 50%;
     border: 2px solid var(--color-primary);
     padding: 2.4rem 1.8rem;
     margin: 0 auto 1.2rem auto;
@@ -38,6 +37,10 @@ const StyledWaypointSummary = styled.div`
 
     b {
         color: var(--color-primary);
+    }
+
+    button {
+        margin: 2.4rem auto 0 auto;
     }
 `;
 

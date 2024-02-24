@@ -12,7 +12,7 @@ const TextPuzzle : FC<{content: string}> = ({content}) => {
 
 const StyledTextPuzzle = styled.p`
     text-align: center;
-    font-size: var(--fs-h5);
+    font-size: 1.6rem;
     max-inline-size: 50ch;
     text-wrap: balance;
     margin: 0 auto;

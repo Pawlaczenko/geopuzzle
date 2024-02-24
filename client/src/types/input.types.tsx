@@ -16,7 +16,7 @@ export type coordSuggestion = {
 
 export interface ICustomMapProps {
     chosenMarkerCoords?: LatLngExpression;
-    correctMarkerCoords?: ICorrectAnswerMarker;
+    correctMarkerCoords?: ICorrectAnswerMarker | null;
     handleWaypointChange: (waypoint: coordSuggestion)=>void;
 }
 

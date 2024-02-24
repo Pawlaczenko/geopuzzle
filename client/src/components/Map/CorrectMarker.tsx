@@ -18,21 +18,32 @@ const correctFlagIcon = L.icon({
 
 interface IMarkerProps {
     chosenMarkerCoords?: LatLngExpression;
+    fitMarkerCoords?: LatLngExpression,
     radius: number,
 }
 
-const CorrectMarker : FC<IMarkerProps> = ({chosenMarkerCoords, radius}) => {
+const CorrectMarker : FC<IMarkerProps> = ({chosenMarkerCoords, radius, fitMarkerCoords}) => {
     const map = useMap();
 
     const radiusCircleTheme = {
         color: '#79AEA3',
         fillColor: '#FFE25F'
     }
+    // var group = new L.featureGroup([marker1, marker2, marker3]);
 
     useEffect(()=>{
-        if(chosenMarkerCoords) {
-            map.flyTo(chosenMarkerCoords,1.5,{easeLinearity: 1});
+        if(chosenMarkerCoords && fitMarkerCoords){
+            const bounds = L.latLngBounds(chosenMarkerCoords, fitMarkerCoords);
+            map.fitBounds(bounds);
         }
+        // var corner1 = L.latLng(40.712, -74.227),
+        // corner2 = L.latLng(40.774, -74.125),
+
+        
+        // if(chosenMarkerCoords) {
+        //     map.flyTo(chosenMarkerCoords,1.5,{easeLinearity: 1});
+        // }
+        
     },[chosenMarkerCoords]);
 
     return chosenMarkerCoords === undefined ? null : (
