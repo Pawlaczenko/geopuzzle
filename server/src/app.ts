@@ -31,7 +31,11 @@ app.use(express.json());
 
 
 //HTTP response headers
-app.use(helmet());
+app.use(helmet({
+    crossOriginResourcePolicy: false,
+}));
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+
 //Parameter pollution
 app.use(hpp());
 //Sanitize user query from cross stie script atacck

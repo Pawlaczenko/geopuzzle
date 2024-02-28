@@ -8,7 +8,7 @@ import APIfeatures from "./APIFeatures.js";
 export const getAll = (model:Model<any>, popOptions?: string | string[]) =>
   catchAsync(async (req:Request, res:Response) => {
     const query = model.find();
-    const features = await new APIfeatures(query, req.query).filter().sort().limitFields().paginate();
+    const features = await new APIfeatures(query, req.query).filter().search().sort().limitFields().paginate();
     const doc = await features.query;
     res.status(200).json({
       status: "success",

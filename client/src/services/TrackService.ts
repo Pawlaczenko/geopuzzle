@@ -111,3 +111,30 @@ export async function activateTrack(track_id: string) : Promise<void>{
 		throw new Error(err.response.data.message);
 	}
 }
+
+export interface IGetAllTrackProps {
+	query?: string,
+	limit?: number,
+	page: number,
+}
+export async function getAllTracks(query:string, limit: number,page: number) : Promise<any>{
+	const url = new URL(`http://127.0.0.1:3000/api/track/`);
+	if(query) {
+		url.searchParams.append('search', query);
+	}
+	if(page) {
+		url.searchParams.append('page', page.toString());
+	}
+	if(limit) {
+		url.searchParams.append('limit', limit.toString());
+	}
+	url.searchParams.append('isActive','true');
+
+	try {
+		const response = await axios.get( url.href )
+		console.log(response);
+		return response.data;
+	} catch(err) {
+		console.log(err);
+	}
+}

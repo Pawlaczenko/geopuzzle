@@ -43,7 +43,7 @@ const ViewTrack : FC = () => {
             sendJsonMessage({
                 "command": "select",// select, start, answer, next, exit 
                 "content": {
-                    "id": "65d7bd30a99da3eff336c6cd" //select, id trasy
+                    "id": track_id //select, id trasy
                 }
             })
         }
