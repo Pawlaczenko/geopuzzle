@@ -5,21 +5,24 @@ import { flexContainer } from 'src/styles/mixins';
 import TagNamesContainer from '../TagNames/TagNamesContainer';
 import Heading from '../Heading';
 import ButtonIcon from '../Button/ButtonIcon';
+import { useNavigate } from 'react-router-dom';
 
 export interface ITrackItemProps {
-    thumbnail: String,
-    title: String,
-    description: String,
-    author: String,
+    id: string,
+    thumbnail: string,
+    title: string,
+    description: string,
+    author: string,
     puzzleCount: number,
     tags: string[]
 }
 
 const TrackItem : FC<ITrackItemProps> = (props) => {
+    const navigate = useNavigate();
     return (
         <StyledTrackItem>
             <figure>
-                <img src={MapImage} />
+                <img src={`http://localhost:3000${props.thumbnail}`} />
             </figure>
             <hgroup>
                 <TagNamesContainer tagnames={props.tags} />
@@ -29,7 +32,7 @@ const TrackItem : FC<ITrackItemProps> = (props) => {
                     <li>Autor: {props.author}</li>
                     <li>Ilość zagadek: {props.puzzleCount}</li>
                 </TrackItemMeta>
-                <ButtonIcon btnType='regular' icon='start'>Rozpocznij trasę</ButtonIcon>
+                <ButtonIcon btnType='regular' icon='explore' onClick={() => {navigate(`/track/${props.id}`)}}>Zobacz trasę</ButtonIcon>
             </hgroup>
         </StyledTrackItem>
     )

@@ -12,10 +12,30 @@ class APIfeatures implements IAPIFeatures{
       this.query = query;
       this.queryString = queryString;
     }
+
+    search() {
+      // Check if there is a search term provided
+      if (this.queryString.search) {
+        const searchTerm = this.queryString.search;
+        // Construct a regex to match any part of the string containing the search term case-insensitively
+        const searchRegex = new RegExp(searchTerm, 'i');
+        // Add a new condition to the query to search for the searchTerm in any relevant fields
+        this.query = this.query.find({
+            $or: [
+                { name: searchRegex },
+                { description: searchRegex },
+                { tags: { $in: [searchRegex] } }
+                // Add more fields as needed
+            ]
+        });
+      }
+
+      return this;
+    }
   
     filter() {
       const queryCopy = { ...this.queryString };
-      const excludeFields = ['page', 'sort', 'limit', 'fields'];
+      const excludeFields = ['page', 'sort', 'limit', 'fields', 'search'];
       excludeFields.forEach((el) => delete queryCopy[el]);
   
       let queryString = JSON.stringify(queryCopy);
@@ -23,6 +43,8 @@ class APIfeatures implements IAPIFeatures{
         /\b(gte|gt|lte|lt)\b/g,
         (match) => `$${match}`
       );
+
+
   
       this.query = this.query.find(JSON.parse(queryString));
   
