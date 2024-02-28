@@ -6,12 +6,14 @@ import HeaderBar from 'src/layout/HeaderBar/HeaderBar'
 import GlobalStyles from 'src/styles/globalStyles'
 import { Themes } from 'src/styles/theme'
 import { ThemeProvider, styled } from 'styled-components'
+import { ScrollRestoration } from "react-router-dom";
 
 const Root = () => {
     const [theme, themeName, toggleTheme] = useCustomTheme(Themes.light);
     return (
         <ThemeProvider theme={theme}>
             <ThemeContext.Provider value={{themeName,toggleTheme}}>
+                <ScrollRestoration />
                 <AppContainer>
                     <GlobalStyles />
                     <HeaderBar />

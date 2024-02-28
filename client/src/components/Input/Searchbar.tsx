@@ -1,5 +1,7 @@
-import { FC, useState } from 'react'
+import { FC, useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'; // Import useHistory from React Router
+import { useLocation } from 'react-router-dom';
 import { StyledInput } from './Input.styled';
 import { IInputProps } from 'src/types/input.types';
 import { BREAKPOINTS } from 'src/styles/variables';
@@ -7,25 +9,38 @@ import { ICONS } from 'src/data/icons.data';
 
 const TextInput : FC<IInputProps> = (props) => {
     const SearchIcon = ICONS.get('explore');
-    const [isSearchDisabled, disableSearch] = useState<boolean>(true);
+    const [searchQuery, setSearchQuery] = useState<string>('');
+    const navigate = useNavigate(); // Get history object from React Router
+    const location = useLocation();
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const q = searchParams.get('search') || "";
+        setSearchQuery(q);
+    },[]);
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value.trim();
-        if(value && value.length > 0) {
-            disableSearch(false);
-        } else {
-            disableSearch(true);
-        }
+        setSearchQuery(value);
     }
 
+    const handleSearch = () => {
+        navigate(`/track?search=${encodeURIComponent(searchQuery)}`); // Navigate to '/track' with search query
+    };
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault(); // Prevent default form submission
+    };
+
     return (
-        <StyledSearchbar>
+        <StyledSearchbar onSubmit={handleSubmit}>
             <StyledTextInput
-                onInput={handleInput}
+                value={searchQuery}
+                onChange={handleInput}
                 type={props.type || 'text'} 
                 placeholder={props.placeholder}
                 id={props.name}/>
-            <SearchButton disabled={isSearchDisabled}>
+            <SearchButton onClick={handleSearch}>
                 {SearchIcon && <SearchIcon />}
             </SearchButton>
         </StyledSearchbar>

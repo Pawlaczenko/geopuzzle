@@ -3,6 +3,7 @@ import Banner from "src/components/Banner";
 import Page from "src/layout/Page.styled";
 import Container from "src/layout/Container";
 import TrackSwiper from "src/components/TrackSwiper";
+import { useLocation } from 'react-router-dom';
 import { getAllTracks } from "src/services/TrackService";
 import { styled } from "styled-components";
 import TrackItem, { ITrackItemProps } from "src/components/TrackItem/TrackItem";
@@ -14,12 +15,20 @@ const ExploreTracks: FC = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [hasMore, setHasMore] = useState<boolean>(true);
     const TRACKS_PER_PAGE = 9;
-    const searchQuery = "";
+    const location = useLocation();
+    const [sQuery, setSearchQuery] = useState<string>("");
+
+    useEffect(() => {
+        setCurrentPage(1);
+        setTracks([]);
+    }, [location.search]);
 
     useEffect(() => {
         async function fetchTracks() {
-            // setIsLoading(true);
-            const res = await getAllTracks(searchQuery, TRACKS_PER_PAGE, currentPage);
+            const searchParams = new URLSearchParams(location.search);
+            const searchQuery = searchParams.get('search');
+            setSearchQuery(searchQuery || "");
+            const res = await getAllTracks(searchQuery || "", TRACKS_PER_PAGE, currentPage);
             if (res && res.data) {
                 const resTracks: ITrackItemProps[] = res.data.map((item: any) => ({
                     id: item._id,
@@ -37,7 +46,7 @@ const ExploreTracks: FC = () => {
         }
 
         fetchTracks();
-    }, [currentPage]);
+    }, [currentPage, location.search]);
 
     const loadMore = () => {
         setCurrentPage(prevPage => prevPage + 1);
@@ -50,6 +59,10 @@ const ExploreTracks: FC = () => {
             {
                 !isLoading &&
                 <>
+                    {
+                        sQuery.length > 0 &&
+                        <p style={{marginTop: "3.2rem"}}>Wyszukiwanie dla: <b>{sQuery}</b></p>
+                    }
                     <StyledTracksWrapper>
                         {
                             tracks.map(track => (
@@ -63,6 +76,9 @@ const ExploreTracks: FC = () => {
                                     id={track.id}
                                 />
                             ) )
+                        }
+                        {
+                            tracks.length === 0 && <p>Brak wyników :(</p>
                         }
                     </StyledTracksWrapper>
                 </>
