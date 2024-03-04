@@ -228,7 +228,9 @@ const ViewTrack : FC = () => {
                 </StyledThumbnail>
                 <TrackBanner background={thumbnailUrl}>
                     <Container>
-                        <TrackInfoBox track={currentTrack} handleStart={startTrack} />
+                        {
+                            currentTrack && <TrackInfoBox track={currentTrack} handleStart={startTrack} />
+                        }
                     </Container>
                 </TrackBanner>
                 <ScrollAnchor ref={interactiveBarRef}></ScrollAnchor>

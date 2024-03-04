@@ -32,8 +32,6 @@ const TrackInfoBox : FC<{track: ITrackInfoBox, handleStart: ()=>void}> = ({track
             <Paragraph $padding={false}>{track.description}</Paragraph>
             <MetaInfo>
                 <InfoText>Stworzona przez <b><u>Adam Driver</u></b></InfoText>
-                <InfoText>Rozegrana 123 razy</InfoText>
-                <InfoText>Średnia ocen: <b>4/5</b></InfoText>
                 <InfoText>{track.puzzleCount} Zagadek</InfoText>
             </MetaInfo>
             {
