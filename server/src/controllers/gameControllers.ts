@@ -4,6 +4,9 @@ import { TWaypoint } from "../models/waypointsModel.js";
 import GameSession from "../types/IGameSession.js";
 import { WebSocket } from "ws";
 import scoreboardModel, { TScroboeard } from "../models/scoreboardModel.js";
+import { decode } from "jsonwebtoken";
+import userModel from "../models/userModel.js";
+import { getAll } from "../utils/factoryHandler.js";
 
 
 type TStage = Pick<TWaypoint, "type" | "payload"> 
@@ -35,7 +38,7 @@ const finishGame = async  (ws: WebSocket, game:GameSession) => {
     const docToSave = {
       timeMs: res.time,
       score: res.totalScore,
-      userId: "placeholder",
+      userId: game.userId,
       trackId: game.details.id
     }
     const doc = await scoreboardModel.create(docToSave);
@@ -64,10 +67,19 @@ export const handleGameSelection = async (ws: WebSocket, game: GameSession, msg 
     ws.send(`Gra o id ${id} została wybrana`);
 }
 
-export const handleGameStart = async (ws:WebSocket, game:GameSession)=>{
-    if(!game.details)
-      throw new Error("Najpierw wybierz grę")    
+export const handleGameStart = async (ws:WebSocket, game:GameSession, msg: any)=>{  
+  if(!game.details)
+      throw new Error("Najpierw wybierz grę")     
+    const {token} = msg;
+    if(!token)
+      throw new Error("Podaj swój token uwierzytelniający")
+
+    const userId = decode(token)?.sub?.toString();
+    const user = await userModel.findById(userId);
+    if(!user)
+      throw new Error("Nieprawidłowy token uwierzytelniający");
     game.isStarted  = true;
+    game.userId = userId as string;
     sendStage(ws, game);
   } 
 export const handleGameAnswer = async (ws: WebSocket, game: GameSession, msg: any)=>{

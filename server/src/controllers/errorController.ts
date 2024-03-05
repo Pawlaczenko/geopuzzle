@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import AppError from "../utils/appError.js";
 import mongoose, { mongo } from "mongoose";
 import { MongoServerError } from "mongodb";
-
+import Passport from "passport-jwt";
 
 //handling errors
 const handleCastError = (error:mongoose.CastError)=>{
@@ -54,7 +54,6 @@ const sendErrorProd = (err:AppError, res:Response) => {
   let error = new AppError(errorMessage, statusCode);
 
   //handle errors
-
   if(err instanceof AppError)
     error = err;
   if(err instanceof mongoose.Error.ValidationError)
@@ -68,8 +67,6 @@ const sendErrorProd = (err:AppError, res:Response) => {
       if(err.code === 11000)
         error = hadnleMongoDuplicateErr(err);
     }
-  
-
 
   // send error to user
   // development mode data

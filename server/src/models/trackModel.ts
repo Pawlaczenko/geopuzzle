@@ -1,4 +1,4 @@
-import {  InferSchemaType, Schema, model} from "mongoose";;
+import mongoose, {  InferSchemaType, Schema, model} from "mongoose";;
 import AppError from "../utils/appError.js";
 import { waypointSchema } from "./waypointsModel.js";
 import scoreboardModel from "./scoreboardModel.js";
@@ -33,6 +33,11 @@ export const trackSchema = new Schema({
         type: Boolean,
         default: false,    
     },
+    userId: {
+        type:mongoose.Types.ObjectId,
+        ref: "users",
+        required: [true, "Brakuje informacji o uzytkowniku"]
+    }
 }, {timestamps: true,})
 
 export type TTrack = InferSchemaType<typeof trackSchema>

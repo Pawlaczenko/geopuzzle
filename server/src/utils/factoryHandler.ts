@@ -35,7 +35,6 @@ export const getOne = <T>(model:Model<T>, popOptions?: string | string[]) =>
     res.status(204).send();
   });
   export const addOne = <T>(model:Model<T>)=> catchAsync(async (req:Request, res:Response, next:NextFunction)=>{
-
     const doc = await model.create(req.body);
 
     res.status(201).json({
@@ -48,10 +47,6 @@ export const getOne = <T>(model:Model<T>, popOptions?: string | string[]) =>
     if (req.body.password || req.body.passwordConfirm)
       return next(new AppError("Nie możesz zmienić hasła tą scieżką", 403));
 
-    // const doc = await model.findByIdAndUpdate(req.params.id, req.body, {
-    //   new: true,
-    //   runValidators: true,
-    // });
     const doc = await model.findById(req.params.id);
     if (!doc) return next(new AppError(`Nie można znaleźć dokumentu o id: ${req.params.id}`, 404));
     Object.keys(req.body).forEach((key) => {
