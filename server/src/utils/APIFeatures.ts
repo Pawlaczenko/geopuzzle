@@ -47,6 +47,7 @@ class APIfeatures implements IAPIFeatures{
 
   
       this.query = this.query.find(JSON.parse(queryString));
+      this.query.find();
   
       return this;
     }
@@ -84,4 +85,4 @@ class APIfeatures implements IAPIFeatures{
     }
   }
   
-export default APIfeatures;
+export default APIfeatures; 

@@ -1,15 +1,13 @@
 import { NextFunction, Request, Response, Router } from "express";
 import * as trackController from "../controllers/trackControllers.js";
 import * as waypointController from "../controllers/waypointController.js";
+import { protectedRoute, convertUserToBody} from "../controllers/authController.js";
 
 const trackRouter = Router();
-const test = (req: Request, res : Response , next : NextFunction)=> {
-    console.log("test");
-    next()
-}
+
 trackRouter.route("/")
     .get(trackController.getAllTrack)
-    .post(trackController.addOneTrack);
+    .post(protectedRoute, convertUserToBody, trackController.addOneTrack);
 trackRouter.route("/waypoint/")
     .delete(waypointController.deleteWaypoint)
 trackRouter.route("/waypoint/text/:id")

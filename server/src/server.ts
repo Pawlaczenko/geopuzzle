@@ -1,5 +1,4 @@
 import "dotenv/config"
-
 import mongoose from "mongoose";
 import app from "./app.js";
 import gameWebsocket from "./websockets/game.js";
@@ -15,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 const DBConnectionString = process.env.DB_URL!
 .replace('<password>',process.env.DB_PASS!)
 .replace('<DB_Name>', process.env.NODE_ENV!);
-
+console.log(DBConnectionString)
 mongoose
   .connect(DBConnectionString)
   .then(() => {
