@@ -9,23 +9,30 @@ import React from 'react'
 import ButtonIcon from './Button/ButtonIcon'
 import { BREAKPOINTS } from 'src/styles/variables'
 
-const TrackInfoBox : FC<{handleStart: ()=>void}> = ({handleStart}) => {
-    const [showStartButton, setShopwStartButton] = useState<boolean>(true);
+export interface ITrackInfoBox {
+    id: string,
+    name: string,
+    tags: string[],
+    description: string,
+    puzzleCount: number,
+    thumbnail?: string
+}
+
+const TrackInfoBox : FC<{track: ITrackInfoBox, handleStart: ()=>void}> = ({track, handleStart}) => {
+    const [showStartButton, setShowStartButton] = useState<boolean>(true);
 
     const handleTrackStart = () => {
         handleStart();
-        setShopwStartButton(false);
+        setShowStartButton(false);
     }
     return (
         <TrackInfo>
-            <TagNamesContainer tagnames={['stolice','europa']} />
-            <Heading level='h4'>Stolice Państw Europejskich</Heading>
-            <Paragraph $padding={false}>Can you name the words beginning with 'An-' that are missing from the titles of the given movies?</Paragraph>
+            <TagNamesContainer tagnames={track.tags} />
+            <Heading level='h4'>{track.name}</Heading>
+            <Paragraph $padding={false}>{track.description}</Paragraph>
             <MetaInfo>
                 <InfoText>Stworzona przez <b><u>Adam Driver</u></b></InfoText>
-                <InfoText>Rozegrana 123 razy</InfoText>
-                <InfoText>Średnia ocen: <b>4/5</b></InfoText>
-                <InfoText>10 Zagadek</InfoText>
+                <InfoText>{track.puzzleCount} Zagadek</InfoText>
             </MetaInfo>
             {
                 showStartButton && <ButtonIcon onClick={handleTrackStart} btnType='regular' icon='start'>Rozpocznij trasę</ButtonIcon>

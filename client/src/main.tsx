@@ -9,6 +9,7 @@ import { NAV_ROUTES } from 'src/data/navigation.data'
 import ViewTrack from './routes/DisplayTrack/ViewTrack'
 import LoginPage from './routes/Login/Login'
 import RegisterForm from './components/RegisterForm/RegisterForm'
+import ExploreTracks from './routes/DisplayTrack/ExploreTracks'
 
 const router = createBrowserRouter([
     {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
             },
             {
                 path: NAV_ROUTES.displayTrack,
+                element: <ExploreTracks />,
+            },
+            {
+                path: NAV_ROUTES.displayTrack + '/:track_id',
                 element: <ViewTrack />,
             },
             {

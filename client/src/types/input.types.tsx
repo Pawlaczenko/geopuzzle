@@ -1,4 +1,5 @@
 import { LatLngExpression } from "leaflet"
+import { ICorrectAnswerMarker } from "src/routes/DisplayTrack/ViewTrack";
 
 export interface IInputProps {
     placeholder?: string,
@@ -15,6 +16,7 @@ export type coordSuggestion = {
 
 export interface ICustomMapProps {
     chosenMarkerCoords?: LatLngExpression;
+    correctMarkerCoords?: ICorrectAnswerMarker | null;
     handleWaypointChange: (waypoint: coordSuggestion)=>void;
 }
 

@@ -11,7 +11,7 @@ const HomePage: FC = () => {
   return (
     <Page>
 		<Banner text="Witaj w GeoPuzzle" />
-		<HighlightedTracks />
+		{/* <HighlightedTracks /> */}
 		<TextWithPhoto
 			photo={Photo1}
 			heading={"Wyrusz na wspaniałą przygodę"}

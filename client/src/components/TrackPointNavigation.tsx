@@ -29,7 +29,7 @@ const TrackPointNavigation : FC<ITrackPointNavigation> = ({currentIndex,points})
                         variant={getNumberVariant(state,currentIndex,index)} 
                         size={'small'}
                         key={index + state}
-                        lifted={currentIndex===index}>
+                        $lifted={currentIndex===index}>
                             {index+1}
                     </PointNumber>
                 ))

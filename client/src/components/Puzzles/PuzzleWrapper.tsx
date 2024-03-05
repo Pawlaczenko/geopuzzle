@@ -6,8 +6,9 @@ import { getPuzzleById } from 'src/data/puzzleItems.data';
 import { flexContainer } from 'src/styles/mixins';
 import { getPuzzleContent } from './puzzle.helper';
 import { BREAKPOINTS } from 'src/styles/variables';
+import ButtonIcon from '../Button/ButtonIcon';
 
-const PuzzleWrapper : FC<{puzzle: IPuzzleContent}> = ({puzzle}) => {
+const PuzzleWrapper : FC<{puzzle: IPuzzleContent, handleScroll: ()=>void}> = ({handleScroll,puzzle}) => {
     const puzzleItem = getPuzzleById(puzzle.type);
     const PuzzleIcon = puzzleItem.Icon;
     
@@ -18,6 +19,7 @@ const PuzzleWrapper : FC<{puzzle: IPuzzleContent}> = ({puzzle}) => {
                 {puzzleItem?.label}
             </PuzzleWrapperBar>
             {getPuzzleContent(puzzle)}
+            <ButtonIcon onClick={handleScroll} btnType='outline' icon='arrow-down'> </ButtonIcon>
         </StyledPuzzleWrapper>
     )
 }
@@ -34,6 +36,13 @@ const StyledPuzzleWrapper = styled(BannerBox)`
         padding: 5rem 1rem 2rem 1rem;
         margin: 6rem auto 3rem auto;
     }
+
+    button {
+        position: absolute;
+        bottom: -2.2rem;
+        left: 47%;
+        /* transform: translateX(-50%); */
+    }
 `;
 
 const PuzzleWrapperBar = styled.div`
@@ -43,7 +52,8 @@ const PuzzleWrapperBar = styled.div`
     padding: 1rem 1.5rem;
     font-weight: bold;
 
-    background:${({theme}) => theme.decoration};
+    background: white;
+    border: 2px solid var(--color-primary);
     position: absolute;
     left: 50%;
     top: -2rem;

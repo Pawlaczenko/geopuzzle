@@ -3,7 +3,6 @@ import styled, { useTheme } from 'styled-components'
 import Slider from "react-slick";
 import TrackItem, { ITrackItemProps } from './TrackItem/TrackItem';
 import Heading from './Heading';
-import ButtonIcon from './Button/ButtonIcon';
 import { ICONS } from 'src/data/icons.data';
 import { flexContainer } from 'src/styles/mixins';
 import { BREAKPOINTS } from 'src/styles/variables';
@@ -38,6 +37,7 @@ const TrackSwiper: FC = () => {
         ]
     };
     const trackItem : ITrackItemProps = {
+        id: "asdasdasd",
         thumbnail: "siema",
         title: "Europa da się lubić - 2",
         description: "Vue has full support for web components, including passing attributes as props and listening for custom events",

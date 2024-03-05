@@ -6,8 +6,8 @@ export const getPuzzleContent = (puzzle: IPuzzleContent) => {
     switch(puzzle.type) {
         case 'text':
         default:
-            return <TextPuzzle content={puzzle.content as string} />
+            return <TextPuzzle content={puzzle.payload as string} />
         case 'image':
-            return <ImagePuzzle url={puzzle.content as string} />
+            return <ImagePuzzle url={puzzle.payload as string} />
     }
 }

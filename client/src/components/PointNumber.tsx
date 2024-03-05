@@ -6,7 +6,7 @@ export type pointNumberVariant = 'active' | 'disabled' | 'correct' | 'incorrect'
 interface IPointNumberProps {
     variant: pointNumberVariant,
     size?: 'small' | 'big',
-    lifted?: boolean
+    $lifted?: boolean
 }
 
 const pickPointNumberVariant = (variant: pointNumberVariant) => {
@@ -62,7 +62,7 @@ const PointNumber = styled.figure<IPointNumberProps>`
     width: ${(props) => props.size==='small' ? '4rem' : '6rem'};
     aspect-ratio: 1/1;
 
-    ${props => props.lifted && 'margin-bottom: 1.5rem'};
+    ${props => props.$lifted && 'margin-bottom: 1.5rem'};
 `
 
 export default PointNumber
