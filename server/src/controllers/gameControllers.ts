@@ -6,7 +6,6 @@ import { WebSocket } from "ws";
 import scoreboardModel, { TScroboeard } from "../models/scoreboardModel.js";
 import { decode } from "jsonwebtoken";
 import userModel from "../models/userModel.js";
-import { getAll } from "../utils/factoryHandler.js";
 
 
 type TStage = Pick<TWaypoint, "type" | "payload"> 
