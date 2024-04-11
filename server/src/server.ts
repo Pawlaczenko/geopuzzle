@@ -14,7 +14,6 @@ const PORT = process.env.PORT || 3000;
 const DBConnectionString = process.env.DB_URL!
 .replace('<password>',process.env.DB_PASS!)
 .replace('<DB_Name>', process.env.NODE_ENV!);
-console.log(DBConnectionString)
 mongoose
   .connect(DBConnectionString)
   .then(() => {
@@ -28,4 +27,5 @@ const server = app.listen(PORT, () => {
   console.log(`Server GeoPuzzle is running on ${PORT} port in ${process.env.NODE_ENV} mode`);
 });
 // game websocket upgrade
+
 gameWebsocket(server);

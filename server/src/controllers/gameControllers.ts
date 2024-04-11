@@ -7,7 +7,6 @@ import scoreboardModel, { TScroboeard } from "../models/scoreboardModel.js";
 import { decode } from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 
-
 type TStage = {
   type: string,
   payload: string,
@@ -20,9 +19,28 @@ type TAnswer = {
   wp : TWaypoint,
   event: string
 }
-const calcPoints = (wp: TWaypoint, answer : {long : number, latt: number}) : number =>{
-    return 100;
+const calcPoints = (wp: TWaypoint, answer: { long: number, latt: number }): number => {
+  if (!wp.coords) return 0; 
+  const R = 6371; 
+  const { long, lat } = wp.coords;
+  const dLat = (lat - answer.latt) * (Math.PI / 180);
+  const dLong = (long - answer.long) * (Math.PI / 180);
+  const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(answer.latt * (Math.PI / 180)) * Math.cos(lat * (Math.PI / 180)) *
+      Math.sin(dLong / 2) * Math.sin(dLong / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = R * c;
 
+  if (distance <= wp.coords.radius) {
+      return 100;
+  } else {
+      const maxPoints = 100;
+      const minPoints = 0;
+      const maxDistance = wp.coords.radius * 2; 
+      const points = maxPoints - ((distance - wp.coords.radius) / maxDistance) * (maxPoints - minPoints);
+      return Math.max(minPoints, points); 
+  }
 }
 const sendStage = (ws: WebSocket, game:GameSession, event: string) => {
     game.stageStart = new Date();
@@ -133,4 +151,5 @@ export const handleGameAnswer = async (ws: WebSocket, game: GameSession, msg: an
     game.currentStage++;
     sendStage(ws, game, 'next');
   }
+ 
  
