@@ -10,7 +10,8 @@ export const trackSchema = new Schema({
         type: String,
         required: [true, "Trasa musi posiadać swoją nazwę"],
         trim: true,
-        maxLength: [75, "Maksymalna dlugosc nazwy trasy wynosi 75 znakow"]
+        maxLength: [75, "Maksymalna dlugosc nazwy trasy wynosi 75 znakow"],
+        minLength: [5, "Minimalna długość nazwy trasy wynosi 10 znaków"]
 
     },
     description: {
@@ -35,10 +36,10 @@ export const trackSchema = new Schema({
     },
     userId: {
         type:mongoose.Types.ObjectId,
-        ref: "users",
+        ref: "Users",
         required: [true, "Brakuje informacji o uzytkowniku"]
     }
-}, {timestamps: true,})
+}, {timestamps: true, toObject: {virtuals: true}, toJSON: {virtuals: true}})
 
 export type TTrack = InferSchemaType<typeof trackSchema>
 
@@ -74,5 +75,11 @@ trackSchema.pre("save", async function(this,next){
         next(new AppError("Nie mozna edytować trasy która ma wyniki", 400))
     next();
 })
+trackSchema.virtual("replays", {
+    ref: 'Scoreboard',
+    localField: '_id',
+    foreignField: 'trackId',
+    count: true
+});
 const trackModel = model<TTrack>('Tracks', trackSchema);
 export default trackModel; 
