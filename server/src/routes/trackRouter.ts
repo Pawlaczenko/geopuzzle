@@ -1,29 +1,28 @@
 import { NextFunction, Request, Response, Router } from "express";
 import * as trackController from "../controllers/trackControllers.js";
 import * as waypointController from "../controllers/waypointController.js";
+import { protectedRoute, convertUserToBody} from "../controllers/authController.js";
 
 const trackRouter = Router();
-const test = (req: Request, res : Response , next : NextFunction)=> {
-    console.log("test");
-    next()
-}
+
 trackRouter.route("/")
     .get(trackController.getAllTrack)
-    .post(trackController.addOneTrack);
+    .post(protectedRoute, convertUserToBody, trackController.addOneTrack);
 trackRouter.route("/waypoint/")
-    .delete(waypointController.deleteWaypoint)
+    .delete(protectedRoute,waypointController.deleteWaypoint)
 trackRouter.route("/waypoint/text/:id")
-    .post(waypointController.addTextWaypoint);
-trackRouter.route("/waypoint/")
-    .delete(waypointController.deleteWaypoint)
+    .post(protectedRoute,waypointController.addTextWaypoint);
+trackRouter.route("/waypoint/graphic/:id")
+    .post(protectedRoute, waypointController.uploadPictureForWaypoint ,waypointController.addGraphicWaypoint);
+
 trackRouter.route("/:id")
     .get( trackController.getOneTrack)
-    .patch(trackController.updateOneTrack)
-    .delete(trackController.deleteOneTrack);
+    .patch(protectedRoute, trackController.updateOneTrack)
+    .delete(protectedRoute, trackController.deleteOneTrack);
     
 trackRouter.route("/thumbnail/:id")
-    .post(trackController.uploadTrackThumbnail, trackController.updateTrackThumbnail)
-    .delete(trackController.deleteTrackThumbnail);
+    .post(protectedRoute, trackController.uploadTrackThumbnail, trackController.updateTrackThumbnail)
+    .delete(protectedRoute,trackController.deleteTrackThumbnail);
 
 
     export default trackRouter;

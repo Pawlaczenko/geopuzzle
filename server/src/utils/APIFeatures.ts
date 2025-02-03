@@ -8,44 +8,24 @@ interface IAPIFeatures {
 class APIfeatures implements IAPIFeatures{
     query;
     queryString;
+    excludeFields = ['page', 'sort', 'limit', 'fields', 'search', "searchKeys"];
     constructor(query: Query<Document[], Document>, queryString: any) {
       this.query = query;
       this.queryString = queryString;
     }
 
-    search() {
-      // Check if there is a search term provided
-      if (this.queryString.search) {
-        const searchTerm = this.queryString.search;
-        // Construct a regex to match any part of the string containing the search term case-insensitively
-        const searchRegex = new RegExp(searchTerm, 'i');
-        // Add a new condition to the query to search for the searchTerm in any relevant fields
-        this.query = this.query.find({
-            $or: [
-                { name: searchRegex },
-                { description: searchRegex },
-                { tags: { $in: [searchRegex] } }
-                // Add more fields as needed
-            ]
-        });
-      }
-
-      return this;
-    }
+    
   
     filter() {
       const queryCopy = { ...this.queryString };
-      const excludeFields = ['page', 'sort', 'limit', 'fields', 'search'];
+      const excludeFields = this.excludeFields;
       excludeFields.forEach((el) => delete queryCopy[el]);
   
       let queryString = JSON.stringify(queryCopy);
       queryString = queryString.replace(
-        /\b(gte|gt|lte|lt)\b/g,
+        /\b(gte|gt|lte|lt|in|regex)\b/g,
         (match) => `$${match}`
       );
-
-
-  
       this.query = this.query.find(JSON.parse(queryString));
   
       return this;
@@ -82,6 +62,26 @@ class APIfeatures implements IAPIFeatures{
   
       return this;
     }
+    search() {
+      if (this.queryString.search && this.queryString.searchKeys) {
+          const searchTerm = this.queryString.search;
+          const searchKeys : string[] = this.queryString.searchKeys.split(",");
+          const orConditions: { [key: string]: any }[] = [];
+          searchKeys.forEach((key) => {
+            const condition: { [key: string]: any } = {};  
+            if (key.includes("[]")) { 
+                const arrayKey: string = key.replace('[]', '');
+                condition[arrayKey] = { $elemMatch:{ $regex: RegExp(searchTerm), $options: 'i'} };
+            } else {
+                condition[key] = { $regex: RegExp(searchTerm) , $options: 'i'};
+            }
+            orConditions.push(condition);
+          });
+          this.query = this.query.or(orConditions);
+        }
+  
+      return this;
+  }
   }
   
-export default APIfeatures;
+export default APIfeatures; 

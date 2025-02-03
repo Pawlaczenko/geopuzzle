@@ -2,7 +2,7 @@ import { Server } from "http";
 import {  RawData, WebSocket, WebSocketServer } from "ws";
 import * as gameController from "../controllers/gameControllers.js";
 import GameSession from "../types/IGameSession.js";
-import { ObjectId } from "mongodb";
+
 
   
 const gameWebsocket = async (expressServer: Server) => {
@@ -29,7 +29,8 @@ const gameWebsocket = async (expressServer: Server) => {
           gameScore: {
             score: [],
             timeMs: []
-          }
+          },
+          userId: null
         }
 
         ws.on("message", (data)=>handleMessages(data, ws, gameInfo));
@@ -51,7 +52,7 @@ const handleMessages = async (data: RawData, ws: WebSocket, gameInfo: GameSessio
           await gameController.handleGameSelection(ws, gameInfo, content);
           break;
         case "start":
-          await gameController.handleGameStart(ws, gameInfo)
+          await gameController.handleGameStart(ws, gameInfo, content)
           break;
         case "next":
           await gameController.handleGameNext(ws, gameInfo);

@@ -11,5 +11,6 @@ export default interface GameSession {
     gameScore: {
       score: Array<number>,
       timeMs: Array<number>
-    }
+    },
+    userId: string | null
 }

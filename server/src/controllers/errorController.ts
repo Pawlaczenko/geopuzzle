@@ -2,7 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import AppError from "../utils/appError.js";
 import mongoose, { mongo } from "mongoose";
 import { MongoServerError } from "mongodb";
-
+import Passport from "passport-jwt";
+import { unlink, unlinkSync } from "fs";
 
 //handling errors
 const handleCastError = (error:mongoose.CastError)=>{
@@ -27,7 +28,6 @@ const hadnleMongoDuplicateErr = (err : MongoServerError)=>{
 
 
 
-//Send complete error for developer purpuse (develepment mode)
 const sendErrorDev = (err:AppError, res:Response) => {
   res.status(err.statusCode).json({
     status: err.status,
@@ -36,7 +36,6 @@ const sendErrorDev = (err:AppError, res:Response) => {
     stack: err.stack
   });
 };
-//send clean error to client (production mode)
 const sendErrorProd = (err:AppError, res:Response) => {
     res.status(err.statusCode).json({
       status: err.status,
@@ -45,22 +44,29 @@ const sendErrorProd = (err:AppError, res:Response) => {
   
 };
 
- export default (err : unknown, req:Request, res:Response, next:NextFunction) => {
+ export default async (err : unknown, req:Request, res:Response, next:NextFunction) => {
   if(process.env.NODE_ENV === "development")
     console.error(err);
-  //error if app doesnt handle this exception
-  let statusCode =  500;
+  let statusCode =  500; 
   let errorMessage = 'Krytyczny bląd aplikacji';
   let error = new AppError(errorMessage, statusCode);
+  if(req.file)
+    unlinkSync(`${req.file.path}`);
 
-  //handle errors
-
-  if(err instanceof AppError)
+  if(err instanceof AppError) // Obsługa błędów przewidzianych aplkiacji
     error = err;
+  
+
+  
+  // Obsługa błedów z bibliotek
   if(err instanceof mongoose.Error.ValidationError)
     error = handleValidationError(err);
+  
+  //Syntax Error
   if(err instanceof SyntaxError)
     error = handleSyntaxError(err);
+
+
   if (err instanceof mongoose.Error.CastError )
     error = handleCastError(err);
   if(err instanceof MongoServerError)
@@ -68,16 +74,10 @@ const sendErrorProd = (err:AppError, res:Response) => {
       if(err.code === 11000)
         error = hadnleMongoDuplicateErr(err);
     }
-  
-
-
-  // send error to user
-  // development mode data
-  //  status, message, stack, whole error
+    // Wysłanie błedu do użytkownika,
+    // Błąd zależy od wersji środowiska
   if(process.env.NODE_ENV === "production")
     sendErrorProd(error, res);
-  // production mode data
-  //  status, message
   if(process.env.NODE_ENV === "development")
     sendErrorDev(error, res);
 };

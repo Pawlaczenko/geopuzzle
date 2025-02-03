@@ -1,4 +1,4 @@
-import mongoose, { InferSchemaType, Schema, model } from "mongoose";
+import mongoose, { InferSchemaType, Schema, model, ObjectId } from "mongoose";
 
 const scoreboardSchema = new Schema({
     trackId: {
@@ -15,8 +15,8 @@ const scoreboardSchema = new Schema({
         required: [true, "Wpis musi posiadać wynik czasowy punktowy"]
     },
     userId : {
-        type: String,
-        default: "placeholder"
+        type: mongoose.Types.ObjectId,
+        ref: "Users"
     }
 }, {timestamps: {updatedAt: false}});
 export type TScroboeard = InferSchemaType<typeof scoreboardSchema>;
