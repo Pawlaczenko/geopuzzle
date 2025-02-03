@@ -32,7 +32,8 @@ const HeaderBar : FC = () => {
                 <Logo />
                 {!isPhone && <Navigation />}
                 <Searchbar placeholder='Wyszukaj trasę' name={'search'}  />
-                {!isPhone && <Link to="/login"><Button variant='outline'>Zaloguj</Button></Link>}
+                <p style={{marginRight: 12}}>Witaj <b>Bartek</b></p>
+                {!isPhone && <Link to="/login"><Button variant='outline'>Wyloguj</Button></Link>}
                 <Burger isOpen={isOpen} handleClick={toggleMobileMenu} />
             </StyledHeaderBar>
             <MobileMenu isOpen={isOpen} />

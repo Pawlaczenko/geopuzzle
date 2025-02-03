@@ -49,48 +49,60 @@ const ViewTrack : FC = () => {
         }
       }, [readyState]);
 
+      function handleStartTrack() {
+        setcurrentPuzzle(lastJsonMessage);
+        setCurrentPuzzleIndex(0);
+        setIsRunning(true);
+
+        scrollToBar();
+      }
+
+      function handleAnswer() {
+        /// Set coords on map
+        const correctCoords : ICorrectAnswerMarker = {
+            coords: {
+                lat: lastJsonMessage.wp.coords.lat,
+                lng: lastJsonMessage.wp.coords.long,
+            },
+            radius: lastJsonMessage.wp.coords.radius
+        }
+        setCorrectAnswerMarker(correctCoords);
+
+        ///set summary in table
+        const summary : IWaypointSummary = {
+            answer: lastJsonMessage.wp.name,
+            points: lastJsonMessage.score,
+            explanation: lastJsonMessage.wp.explenation,
+            handleNext: nextQuestion
+        }
+        setWaypointSummary(summary);
+
+        setIsPaused(true);
+      }
+
+      function handleNextQuestion() {
+        setIsPaused(false);
+
+        setButtonDisabled(true);
+        setCorrectAnswerMarker(null);
+        setMapWaypoint(null);
+        setWaypointSummary(null);
+        setcurrentPuzzle(lastJsonMessage);
+      }
+
       useEffect(() => {
         if(!lastJsonMessage) return;
 
         const event = lastJsonMessage.event;
         switch(event) {
             case 'start':
-                setcurrentPuzzle(lastJsonMessage);
-                setCurrentPuzzleIndex(0);
-                setIsRunning(true);
-        
-                scrollToBar();
+                handleStartTrack();
             break;
             case 'answer':
-                /// Set coords on map
-                const correctCoords : ICorrectAnswerMarker = {
-                    coords: {
-                        lat: lastJsonMessage.wp.coords.lat,
-                        lng: lastJsonMessage.wp.coords.long,
-                    },
-                    radius: lastJsonMessage.wp.coords.radius
-                }
-                setCorrectAnswerMarker(correctCoords);
-
-                ///set summary in table
-                const summary : IWaypointSummary = {
-                    answer: lastJsonMessage.wp.name,
-                    points: lastJsonMessage.score,
-                    explanation: lastJsonMessage.wp.explenation,
-                    handleNext: nextQuestion
-                }
-                setWaypointSummary(summary);
-
-                setIsPaused(true);
+                handleAnswer();
             break;
             case 'next': 
-                setIsPaused(false);
-
-                setButtonDisabled(true);
-                setCorrectAnswerMarker(null);
-                setMapWaypoint(null);
-                setWaypointSummary(null);
-                setcurrentPuzzle(lastJsonMessage);
+                handleNextQuestion();
             break;
             case 'finish':
                 setIsFinished(true);
@@ -106,7 +118,6 @@ const ViewTrack : FC = () => {
             default:
             break;
         }
-        console.log(lastJsonMessage);
     }, [lastJsonMessage]);
 
     const [isRunning, setIsRunning] = useState(false);

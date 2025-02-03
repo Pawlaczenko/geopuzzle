@@ -29,7 +29,16 @@ const CreateTrack : FC = () => {
 
     return (
     <CreateTrackContext.Provider value={{
-        activeStepIndex,setActiveStepIndex,currentPoint,setCurrentPoint,formData,setFormData,trackId,setTrackId,editFlag,setEditFlag
+        activeStepIndex,
+        setActiveStepIndex,
+        currentPoint,
+        setCurrentPoint,
+        formData,
+        setFormData,
+        trackId,
+        setTrackId,
+        editFlag,
+        setEditFlag
         }}>
         <Page ref={pageRef}>
             <Banner text="Stwórz Trasę" />
